@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/HomePage.dart';
+import 'package:flutter_application_1/first.dart';
 
 void main(){
 runApp(MyApp());//function written by flutter 
@@ -37,18 +37,14 @@ class _LoginDemoState extends State<LoginDemo> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-         backgroundColor: Color(0xff28CC9E) ,
+         backgroundColor: Color(0xffffDD83) ,
         title: Text("Login"),
       ),
       body: 
       SingleChildScrollView(
         child: Column(
           children: <Widget>[
-        new Container(
-          decoration: new BoxDecoration(
-            image: new DecorationImage(image: new NetworkImage("images/bin.png"), fit: BoxFit.cover,),
-          ),
-        ),
+       
            /* Padding(
               padding: const EdgeInsets.only(top: 60.0),
               child: Center(

@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/HomePage.dart';
+import 'package:flutter_application_1/first.dart';
 
 void main(){
 runApp(MyApp());//function written by flutter 
@@ -37,29 +37,25 @@ class _LoginDemoState extends State<HomeDemo> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-         backgroundColor: Color(0xff28CC9E) ,
+         backgroundColor: Color(0xffffDD83) ,
         title: Text("Login"),
       ),
       body: 
       SingleChildScrollView(
         child: Column(
-          children: <Widget>[
-        new Container(
-         /* decoration: new BoxDecoration(
-            image: new DecorationImage(image: AssetImage("assets/images/first.png"), fit: BoxFit.cover,),
-          ),*/
-        ),
+         children: <Widget>[
+      
            Padding(
               padding: const EdgeInsets.only(top: 150.0),
               child: Center(
                 child: Container(
                   decoration: new BoxDecoration(
-            image: new DecorationImage(image: AssetImage("assets/images/first.png"), fit: BoxFit.cover,),
+            image: new DecorationImage(image: AssetImage("/Users/mac/Desktop/flutter_application_1/assets/images/second.png"), fit: BoxFit.cover,),
           ),
-                    width: 200,
-                    height: 150,
-                    child: Image.asset('assets/images/first.png')),
-              ),
+                    width: 207,
+                    height: 170,
+                   // child: Image.asset('/Users/mac/Desktop/flutter_application_1/assets/images/first.png')),
+               ), ),
             ),
              Padding(
              
@@ -71,12 +67,12 @@ class _LoginDemoState extends State<HomeDemo> {
                    
             ),
             
-            FlatButton(
-              onPressed: (){
+          /*  FlatButton(
+              onPressed: (){}
                 //TODO FORGOT PASSWORD SCREEN GOES HERE
               },
              
-            ),
+            ),*/
             ListTile(
           title: Row(
              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -97,7 +93,7 @@ class _LoginDemoState extends State<HomeDemo> {
       ),
       ),
            ElevatedButton(
-             
+            
               onPressed: _incrementCounter,
       style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all( Color(0xff28CC9E) ),
@@ -132,7 +128,9 @@ class _LoginDemoState extends State<HomeDemo> {
             ],
           ),
             ),
-            /* Container(
+        
+      
+            /*Container(
                 margin: const EdgeInsets.only(
               right: 55,),
               height: 20,
@@ -192,7 +190,7 @@ class _LoginDemoState extends State<HomeDemo> {
       ),
     );
   }
-
+         
   void _incrementCounter(){
 
   }

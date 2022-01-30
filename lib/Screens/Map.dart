@@ -2,7 +2,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/first.dart';
+import 'package:flutter_application_1/screens/first.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main(){

@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/first.dart';
+import 'package:flutter_application_1/screens/first.dart';
+import 'package:flutter_application_1/model/Bin.dart';
+import 'package:flutter_application_1/db/DatabaseHelper.dart';
 
 void main(){
 runApp(MyApp());//function written by flutter 
@@ -32,6 +34,30 @@ class LoginDemo extends StatefulWidget {
 
 class _LoginDemoState extends State<LoginDemo> {
   
+final dbHelper = DatabaseHelper.instance;
+@override
+void initState(){
+super.initState();
+
+ DatabaseHelper().database.then((value) {
+  print('sqflite db created successfully');
+});
+}
+
+List<Bin>  bins = [];
+List<Bin> binsByCapacity = [];
+
+TextEditingController nameController = TextEditingController();
+TextEditingController milesController = TextEditingController();
+
+final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+ void _showMessageInScaffold(String message){
+    _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text(message),
+        )
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,18 +71,6 @@ class _LoginDemoState extends State<LoginDemo> {
         child: Column(
           children: <Widget>[
        
-           /* Padding(
-              padding: const EdgeInsets.only(top: 60.0),
-              child: Center(
-                child: Container(
-                    width: 200,
-                    height: 150,
-                    /*decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(50.0)),*/
-                    child: Image.asset('asset/images/flutter-logo.png')),
-              ),
-            ),*/
                  Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: const EdgeInsets.only(
@@ -78,6 +92,7 @@ class _LoginDemoState extends State<LoginDemo> {
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
+                controller: nameController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Phone number',
@@ -89,6 +104,7 @@ class _LoginDemoState extends State<LoginDemo> {
                   left: 15.0, right: 15.0, top: 15, bottom: 0),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
+                controller: milesController,
                 obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -112,7 +128,10 @@ class _LoginDemoState extends State<LoginDemo> {
                   color:  Color(0xff28CC9E) , borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () {
-                 
+                     String name = nameController.text;
+                      int miles = int.parse(milesController.text);
+                     _insert(name, miles);
+                   
                 },
                 child: Text(
                   'Login',
@@ -128,5 +147,48 @@ class _LoginDemoState extends State<LoginDemo> {
         ),
       ),
     );
+  }
+
+
+  void _create() async {
+
+  }
+
+   void _insert(name, miles) async {
+    // row to insert
+    Map<String, dynamic> row = {
+      DatabaseHelper.columnCapacity: name,
+      DatabaseHelper.columnId: miles
+    };
+    Bin car = Bin.fromMap(row);
+    final id = await dbHelper.insert(car);
+    _showMessageInScaffold('inserted row id: $id');
+  }
+ 
+  void _queryAll() async {
+    final allRows = await dbHelper.queryAllRows();
+    bins.clear();
+    allRows.forEach((row) => bins.add(Bin.fromMap(row)));
+    _showMessageInScaffold('Query done.');
+    setState(() {});
+  }
+ 
+  void _query(name) async {
+    final allRows = await dbHelper.queryRows(name);
+    binsByCapacity.clear();
+    allRows.forEach((row) => binsByCapacity.add(Bin.fromMap(row)));
+  }
+ 
+  void _update(id, name, miles) async {
+    // row to update
+    Bin car = Bin(id, name, miles);
+    final rowsAffected = await dbHelper.update(car);
+    _showMessageInScaffold('updated $rowsAffected row(s)');
+  }
+ 
+  void _delete(id) async {
+    // Assuming that the number of rows is the id for the last row.
+    final rowsDeleted = await dbHelper.delete(id);
+    _showMessageInScaffold('deleted $rowsDeleted row(s): row $id');
   }
 }

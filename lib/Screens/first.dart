@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/first.dart';
+import 'package:flutter_application_1/screens/first.dart';
 
 void main(){
 runApp(MyApp());//function written by flutter 
@@ -50,7 +50,7 @@ class _LoginDemoState extends State<HomeDemo> {
               child: Center(
                 child: Container(
                   decoration: new BoxDecoration(
-            image: new DecorationImage(image: AssetImage("/Users/mac/Desktop/flutter_application_1/assets/images/first.png"), fit: BoxFit.cover,),
+            image: new DecorationImage(image: AssetImage("/Users/mac/Desktop/flutter_application_1/assets/images/second.png"), fit: BoxFit.cover,),
           ),
                     width: 207,
                     height: 170,
@@ -62,7 +62,7 @@ class _LoginDemoState extends State<HomeDemo> {
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 20, bottom: 30),
-              child: Text('Better manage the waste \n and be notofied when bins are full',  style: TextStyle(fontSize: 24),
+              child: Text('Track your bins effictevily \n for a better enviroment',  style: TextStyle(fontSize: 24),
               ),
                    
             ),

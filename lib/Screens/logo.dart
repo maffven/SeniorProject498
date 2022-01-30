@@ -1,21 +1,11 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/first.dart';
+import 'package:flutter_application_1/screens/first.dart';
 
 void main(){
 runApp(MyApp());//function written by flutter 
 }
 
-/*class MyApp extends StatelessWidget{
-
-  @override
-  Widget build(BuildContext context) {
-   return MaterialApp( title: 'Welcome to Flutter',
-   home: Text('Manar Hennawi'),);
-   //create this App
-  }
-
-}*/
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

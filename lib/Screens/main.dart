@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/first.dart';
 import 'package:flutter_application_1/model/Bin.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
-
+import 'package:sqflite/sqflite.dart';
 void main(){
 runApp(MyApp());//function written by flutter 
 }
@@ -34,15 +34,23 @@ class LoginDemo extends StatefulWidget {
 
 class _LoginDemoState extends State<LoginDemo> {
   
+   static Database _database;
+  Future<Database> get database async {
+    if (_database != null) return _database;
+    // lazily instantiate the db the first time it is accessed
+    _database = await initDatabase();
+    return _database;
+  }
+
 final dbHelper = DatabaseHelper.instance;
-@override
+/*@override
 void initState(){
 super.initState();
 
  DatabaseHelper().database.then((value) {
   print('sqflite db created successfully');
-});
-}
+});*/
+
 
 List<Bin>  bins = [];
 List<Bin> binsByCapacity = [];
@@ -128,9 +136,12 @@ final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
                   color:  Color(0xff28CC9E) , borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () {
-                     String name = nameController.text;
+                     double name = double.parse(nameController.text);
                       int miles = int.parse(milesController.text);
-                     _insert(name, miles);
+                    // _insert(name, miles);
+                //   initDatabase();
+           
+           _queryAll();
                    
                 },
                 child: Text(
@@ -149,16 +160,19 @@ final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
     );
   }
 
-
-  void _create() async {
-
+  // this opens the database (and creates it if it doesn't exist)
+  initDatabase() async {
+DatabaseHelper dh = new DatabaseHelper();
+dh.create(_database, 1);
   }
+ 
 
    void _insert(name, miles) async {
     // row to insert
     Map<String, dynamic> row = {
+      DatabaseHelper.columnId: miles,
       DatabaseHelper.columnCapacity: name,
-      DatabaseHelper.columnId: miles
+      DatabaseHelper.columnDistrict: 4
     };
     Bin car = Bin.fromMap(row);
     final id = await dbHelper.insert(car);
@@ -168,7 +182,9 @@ final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   void _queryAll() async {
     final allRows = await dbHelper.queryAllRows();
     bins.clear();
+List<Map<String,dynamic>>queryRows = await DatabaseHelper.instance.queryAllRows();
     allRows.forEach((row) => bins.add(Bin.fromMap(row)));
+     print(queryRows);
     _showMessageInScaffold('Query done.');
     setState(() {});
   }

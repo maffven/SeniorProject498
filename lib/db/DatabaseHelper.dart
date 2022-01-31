@@ -7,11 +7,11 @@ class DatabaseHelper {
   static final _databaseName = "Wastedb.db";
   static final _databaseVersion = 1;
 
-  static final table = 'bin';
+  static final table = 'bin_table';
 
   static final columnId = 'binID';
   static final columnCapacity = 'capacity';
-  static final columnDistrict = 'districtID';
+  static final columnDistrict = 'district';
 
 DatabaseHelper(){
   
@@ -25,24 +25,24 @@ DatabaseHelper(){
   Future<Database> get database async {
     if (_database != null) return _database;
     // lazily instantiate the db the first time it is accessed
-    _database = await _initDatabase();
+    _database = await initDatabase();
     return _database;
   }
 
   // this opens the database (and creates it if it doesn't exist)
-  _initDatabase() async {
+  initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(path,
         version: _databaseVersion,
-        onCreate: _onCreate);
+        onCreate: create);
   }
 
   // SQL code to create the database table
-  Future _onCreate(Database db, int version) async {
+  Future create(Database db, int version) async {
     await db.execute('''
           CREATE TABLE $table (
             $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
-            $columnCapacity ,
+            $columnCapacity TEXT NOT NULL,
             $columnDistrict INTEGER NOT NULL
           )
           ''');
@@ -56,7 +56,7 @@ DatabaseHelper(){
   // inserted row.
   Future<int> insert(Bin bin) async {
     Database db = await instance.database;
-    return await db.insert(table, {'binID': bin.binID, 'capacity': bin.capacity, 'districtID': bin.districtID});
+    return await db.insert(table, {'binID': bin.binID, 'capacity': bin.capacity, 'district': bin.district});
   }
 
   // All of the rows are returned as a list of maps, where each map is

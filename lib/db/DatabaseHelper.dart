@@ -49,6 +49,33 @@ DatabaseHelper(){
           print('bin table created');
   }
 
+    Future create(Database db, int version) async {
+    await db.execute('''
+          CREATE TABLE $tableComplaints (
+            $columncomplaintId INTEGER PRIMARY KEY AUTOINCREMENT,
+            $columncomplaintMessage TEXT NOT NULL,
+            $columnstatus TEXT NOT NULL,
+            $columnsubject TEXT NOT NULL,
+            $columndate TEXT NOT NULL,
+            $columndriverID INTEGER NOT NULL,
+            $columnbinID INTEGER NOT NULL
+          )
+          ''');
+          print('Complaints table created');
+  }
+
+     Future create(Database db, int version) async {
+    await db.execute('''
+          CREATE TABLE $tableDistrict (
+            $columndistrictId INTEGER PRIMARY KEY AUTOINCREMENT,
+            $columnname TEXT NOT NULL,
+            $columnnumberOfBins INTEGER NOT NULL,
+            $columndriverID INTEGER NOT NULL
+          )
+          ''');
+          print('District table created');
+  }
+
   // Helper methods
 
   // Inserts a row in the database where each key in the Map is a column name
@@ -57,6 +84,16 @@ DatabaseHelper(){
   Future<int> insert(Bin bin) async {
     Database db = await instance.database;
     return await db.insert(table, {'binID': bin.binID, 'capacity': bin.capacity, 'district': bin.district});
+  }
+
+  Future<int> insert(Complaints complaints) async {
+    Database db = await instance.database;
+    return await db.insert(table, {'complaintID': complaints.complaintID, 'complaintMessage': complaints.complaintMessage, 'status': complaints.status, 'subject': complaints.subject, 'date': complaints.date, 'binID': complaints.binID, 'driverID': complaints.driverID});
+  }
+
+    Future<int> insert(District district) async {
+    Database db = await instance.database;
+    return await db.insert(table, {'districtID': district.districtID, 'name': district.name, 'numberOfBins': district.numberOfBins, 'driverID': district.driverID});
   }
 
   // All of the rows are returned as a list of maps, where each map is
@@ -85,6 +122,18 @@ DatabaseHelper(){
     Database db = await instance.database;
     int id = bin.toMap()['id'];
     return await db.update(table, bin.toMap(), where: '$columnId = ?', whereArgs: [id]);
+  }
+
+    Future<int> update(Complaints complaints) async {
+    Database db = await instance.database;
+    int id = complaints.toMap()['id'];
+    return await db.update(table, complaints.toMap(), where: '$columncomplaintId = ?', whereArgs: [id]);
+  }
+
+    Future<int> update(District district) async {
+    Database db = await instance.database;
+    int id = district.toMap()['id'];
+    return await db.update(table, district.toMap(), where: '$columndistrictId = ?', whereArgs: [id]);
   }
 
   // Deletes the row specified by the id. The number of affected rows is

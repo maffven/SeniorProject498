@@ -1,21 +1,25 @@
 import 'package:flutter_application_1/model/Bin.dart';
+import 'package:flutter_application_1/model/Driver.dart';
+import 'package:flutter_application_1/model/DriverStatus.dart';
+import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-
   static final _databaseName = "Wastedb.db";
   static final _databaseVersion = 1;
-
   static final table = 'bin_table';
-
   static final columnId = 'binID';
   static final columnCapacity = 'capacity';
   static final columnDistrict = 'district';
 
-DatabaseHelper(){
-  
-}
+  //Rawan work
+  static final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+  static final boolType = 'BOOLEAN NOT NULL';
+  static final number = 'INTEGER NOT NULL';
+  static final textType = 'TEXT NOT NULL';
+
+  DatabaseHelper() {}
   // make this a singleton class
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -23,6 +27,7 @@ DatabaseHelper(){
   // only have a single app-wide reference to the database
   static Database _database;
   Future<Database> get database async {
+    //if DB exist
     if (_database != null) return _database;
     // lazily instantiate the db the first time it is accessed
     _database = await initDatabase();
@@ -33,12 +38,12 @@ DatabaseHelper(){
   initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(path,
-        version: _databaseVersion,
-        onCreate: create);
+        version: _databaseVersion, onCreate: create);
   }
 
   // SQL code to create the database table
   Future create(Database db, int version) async {
+    //Bin table
     await db.execute('''
           CREATE TABLE $table (
             $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -46,10 +51,53 @@ DatabaseHelper(){
             $columnDistrict INTEGER NOT NULL
           )
           ''');
-          print('bin table created');
+    print('bin table created');
+
+    //Rawan work
+    //Municipality Admin table
+    await db.execute('''
+          CREATE TABLE $tableMunicipalityAdmin(
+            {$MunicipalityAdminFields.municpalityID} $idType,
+            {$MunicipalityAdminFields.firatName} $textType,
+            {$MunicipalityAdminFields.lastName} $textType,
+            {$MunicipalityAdminFields.password} $textType,
+            {$MunicipalityAdminFields.email} $textType,
+            {$MunicipalityAdminFields.phone} $number
+          )
+          ''');
+    print('Municipality Admin table created');
+
+    //Driver table
+    await db.execute('''
+          CREATE TABLE $tableDriver (
+            {$DriverFields.driverID} $idType,
+            {$DriverFields.municpalityID} $number,
+            {$DriverFields.firatName} $textType,
+            {$DriverFields.lastName} $textType,
+            {$DriverFields.password} $textType,
+            {$DriverFields.email} $textType,
+            {$DriverFields.phone} $number,
+            {$DriverFields.workTime} $textType,
+            FOREIGN KEY ($DriverFields.municpalityID) REFERENCES $tableMunicipalityAdmin($MunicipalityAdminFields.municpalityID)
+          )
+          ''');
+    print('Driver table created');
+
+    //Driver Status table
+    await db.execute('''
+          CREATE TABLE $tableDriverStatus(
+            {$DriverStatusFields.status} $idType,
+            {$DriverStatusFields.driverID} $number,
+            {$DriverStatusFields.completed} $boolType,
+            {$DriverStatusFields.incomplete} $boolType,
+            {$DriverStatusFields.late} $boolType,
+            FOREIGN KEY ($DriverStatusFields.driverID) REFERENCES $tableDriver($DriverFields.driverID)
+          )
+          ''');
+    print('Municipality Admin table created');
   }
 
-    Future create(Database db, int version) async {
+  Future create(Database db, int version) async {
     await db.execute('''
           CREATE TABLE $tableComplaints (
             $columncomplaintId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -61,10 +109,10 @@ DatabaseHelper(){
             $columnbinID INTEGER NOT NULL
           )
           ''');
-          print('Complaints table created');
+    print('Complaints table created');
   }
 
-     Future create(Database db, int version) async {
+  Future create(Database db, int version) async {
     await db.execute('''
           CREATE TABLE $tableDistrict (
             $columndistrictId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -73,7 +121,7 @@ DatabaseHelper(){
             $columndriverID INTEGER NOT NULL
           )
           ''');
-          print('District table created');
+    print('District table created');
   }
 
   // Helper methods
@@ -83,17 +131,59 @@ DatabaseHelper(){
   // inserted row.
   Future<int> insert(Bin bin) async {
     Database db = await instance.database;
-    return await db.insert(table, {'binID': bin.binID, 'capacity': bin.capacity, 'district': bin.district});
+    return await db.insert(table, {
+      'binID': bin.binID,
+      'capacity': bin.capacity,
+      'district': bin.district
+    });
+  }
+
+  //Rawan Work
+
+  Future<int> generalInsert(String tableName, dynamic table) async {
+    final db = await instance.database;
+    return await db.insert(tableName, table.toJson());
+  }
+
+  Future<List<Map<String, dynamic>>> generalQueryAllRows(
+      String tableName) async {
+    Database db = await instance.database;
+    return await db.query(tableName);
+  }
+
+  Future<int> generalQueryRowCount(String tableName) async {
+    Database db = await instance.database;
+    return Sqflite.firstIntValue(
+        await db.rawQuery('SELECT COUNT(*) FROM $tableName'));
+  }
+
+  Future<int> generalDelete(int id, String tableName, idToDelete) async {
+    Database db = await instance.database;
+    return await db
+        .delete(tableName, where: '$idToDelete = ?', whereArgs: [id]);
   }
 
   Future<int> insert(Complaints complaints) async {
     Database db = await instance.database;
-    return await db.insert(table, {'complaintID': complaints.complaintID, 'complaintMessage': complaints.complaintMessage, 'status': complaints.status, 'subject': complaints.subject, 'date': complaints.date, 'binID': complaints.binID, 'driverID': complaints.driverID});
+    return await db.insert(table, {
+      'complaintID': complaints.complaintID,
+      'complaintMessage': complaints.complaintMessage,
+      'status': complaints.status,
+      'subject': complaints.subject,
+      'date': complaints.date,
+      'binID': complaints.binID,
+      'driverID': complaints.driverID
+    });
   }
 
-    Future<int> insert(District district) async {
+  Future<int> insert(District district) async {
     Database db = await instance.database;
-    return await db.insert(table, {'districtID': district.districtID, 'name': district.name, 'numberOfBins': district.numberOfBins, 'driverID': district.driverID});
+    return await db.insert(table, {
+      'districtID': district.districtID,
+      'name': district.name,
+      'numberOfBins': district.numberOfBins,
+      'driverID': district.driverID
+    });
   }
 
   // All of the rows are returned as a list of maps, where each map is
@@ -102,7 +192,7 @@ DatabaseHelper(){
     Database db = await instance.database;
     return await db.query(table);
   }
-  
+
   // Queries rows based on the argument received
   Future<List<Map<String, dynamic>>> queryRows(name) async {
     Database db = await instance.database;
@@ -113,7 +203,8 @@ DatabaseHelper(){
   // raw SQL commands. This method uses a raw query to give the row count.
   Future<int> queryRowCount() async {
     Database db = await instance.database;
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $table'));
+    return Sqflite.firstIntValue(
+        await db.rawQuery('SELECT COUNT(*) FROM $table'));
   }
 
   // We are assuming here that the id column in the map is set. The other
@@ -121,19 +212,22 @@ DatabaseHelper(){
   Future<int> update(Bin bin) async {
     Database db = await instance.database;
     int id = bin.toMap()['id'];
-    return await db.update(table, bin.toMap(), where: '$columnId = ?', whereArgs: [id]);
+    return await db
+        .update(table, bin.toMap(), where: '$columnId = ?', whereArgs: [id]);
   }
 
-    Future<int> update(Complaints complaints) async {
+  Future<int> update(Complaints complaints) async {
     Database db = await instance.database;
     int id = complaints.toMap()['id'];
-    return await db.update(table, complaints.toMap(), where: '$columncomplaintId = ?', whereArgs: [id]);
+    return await db.update(table, complaints.toMap(),
+        where: '$columncomplaintId = ?', whereArgs: [id]);
   }
 
-    Future<int> update(District district) async {
+  Future<int> update(District district) async {
     Database db = await instance.database;
     int id = district.toMap()['id'];
-    return await db.update(table, district.toMap(), where: '$columndistrictId = ?', whereArgs: [id]);
+    return await db.update(table, district.toMap(),
+        where: '$columndistrictId = ?', whereArgs: [id]);
   }
 
   // Deletes the row specified by the id. The number of affected rows is

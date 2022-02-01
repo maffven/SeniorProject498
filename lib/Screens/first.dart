@@ -6,16 +6,6 @@ void main(){
 runApp(MyApp());//function written by flutter 
 }
 
-/*class MyApp extends StatelessWidget{
-
-  @override
-  Widget build(BuildContext context) {
-   return MaterialApp( title: 'Welcome to Flutter',
-   home: Text('Manar Hennawi'),);
-   //create this App
-  }
-
-}*/
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -77,7 +67,7 @@ class _LoginDemoState extends State<HomeDemo> {
           title: Row(
              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              ElevatedButton(
+            /*  ElevatedButton(
                  onPressed: _incrementCounter,
       style: ButtonStyle(
            backgroundColor: MaterialStateProperty.all( Color(0xff28CC9E) ),
@@ -91,7 +81,7 @@ class _LoginDemoState extends State<HomeDemo> {
               ),
           ),
       ),
-      ),
+      ),*/
            ElevatedButton(
             
               onPressed: _incrementCounter,

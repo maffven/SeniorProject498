@@ -139,7 +139,9 @@ class DatabaseHelper {
       'binID': bin.binID,
       'capacity': bin.capacity,
       'district': bin.district
-    });
+    }
+    );
+       print('inserted row id');
   }
 
   //Rawan Work

@@ -176,8 +176,9 @@ dh.create(_database, 1);
       DatabaseHelper.columnCapacity: name,
       DatabaseHelper.columnDistrict: 9
     };
-    Bin car = Bin.fromMap(row);
+   Bin car = Bin.fromMap(row);
    final id = await dbHelper.insert(car);
+  // print('inserted row id: $id');
   // final id = await car.toMap();
     _showMessageInScaffold('inserted row id: $id');
   }

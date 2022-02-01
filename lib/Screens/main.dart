@@ -138,7 +138,9 @@ final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
                 onPressed: () {
                      double name = double.parse(nameController.text);
                       int miles = int.parse(milesController.text);
-                    // _insert(name, miles);
+                   //   Bin(name,miles,7);
+                     _insert(name, miles);
+
                 //   initDatabase();
            
            _queryAll();
@@ -172,10 +174,11 @@ dh.create(_database, 1);
     Map<String, dynamic> row = {
       DatabaseHelper.columnId: miles,
       DatabaseHelper.columnCapacity: name,
-      DatabaseHelper.columnDistrict: 4
+      DatabaseHelper.columnDistrict: 9
     };
     Bin car = Bin.fromMap(row);
-    final id = await dbHelper.insert(car);
+   final id = await dbHelper.insert(car);
+  // final id = await car.toMap();
     _showMessageInScaffold('inserted row id: $id');
   }
  

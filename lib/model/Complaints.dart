@@ -2,25 +2,24 @@ import 'package:flutter_application_1/db/DatabaseHelper.dart';
 
 final String tableComplaints ='complaints';
 class ComplaintsFields{
-static final int complaintID='_complaintID';
+static final String complaintID='_complaintID';
 static final String complaintMessage = 'complaintMessage';
 static final String status = 'status';
 static final String subject = 'subject';
 static final String date = 'date';
-static final int binID='binID';
-static final int driverID='driverID';
+static final String binID='_binID';
+static final String driverID='_driverID';
 
 }
 
 class Complaints{
-
-final int complaintID=0;
-final String complaintMessage = "";
-final String status = "";
-final String subject = "";
-final String date = "";
-final int binID=0;
-final int driverID=0;
+   int complaintID;
+   String complaintMessage;
+   String status;
+   String subject;
+   String date ;
+   int binID;
+   int driverID;
 
 Complaints(complaintID, complaintMessage,status, subject,date,binID,driverID);
 Complaints.fromMap(Map<String, dynamic> map) {
@@ -34,13 +33,13 @@ Complaints.fromMap(Map<String, dynamic> map) {
   }
 Map<String, dynamic> toMap() {
     return {
-      DatabaseHelper.columncomplaintId: complaintID,
-      DatabaseHelper.columncomplaintMessage: complaintMessage,
-      DatabaseHelper.columnstatus: status,
-      DatabaseHelper.columnsubject: subject,
-      DatabaseHelper.columndate: date,
-      DatabaseHelper.columnbinID: binID,
-      DatabaseHelper.columndriverID: driverID,
+      ComplaintsFields.complaintID: complaintID,
+      ComplaintsFields.complaintMessage: complaintMessage,
+      ComplaintsFields.status:status,
+      ComplaintsFields.subject:subject,
+      ComplaintsFields.date:date,
+      ComplaintsFields.binID:binID,
+      ComplaintsFields.driverID:driverID,
     };
 }
 

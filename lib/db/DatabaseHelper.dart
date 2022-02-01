@@ -1,4 +1,6 @@
 import 'package:flutter_application_1/model/Bin.dart';
+import 'package:flutter_application_1/model/Complaints.dart';
+import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/model/DriverStatus.dart';
 import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
@@ -94,31 +96,33 @@ class DatabaseHelper {
             FOREIGN KEY ($DriverStatusFields.driverID) REFERENCES $tableDriver($DriverFields.driverID)
           )
           ''');
-    print('Municipality Admin table created');
-  }
+    print('Driver status table created');
 
-  Future create(Database db, int version) async {
-    await db.execute('''
+    //Lina work 
+    //Complaints table
+       await db.execute('''
           CREATE TABLE $tableComplaints (
-            $columncomplaintId INTEGER PRIMARY KEY AUTOINCREMENT,
-            $columncomplaintMessage TEXT NOT NULL,
-            $columnstatus TEXT NOT NULL,
-            $columnsubject TEXT NOT NULL,
-            $columndate TEXT NOT NULL,
-            $columndriverID INTEGER NOT NULL,
-            $columnbinID INTEGER NOT NULL
+            {$ComplaintsFields.complaintID} $idType,
+            {$ComplaintsFields.complaintMessage} $textType,
+            {$ComplaintsFields.status} $textType,
+            {$ComplaintsFields.subject} $textType,
+            {$ComplaintsFields.date} $textType,
+            {$ComplaintsFields.driverID} $number,
+            {$ComplaintsFields.binID} $number,
+            FOREIGN KEY ($ComplaintsFields.driverID) REFERENCES $tableDriver($DriverFields.driverID),
+            FOREIGN KEY ($ComplaintsFields.binID) REFERENCES $table($columnId)
           )
           ''');
     print('Complaints table created');
-  }
 
-  Future create(Database db, int version) async {
-    await db.execute('''
+        //District table
+       await db.execute('''
           CREATE TABLE $tableDistrict (
-            $columndistrictId INTEGER PRIMARY KEY AUTOINCREMENT,
-            $columnname TEXT NOT NULL,
-            $columnnumberOfBins INTEGER NOT NULL,
-            $columndriverID INTEGER NOT NULL
+            {$DistrictFields.districtID} $idType,
+            {$DistrictFields.name} $textType,
+            {$DistrictFields.numberOfBins} $number,
+            {$DistrictFields.driverID} $number,
+            FOREIGN KEY ($DistrictFields.driverID) REFERENCES $tableDriver($DriverFields.driverID)
           )
           ''');
     print('District table created');
@@ -163,7 +167,7 @@ class DatabaseHelper {
         .delete(tableName, where: '$idToDelete = ?', whereArgs: [id]);
   }
 
-  Future<int> insert(Complaints complaints) async {
+ /* Future<int> insert(Complaints complaints) async {
     Database db = await instance.database;
     return await db.insert(table, {
       'complaintID': complaints.complaintID,
@@ -184,7 +188,7 @@ class DatabaseHelper {
       'numberOfBins': district.numberOfBins,
       'driverID': district.driverID
     });
-  }
+  }*/
 
   // All of the rows are returned as a list of maps, where each map is
   // a key-value list of columns.
@@ -216,7 +220,7 @@ class DatabaseHelper {
         .update(table, bin.toMap(), where: '$columnId = ?', whereArgs: [id]);
   }
 
-  Future<int> update(Complaints complaints) async {
+  /*Future<int> update(Complaints complaints) async {
     Database db = await instance.database;
     int id = complaints.toMap()['id'];
     return await db.update(table, complaints.toMap(),
@@ -228,7 +232,7 @@ class DatabaseHelper {
     int id = district.toMap()['id'];
     return await db.update(table, district.toMap(),
         where: '$columndistrictId = ?', whereArgs: [id]);
-  }
+  }*/
 
   // Deletes the row specified by the id. The number of affected rows is
   // returned. This should be 1 as long as the row exists.

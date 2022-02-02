@@ -140,11 +140,9 @@ final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
                       int miles = int.parse(milesController.text);
                    //   Bin(name,miles,7);
                      _insert(name, miles);
-
+                     _queryAll();
                 //   initDatabase();
-           
-           _queryAll();
-                   
+             
                 },
                 child: Text(
                   'Login',

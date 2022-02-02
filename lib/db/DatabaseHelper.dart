@@ -141,7 +141,7 @@ class DatabaseHelper {
       'district': bin.district
     }
     );
-       print('inserted row id');
+      
   }
 
   //Rawan Work

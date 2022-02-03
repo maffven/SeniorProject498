@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+
 final String tableDriver = 'Driver';
 
 class DriverFields {
@@ -13,14 +16,25 @@ class DriverFields {
 }
 
 class Driver {
-  int driverID;
-  int municpalityID;
-  String firatName;
-  String lastName;
-  String password;
-  String email;
-  int phone;
-  String workTime;
+  final int driverID;
+  final int municpalityID;
+  final String firatName;
+  final String lastName;
+  final String password;
+  final String email;
+  final int phone;
+  final String workTime;
+
+  const Driver({
+    @required this.driverID,
+    @required this.municpalityID,
+    @required this.firatName,
+    @required this.lastName,
+    @required this.password,
+    @required this.email,
+    @required this.phone,
+    @required this.workTime,
+  });
 
   Map<String, dynamic> toJson() => {
         DriverFields.driverID: driverID,

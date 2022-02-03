@@ -40,11 +40,11 @@ class DatabaseHelper {
   initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(path,
-        version: _databaseVersion, onCreate: create);
+        version: _databaseVersion, onCreate: createDB);
   }
 
   // SQL code to create the database table
-  Future create(Database db, int version) async {
+  Future createDB(Database db, int version) async {
     //Bin table
     await db.execute('''
           CREATE TABLE $table (
@@ -98,9 +98,9 @@ class DatabaseHelper {
           ''');
     print('Driver status table created');
 
-    //Lina work 
+    //Lina work
     //Complaints table
-       await db.execute('''
+    await db.execute('''
           CREATE TABLE $tableComplaints (
             {$ComplaintsFields.complaintID} $idType,
             {$ComplaintsFields.complaintMessage} $textType,
@@ -115,8 +115,8 @@ class DatabaseHelper {
           ''');
     print('Complaints table created');
 
-        //District table
-       await db.execute('''
+    //District table
+    await db.execute('''
           CREATE TABLE $tableDistrict (
             {$DistrictFields.districtID} $idType,
             {$DistrictFields.name} $textType,
@@ -128,6 +128,65 @@ class DatabaseHelper {
     print('District table created');
   }
 
+  // create a row
+  Future<dynamic> generalCreate(
+    dynamic table,
+    String tableName,
+  ) async {
+    final db = await instance.database;
+    //inset to database
+    final id = await db.insert(tableName, table.toJson());
+    return table.copy(id: id);
+  }
+
+  // read a row
+  Future<dynamic> generalRead(
+      int id, String tableName, dynamic className) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      tableName,
+      columns: className.values,
+      where: '{$className.id} = ?',
+      whereArgs: [id],
+    );
+
+    if (maps.isNotEmpty) {
+      return className.fromJson(maps.first);
+    } else {
+      throw Exception('ID $id not founs');
+    }
+  }
+
+//Read all rows
+  Future<List<dynamic>> generalReadAll(
+      String tableName, dynamic className) async {
+    final db = await instance.database;
+    final result = await db.query(tableName);
+    return result.map((json) => className.fromJson(json)).toList();
+  }
+
+  //update row
+  Future<int> generalUpdate(
+      String tablename, dynamic classInstance, dynamic classfields) async {
+    final db = await instance.database;
+    //we have to convert from object to json
+    return db.update(tablename, classInstance.toJson(),
+        where: '${classfields.id} = ?', whereArgs: [classInstance.id]);
+  }
+
+  //delete row
+  Future<int> gneralDelete(
+      int id, String tablename, dynamic classfields) async {
+    final db = await instance.database;
+    return db
+        .delete(tablename, where: '${classfields.id} = ?', whereArgs: [id]);
+  }
+
+  //Close database  Method
+  Future close() async {
+    final db = await instance.database;
+    db.close();
+  }
   // Helper methods
 
   // Inserts a row in the database where each key in the Map is a column name
@@ -139,9 +198,7 @@ class DatabaseHelper {
       'binID': bin.binID,
       'capacity': bin.capacity,
       'district': bin.district
-    }
-    );
-      
+    });
   }
 
   //Rawan Work
@@ -169,7 +226,7 @@ class DatabaseHelper {
         .delete(tableName, where: '$idToDelete = ?', whereArgs: [id]);
   }
 
- /* Future<int> insert(Complaints complaints) async {
+  /* Future<int> insert(Complaints complaints) async {
     Database db = await instance.database;
     return await db.insert(table, {
       'complaintID': complaints.complaintID,

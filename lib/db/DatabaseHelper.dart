@@ -59,12 +59,12 @@ class DatabaseHelper {
     //Municipality Admin table
     await db.execute('''
           CREATE TABLE $tableMunicipalityAdmin(
-            {$MunicipalityAdminFields.municpalityID} $idType,
-            {$MunicipalityAdminFields.firatName} $textType,
-            {$MunicipalityAdminFields.lastName} $textType,
-            {$MunicipalityAdminFields.password} $textType,
-            {$MunicipalityAdminFields.email} $textType,
-            {$MunicipalityAdminFields.phone} $number
+            ${MunicipalityAdminFields.id} $idType,
+            ${MunicipalityAdminFields.firatName} $textType,
+            ${MunicipalityAdminFields.lastName} $textType,
+            ${MunicipalityAdminFields.password} $textType,
+            ${MunicipalityAdminFields.email} $textType,
+            ${MunicipalityAdminFields.phone} $number
           )
           ''');
     print('Municipality Admin table created');
@@ -72,15 +72,15 @@ class DatabaseHelper {
     //Driver table
     await db.execute('''
           CREATE TABLE $tableDriver (
-            {$DriverFields.driverID} $idType,
-            {$DriverFields.municpalityID} $number,
-            {$DriverFields.firatName} $textType,
-            {$DriverFields.lastName} $textType,
-            {$DriverFields.password} $textType,
-            {$DriverFields.email} $textType,
-            {$DriverFields.phone} $number,
-            {$DriverFields.workTime} $textType,
-            FOREIGN KEY ($DriverFields.municpalityID) REFERENCES $tableMunicipalityAdmin($MunicipalityAdminFields.municpalityID)
+            ${DriverFields.id} $idType,
+            ${DriverFields.municpalityID} $number,
+            ${DriverFields.firatName} $textType,
+            ${DriverFields.lastName} $textType,
+            ${DriverFields.password} $textType,
+            ${DriverFields.email} $textType,
+            ${DriverFields.phone} $number,
+            ${DriverFields.workTime} $textType,
+            FOREIGN KEY (${DriverFields.municpalityID}) REFERENCES $tableMunicipalityAdmin(${MunicipalityAdminFields.id})
           )
           ''');
     print('Driver table created');
@@ -88,12 +88,12 @@ class DatabaseHelper {
     //Driver Status table
     await db.execute('''
           CREATE TABLE $tableDriverStatus(
-            {$DriverStatusFields.status} $idType,
-            {$DriverStatusFields.driverID} $number,
-            {$DriverStatusFields.completed} $boolType,
-            {$DriverStatusFields.incomplete} $boolType,
-            {$DriverStatusFields.late} $boolType,
-            FOREIGN KEY ($DriverStatusFields.driverID) REFERENCES $tableDriver($DriverFields.driverID)
+            ${DriverStatusFields.statusID} $idType,
+            ${DriverStatusFields.id} $number,
+            ${DriverStatusFields.completed} $boolType,
+            ${DriverStatusFields.incomplete} $boolType,
+            ${DriverStatusFields.late} $boolType,
+            FOREIGN KEY (${DriverStatusFields.id}) REFERENCES $tableDriver(${DriverFields.id})
           )
           ''');
     print('Driver status table created');
@@ -102,15 +102,15 @@ class DatabaseHelper {
     //Complaints table
     await db.execute('''
           CREATE TABLE $tableComplaints (
-            {$ComplaintsFields.complaintID} $idType,
-            {$ComplaintsFields.complaintMessage} $textType,
-            {$ComplaintsFields.status} $textType,
-            {$ComplaintsFields.subject} $textType,
-            {$ComplaintsFields.date} $textType,
-            {$ComplaintsFields.driverID} $number,
-            {$ComplaintsFields.binID} $number,
-            FOREIGN KEY ($ComplaintsFields.driverID) REFERENCES $tableDriver($DriverFields.driverID),
-            FOREIGN KEY ($ComplaintsFields.binID) REFERENCES $table($columnId)
+            ${ComplaintsFields.complaintID} $idType,
+            ${ComplaintsFields.complaintMessage} $textType,
+            ${ComplaintsFields.status} $textType,
+            ${ComplaintsFields.subject} $textType,
+            ${ComplaintsFields.date} $textType,
+            ${ComplaintsFields.driverID} $number,
+            ${ComplaintsFields.binID} $number,
+            FOREIGN KEY (${ComplaintsFields.driverID}) REFERENCES $tableDriver(${DriverFields.id}),
+            FOREIGN KEY (${ComplaintsFields.binID}) REFERENCES $table($columnId)
           )
           ''');
     print('Complaints table created');
@@ -118,11 +118,11 @@ class DatabaseHelper {
     //District table
     await db.execute('''
           CREATE TABLE $tableDistrict (
-            {$DistrictFields.districtID} $idType,
-            {$DistrictFields.name} $textType,
-            {$DistrictFields.numberOfBins} $number,
-            {$DistrictFields.driverID} $number,
-            FOREIGN KEY ($DistrictFields.driverID) REFERENCES $tableDriver($DriverFields.driverID)
+            ${DistrictFields.districtID} $idType,
+            ${DistrictFields.name} $textType,
+            ${DistrictFields.numberOfBins} $number,
+            ${DistrictFields.driverID} $number,
+            FOREIGN KEY (${DistrictFields.driverID}) REFERENCES $tableDriver(${DriverFields.id})
           )
           ''');
     print('District table created');
@@ -141,12 +141,12 @@ class DatabaseHelper {
 
   // read a row
   Future<dynamic> generalRead(
-      int id, String tableName, dynamic className) async {
+      int id, String tableName, dynamic classFields, dynamic className) async {
     final db = await instance.database;
     final maps = await db.query(
       tableName,
-      columns: className.values,
-      where: '{$className.id} = ?',
+      columns: classFields.values,
+      where: '${classFields.id} = ?',
       whereArgs: [id],
     );
 

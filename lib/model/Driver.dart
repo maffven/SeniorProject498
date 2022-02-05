@@ -5,7 +5,7 @@ final String tableDriver = 'Driver';
 
 class DriverFields {
   //col names
-  static final String driverID = "_Driver_ID";
+  static final String id = "_Driver_ID";
   static final String municpalityID = "_Municipality_ID";
   static final String firatName = "First_name";
   static final String lastName = "Last_name";
@@ -37,7 +37,7 @@ class Driver {
   });
 
   Map<String, dynamic> toJson() => {
-        DriverFields.driverID: driverID,
+        DriverFields.id: driverID,
         DriverFields.municpalityID: municpalityID,
         DriverFields.firatName: firatName,
         DriverFields.lastName: lastName,

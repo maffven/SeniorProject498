@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
 import 'package:flutter_application_1/screens/first.dart';
 import 'package:flutter_application_1/model/Bin.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
@@ -35,7 +36,6 @@ class LoginDemo extends StatefulWidget {
 
 //Rawan work
 
-//why is this??
 class _LoginDemoState extends State<LoginDemo> {
   static Database _database;
   Future<Database> get database async {
@@ -56,16 +56,18 @@ super.initState();
 
   List<Bin> bins = [];
   List<Bin> binsByCapacity = [];
-
+  MunicipalityAdmin munObj = MunicipalityAdmin();
+  //Take input from user or textview
   TextEditingController nameController = TextEditingController();
   TextEditingController milesController = TextEditingController();
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+//Login pop up
+  /*final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   void _showMessageInScaffold(String message) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(message),
     ));
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -140,9 +142,26 @@ super.initState();
                 onPressed: () {
                   double name = double.parse(nameController.text);
                   int miles = int.parse(milesController.text);
+
+                  //implement database helper
                   //   Bin(name,miles,7);
-                  _insert(name, miles);
-                  _queryAll();
+                  // _insert(name, miles);
+                  //_queryAll();
+                  MunicipalityAdmin mun = MunicipalityAdmin(
+                      municpalityID: 123,
+                      firatName: "Rawan",
+                      lastName: "Alghamdi",
+                      phone: 0591450563,
+                      email: "roro1999@gmail.com",
+                      password: "1851420");
+                  //inserting row inside muncipality table
+                  //addObj(mun, tableMunicipalityAdmin);
+                  dynamic card = MunicipalityAdminFields;
+                  dynamic card1 = MunicipalityAdmin;
+
+                  readObj(
+                      mun.municpalityID, tableMunicipalityAdmin, card, card1);
+
                   //   initDatabase();
                 },
                 child: Text(
@@ -175,9 +194,10 @@ super.initState();
     };
     Bin car = Bin.fromMap(row);
     final id = await dbHelper.insert(car);
+    //to ensure it is working
     // print('inserted row id: $id');
     // final id = await car.toMap();
-    _showMessageInScaffold('inserted row id: $id');
+    //_showMessageInScaffold('inserted row id: $id');
   }
 
   void _queryAll() async {
@@ -187,7 +207,7 @@ super.initState();
         await DatabaseHelper.instance.queryAllRows();
     allRows.forEach((row) => bins.add(Bin.fromMap(row)));
     print(queryRows);
-    _showMessageInScaffold('Query done.');
+    //_showMessageInScaffold('Query done.');
     setState(() {});
   }
 
@@ -201,12 +221,31 @@ super.initState();
     // row to update
     Bin car = Bin(id, name, miles);
     final rowsAffected = await dbHelper.update(car);
-    _showMessageInScaffold('updated $rowsAffected row(s)');
+    //_showMessageInScaffold('updated $rowsAffected row(s)');
   }
 
   void _delete(id) async {
     // Assuming that the number of rows is the id for the last row.
     final rowsDeleted = await dbHelper.delete(id);
-    _showMessageInScaffold('deleted $rowsDeleted row(s): row $id');
+    // _showMessageInScaffold('deleted $rowsDeleted row(s): row $id');
+  }
+
+  Future addObj(dynamic obj, String tableName) async {
+    await DatabaseHelper.instance.generalCreate(obj, tableName);
+    print("municipality inserted");
+  }
+
+  //String tablename, dynamic classInstance, dynamic classfields
+  Future updateObj(dynamic obj, String tableName, dynamic classfields) async {
+    await DatabaseHelper.instance.generalUpdate(tableName, obj, classfields);
+  }
+
+  //read objects
+  //int id, String tableName, dynamic classFields, dynamic className
+  Future readObj(
+      int id, String tableName, dynamic classFields, dynamic className) async {
+    this.munObj = await DatabaseHelper.instance
+        .generalRead(id, tableName, classFields, className);
+    print("mun object: $munObj");
   }
 }

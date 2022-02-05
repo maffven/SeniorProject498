@@ -7,7 +7,7 @@ final String tableDriverStatus = 'Driver_Status';
 
 class DriverStatusFields {
   //col names
-  static final String driverID = "Driver_ID";
+  static final String id = "Driver_ID";
   static final String statusID = "_Status";
   static final String completed = "Completed";
   static final String incomplete = "Incomplete";
@@ -30,7 +30,7 @@ class DriverStatus {
   });
 
   Map<String, dynamic> toJson() => {
-        DriverStatusFields.driverID: driverID,
+        DriverStatusFields.id: driverID,
         DriverStatusFields.statusID: statusID,
         DriverStatusFields.completed: completed ? 1 : 0,
         DriverStatusFields.incomplete: incomplete ? 1 : 0,
@@ -38,7 +38,7 @@ class DriverStatus {
       };
 
   static DriverStatus fromJson(Map<String, Object> json) => DriverStatus(
-      driverID: json[DriverStatusFields.driverID] as int,
+      driverID: json[DriverStatusFields.id] as int,
       statusID: json[DriverStatusFields.statusID] as int,
       completed: json[DriverStatusFields.completed] == 1,
       incomplete: json[DriverStatusFields.incomplete] == 1,

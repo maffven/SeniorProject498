@@ -24,10 +24,31 @@ class HomeDemo extends StatefulWidget {
 class _LoginDemoState extends State<HomeDemo> {
   Completer<GoogleMapController> _controller = Completer();
   final Set<Marker> listMarkers = {};
+  Set<Marker> markers;
   MapType currentMapType = MapType.normal;
   BitmapDescriptor customIcon;
-  
-static const LatLng _center = const LatLng(21.584873, 39.205959);
+  @override 
+  void initState(){
+    super.initState();
+    markers = Set.from([]);
+  }
+  createMarker(context){
+    if(customIcon == null){
+    ImageConfiguration configuration = createLocalImageConfiguration(context);
+    BitmapDescriptor.fromAssetImage(configuration, '/Users/mac/Desktop/flutter_application_1/assets/images/GreenMarker.png')
+    .then((icon){
+      setState(() {
+     customIcon = icon;
+      });
+    });
+
+
+    }
+  }
+
+
+
+//static const LatLng _center = const LatLng(21.584873, 39.205959);
 
 //Markers
 
@@ -35,37 +56,41 @@ void _onMapCreated(GoogleMapController controller) {
 _controller.complete(controller);
 }
 static final LatLng _kMapCenter =
-    LatLng(21.584873, 39.205959);
+    LatLng(36.98, -121.99);
 
 static final CameraPosition _kInitialPosition =
-    CameraPosition(target: _kMapCenter, zoom: 11.0, tilt: 0, bearing: 0);
+    CameraPosition(target: _kMapCenter, zoom: 18.0, tilt: 0, bearing: 0);
     
   @override
   Widget build(BuildContext context) {
- listMarkers.add(Marker(
+    createMarker(context);
+/* markers.add(Marker(
       markerId: MarkerId("1"),
       position: LatLng(41.40442592799307, 2.1761136771317475),
       infoWindow: InfoWindow(title: "La Sagrada Familia"),
       icon: customIcon
     ));
  
-    listMarkers.add(Marker(
+    markers.add(Marker(
         markerId: MarkerId("2"),
         position: LatLng(41.39641729508688, 2.161925892612031),
         infoWindow: InfoWindow(title: "Casa Mila"),
-        icon: customIcon));
+       icon: customIcon
+        ));
  
-    listMarkers.add(Marker(
+    markers.add(Marker(
         markerId: MarkerId("3"),
         position: LatLng(41.38840767527953, 2.173175802559483),
         infoWindow: InfoWindow(title: "Placa de Catalunya"),
-        icon: customIcon));
+       icon: customIcon
+        ));
  
-    listMarkers.add(Marker(
+    markers.add(Marker(
         markerId: MarkerId("4"),
         position: LatLng(41.41503960716928, 2.1570586431097203),
         infoWindow: InfoWindow(title: "Park Guell"),
-        icon: customIcon));
+        icon: customIcon
+        ));*/
 
 
     return Scaffold(
@@ -77,22 +102,29 @@ static final CameraPosition _kInitialPosition =
       body:  Stack(
           children: [
             GoogleMap(
+              markers: markers,
+              onTap: (pos){
+                print(pos);
+                Marker m = Marker(markerId: MarkerId("1"), icon: customIcon, position: pos);
+                markers.add(m);
+              },
               mapType: currentMapType,
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
               },
               initialCameraPosition: _kInitialPosition,
               compassEnabled: true,
-              markers: listMarkers,
+     
+
             ),
-            Container(
+           /* Container(
               padding: EdgeInsets.all(15),
               alignment: Alignment.topRight,
               child: FloatingActionButton(
                 child: Icon(Icons.map, size: 30),
                 onPressed: _onMapTypeChanged,
               ),
-            )
+            )*/
           ],
         ));
   }
@@ -104,7 +136,7 @@ static final CameraPosition _kInitialPosition =
  
   void setCustomMarker() async {
     customIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 2.5), '/Users/mac/Desktop/flutter_application_1/assets/images/GreenMarker');
+        ImageConfiguration(devicePixelRatio: 2.5), '/Users/mac/Desktop/flutter_application_1/assets/images/GreenMarker.png');
   }
  
   

@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 final String tableDriver = 'Driver';
 
 class DriverFields {
+  static final List<String> values = [
+    //add all fields
+    id, municpalityID, firatName, lastName, password, email, phone, workTime
+  ];
+
   //col names
   static final String id = "_Driver_ID";
   static final String municpalityID = "_Municipality_ID";
@@ -46,4 +51,69 @@ class Driver {
         DriverFields.phone: phone,
         DriverFields.workTime: workTime,
       };
+
+  Driver copy(
+          {int id,
+          int municpalityID,
+          String firatName,
+          String lastName,
+          String password,
+          String email,
+          int phone,
+          String workTime}) =>
+      Driver(
+          driverID: id ?? this.driverID,
+          municpalityID: municpalityID ?? this.municpalityID,
+          firatName: firatName ?? this.firatName,
+          lastName: lastName ?? this.lastName,
+          password: password ?? this.password,
+          email: email ?? this.email,
+          phone: phone ?? this.phone,
+          workTime: workTime ?? this.workTime);
+
+  static Driver fromJson(Map<String, Object> json) => Driver(
+      driverID: json[DriverFields.id] as int,
+      municpalityID: json[DriverFields.municpalityID] as int,
+      firatName: json[DriverFields.firatName] as String,
+      lastName: json[DriverFields.lastName] as String,
+      password: json[DriverFields.password] as String,
+      email: json[DriverFields.email] as String,
+      phone: json[DriverFields.phone] as int,
+      workTime: json[DriverFields.workTime] as String);
+
+  Future<Driver> read(int id, dynamic instance) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      Driver,
+      columns: DriverFields.values,
+      where: '${DriverFields.id} = ?',
+      whereArgs: [id],
+    );
+
+    if (maps.isNotEmpty) {
+      return Driver.fromJson(maps.first);
+    } else {
+      throw Exception('ID $id not founs');
+    }
+  }
+
+  Future<List<dynamic>> readAll(dynamic instance) async {
+    final db = await instance.database;
+    final result = await db.query(tableDriver);
+    return result.map((json) => Driver.fromJson(json)).toList();
+  }
+
+  Future<int> update(int id, dynamic instance, Driver driver) async {
+    final db = await instance.database;
+    //we have to convert from object to json
+    return db.update(tableDriver, driver.toJson(),
+        where: '${DriverFields.id} = ?', whereArgs: [id]);
+  }
+
+  //delete a row
+  Future<int> delete(int id, dynamic instance) async {
+    final db = await instance.database;
+    return db
+        .delete(tableDriver, where: '${DriverFields.id} = ?', whereArgs: [id]);
+  }
 }

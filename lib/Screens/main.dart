@@ -57,6 +57,7 @@ super.initState();
   List<Bin> bins = [];
   List<Bin> binsByCapacity = [];
   MunicipalityAdmin munObj = MunicipalityAdmin();
+  List<MunicipalityAdmin> munList;
   //Take input from user or textview
   TextEditingController nameController = TextEditingController();
   TextEditingController milesController = TextEditingController();
@@ -147,21 +148,27 @@ super.initState();
                   //   Bin(name,miles,7);
                   // _insert(name, miles);
                   //_queryAll();
+
+                  //create object
                   MunicipalityAdmin mun = MunicipalityAdmin(
                       municpalityID: 123,
-                      firatName: "Rawan",
+                      firatName: "noha",
                       lastName: "Alghamdi",
                       phone: 0591450563,
                       email: "roro1999@gmail.com",
                       password: "1851420");
                   //inserting row inside muncipality table
                   //addObj(mun, tableMunicipalityAdmin);
-                  dynamic card = MunicipalityAdminFields;
-                  dynamic card1 = MunicipalityAdmin;
 
-                  readObj(
-                      mun.municpalityID, tableMunicipalityAdmin, card, card1);
+                  //ensure the object exists
+                  //readObj(mun.municpalityID, tableMunicipalityAdmin);
 
+                  readAll(tableMunicipalityAdmin);
+                  updateObj(mun.municpalityID, mun, tableMunicipalityAdmin);
+                  readAll(tableMunicipalityAdmin);
+                  deleteObj(mun.municpalityID, tableMunicipalityAdmin);
+                  readAll(tableMunicipalityAdmin);
+                  addObj(mun, tableMunicipalityAdmin);
                   //   initDatabase();
                 },
                 child: Text(
@@ -185,7 +192,7 @@ super.initState();
     dh.createDB(_database, 1);
   }
 
-  void _insert(name, miles) async {
+  /* void _insert(name, miles) async {
     // row to insert
     Map<String, dynamic> row = {
       DatabaseHelper.columnId: miles,
@@ -198,9 +205,9 @@ super.initState();
     // print('inserted row id: $id');
     // final id = await car.toMap();
     //_showMessageInScaffold('inserted row id: $id');
-  }
+  }*/
 
-  void _queryAll() async {
+  /*void _queryAll() async {
     final allRows = await dbHelper.queryAllRows();
     bins.clear();
     List<Map<String, dynamic>> queryRows =
@@ -209,43 +216,54 @@ super.initState();
     print(queryRows);
     //_showMessageInScaffold('Query done.');
     setState(() {});
-  }
+  }*/
 
-  void _query(name) async {
+  /*void _query(name) async {
     final allRows = await dbHelper.queryRows(name);
     binsByCapacity.clear();
     allRows.forEach((row) => binsByCapacity.add(Bin.fromMap(row)));
-  }
+  }*/
 
-  void _update(id, name, miles) async {
+  /* void _update(id, name, miles) async {
     // row to update
     Bin car = Bin(id, name, miles);
     final rowsAffected = await dbHelper.update(car);
     //_showMessageInScaffold('updated $rowsAffected row(s)');
-  }
+  }*/
 
-  void _delete(id) async {
+  /*void _delete(id) async {
     // Assuming that the number of rows is the id for the last row.
     final rowsDeleted = await dbHelper.delete(id);
     // _showMessageInScaffold('deleted $rowsDeleted row(s): row $id');
-  }
+  }*/
 
   Future addObj(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalCreate(obj, tableName);
     print("municipality inserted");
   }
 
-  //String tablename, dynamic classInstance, dynamic classfields
-  Future updateObj(dynamic obj, String tableName, dynamic classfields) async {
-    await DatabaseHelper.instance.generalUpdate(tableName, obj, classfields);
+  //generalUpdate(String tablename, int id, dynamic obj)
+  Future updateObj(int id, dynamic obj, String tableName) async {
+    await DatabaseHelper.instance.generalUpdate(tableName, id, obj);
   }
 
   //read objects
   //int id, String tableName, dynamic classFields, dynamic className
-  Future readObj(
-      int id, String tableName, dynamic classFields, dynamic className) async {
-    this.munObj = await DatabaseHelper.instance
-        .generalRead(id, tableName, classFields, className);
-    print("mun object: $munObj");
+  Future readObj(int id, String tableName) async {
+    this.munObj = await DatabaseHelper.instance.generalRead(tableName, id);
+    print("mun object: ${munObj.firatName}");
+  }
+
+  Future readAll(String tableName) async {
+    //We have to define list here as dynamci *******
+    List<dynamic> munList =
+        await DatabaseHelper.instance.generalReadAll(tableName);
+    print("mun object: ${munList[0].firatName}");
+  }
+
+  //Delete a row
+  //gneralDelete(int id, String tablename)
+  Future deleteObj(int id, String tableName) async {
+    await DatabaseHelper.instance.gneralDelete(id, tableName);
   }
 }

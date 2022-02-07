@@ -68,4 +68,41 @@ class MunicipalityAdmin {
           password: json[MunicipalityAdminFields.password] as String,
           email: json[MunicipalityAdminFields.email] as String,
           phone: json[MunicipalityAdminFields.phone] as int);
+
+  Future<MunicipalityAdmin> read(int id, dynamic instance) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      tableMunicipalityAdmin,
+      columns: MunicipalityAdminFields.values,
+      where: '${MunicipalityAdminFields.id} = ?',
+      whereArgs: [id],
+    );
+
+    if (maps.isNotEmpty) {
+      return MunicipalityAdmin.fromJson(maps.first);
+    } else {
+      throw Exception('ID $id not founs');
+    }
+  }
+
+  Future<List<dynamic>> readAll(dynamic instance) async {
+    final db = await instance.database;
+    final result = await db.query(tableMunicipalityAdmin);
+    return result.map((json) => MunicipalityAdmin.fromJson(json)).toList();
+  }
+
+  Future<int> update(
+      int id, dynamic instance, MunicipalityAdmin municipalityAdmin) async {
+    final db = await instance.database;
+    //we have to convert from object to json
+    return db.update(tableMunicipalityAdmin, municipalityAdmin.toJson(),
+        where: '${MunicipalityAdminFields.id} = ?', whereArgs: [id]);
+  }
+
+  //delete a row
+  Future<int> delete(int id, dynamic instance) async {
+    final db = await instance.database;
+    return db.delete(tableMunicipalityAdmin,
+        where: '${MunicipalityAdminFields.id} = ?', whereArgs: [id]);
+  }
 }

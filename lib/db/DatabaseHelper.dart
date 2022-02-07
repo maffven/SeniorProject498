@@ -88,11 +88,11 @@ class DatabaseHelper {
     //Driver Status table
     await db.execute('''
           CREATE TABLE $tableDriverStatus(
-            ${DriverStatusFields.statusID} $idType,
-            ${DriverStatusFields.id} $number,
+            ${DriverStatusFields.id} $idType,
+            ${DriverStatusFields.driverID} $number,
             ${DriverStatusFields.completed} $boolType,
             ${DriverStatusFields.incomplete} $boolType,
-            ${DriverStatusFields.late} $boolType,
+            ${DriverStatusFields.lateStatus} $boolType,
             FOREIGN KEY (${DriverStatusFields.id}) REFERENCES $tableDriver(${DriverFields.id})
           )
           ''');
@@ -140,39 +140,65 @@ class DatabaseHelper {
   }
 
   // read a row
-  Future<dynamic> generalRead(
-      int id, String tableName, dynamic classFields, dynamic className) async {
-    final db = await instance.database;
-    final maps = await db.query(
-      tableName,
-      columns: classFields.values,
-      where: '${classFields.id} = ?',
-      whereArgs: [id],
-    );
 
-    if (maps.isNotEmpty) {
-      return className.fromJson(maps.first);
-    } else {
-      throw Exception('ID $id not founs');
+  Future<dynamic> generalRead(String tableName, int id) async {
+    switch (tableName) {
+      case "Municipality_Admin":
+        return await MunicipalityAdmin().read(id, instance);
+        break;
+      default:
+        "cannot access data";
     }
   }
 
 //Read all rows
-  Future<List<dynamic>> generalReadAll(
+  Future<List<dynamic>> generalReadAll(String tableName) async {
+    switch (tableName) {
+      case "Municipality_Admin":
+        return await MunicipalityAdmin().readAll(instance);
+        break;
+      default:
+        "cannot access data";
+    }
+  }
+
+  /*Future<List<dynamic>> generalReadAll(
       String tableName, dynamic className) async {
     final db = await instance.database;
     final result = await db.query(tableName);
     return result.map((json) => className.fromJson(json)).toList();
-  }
+  }*/
 
   //update row
-  Future<int> generalUpdate(
-      String tablename, dynamic classInstance, dynamic classfields) async {
+
+  Future<int> generalUpdate(String tablename, int id, dynamic obj) async {
+    switch (tablename) {
+      case "Municipality_Admin":
+        return await MunicipalityAdmin().update(id, instance, obj);
+        break;
+      default:
+        "cannot access data";
+    }
+  }
+
+  //delete a row
+  Future<int> gneralDelete(int id, String tablename) async {
+    switch (tablename) {
+      case "Municipality_Admin":
+        return await MunicipalityAdmin().delete(id, instance);
+        break;
+      default:
+        "cannot access data";
+    }
+  }
+}
+
+/* Future<int> generalUpdate(String tablename) async {
     final db = await instance.database;
     //we have to convert from object to json
     return db.update(tablename, classInstance.toJson(),
         where: '${classfields.id} = ?', whereArgs: [classInstance.id]);
-  }
+  }*
 
   //delete row
   Future<int> gneralDelete(
@@ -192,14 +218,14 @@ class DatabaseHelper {
   // Inserts a row in the database where each key in the Map is a column name
   // and the value is the column value. The return value is the id of the
   // inserted row.
-  Future<int> insert(Bin bin) async {
+  /*Future<int> insert(Bin bin) async {
     Database db = await instance.database;
     return await db.insert(table, {
       'binID': bin.binID,
       'capacity': bin.capacity,
       'district': bin.district
     });
-  }
+  }*/
 
   //Rawan Work
 
@@ -208,23 +234,27 @@ class DatabaseHelper {
     return await db.insert(tableName, table.toJson());
   }
 
-  Future<List<Map<String, dynamic>>> generalQueryAllRows(
+
+
+
+   /* Future<int> delete(int id) async {
+    Database db = await instance.database;
+    return await db.delete(table, where: '$columnId = ?', whereArgs: [id]);
+  }*/
+
+  /*Future<List<Map<String, dynamic>>> generalQueryAllRows(
       String tableName) async {
     Database db = await instance.database;
     return await db.query(tableName);
-  }
+  }*/
 
-  Future<int> generalQueryRowCount(String tableName) async {
+  /*Future<int> generalQueryRowCount(String tableName) async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(
         await db.rawQuery('SELECT COUNT(*) FROM $tableName'));
-  }
+  }*/
 
-  Future<int> generalDelete(int id, String tableName, idToDelete) async {
-    Database db = await instance.database;
-    return await db
-        .delete(tableName, where: '$idToDelete = ?', whereArgs: [id]);
-  }
+ 
 
   /* Future<int> insert(Complaints complaints) async {
     Database db = await instance.database;
@@ -251,33 +281,33 @@ class DatabaseHelper {
 
   // All of the rows are returned as a list of maps, where each map is
   // a key-value list of columns.
-  Future<List<Map<String, dynamic>>> queryAllRows() async {
+  /*Future<List<Map<String, dynamic>>> queryAllRows() async {
     Database db = await instance.database;
     return await db.query(table);
-  }
+  }*/
 
   // Queries rows based on the argument received
-  Future<List<Map<String, dynamic>>> queryRows(name) async {
+  /*Future<List<Map<String, dynamic>>> queryRows(name) async {
     Database db = await instance.database;
     return await db.query(table, where: "$columnCapacity LIKE '%$name%'");
-  }
+  }*/
 
   // All of the methods (insert, query, update, delete) can also be done using
   // raw SQL commands. This method uses a raw query to give the row count.
-  Future<int> queryRowCount() async {
+  /*Future<int> queryRowCount() async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(
         await db.rawQuery('SELECT COUNT(*) FROM $table'));
-  }
+  }*/
 
   // We are assuming here that the id column in the map is set. The other
   // column values will be used to update the row.
-  Future<int> update(Bin bin) async {
+  /*Future<int> update(Bin bin) async {
     Database db = await instance.database;
     int id = bin.toMap()['id'];
     return await db
         .update(table, bin.toMap(), where: '$columnId = ?', whereArgs: [id]);
-  }
+  }*/
 
   /*Future<int> update(Complaints complaints) async {
     Database db = await instance.database;
@@ -294,9 +324,4 @@ class DatabaseHelper {
   }*/
 
   // Deletes the row specified by the id. The number of affected rows is
-  // returned. This should be 1 as long as the row exists.
-  Future<int> delete(int id) async {
-    Database db = await instance.database;
-    return await db.delete(table, where: '$columnId = ?', whereArgs: [id]);
-  }
-}
+  // returned. This should be 1 as long as the row exists.*/

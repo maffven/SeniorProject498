@@ -140,7 +140,7 @@ super.initState();
                   color: Color(0xff28CC9E),
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
-                onPressed: () {
+                onPressed: () async {
                   double name = double.parse(nameController.text);
                   int miles = int.parse(milesController.text);
 
@@ -161,15 +161,18 @@ super.initState();
                   //addObj(mun, tableMunicipalityAdmin);
 
                   //ensure the object exists
-                  //readObj(mun.municpalityID, tableMunicipalityAdmin);
-
-                  readAll(tableMunicipalityAdmin);
+                  munObj =
+                      await readObj(mun.municpalityID, tableMunicipalityAdmin);
+                  print("mun object: ${munObj.lastName}");
                   updateObj(mun.municpalityID, mun, tableMunicipalityAdmin);
-                  readAll(tableMunicipalityAdmin);
+                  List<dynamic> munListd =
+                      await readAll(tableMunicipalityAdmin);
+                  munList = munListd.cast();
+                  print("mun object list: ${munList[0].firatName}");
                   deleteObj(mun.municpalityID, tableMunicipalityAdmin);
-                  readAll(tableMunicipalityAdmin);
+                  //readAll(tableMunicipalityAdmin);
                   addObj(mun, tableMunicipalityAdmin);
-                  //   initDatabase();
+                  //initDatabase();
                 },
                 child: Text(
                   'Login',
@@ -247,16 +250,15 @@ super.initState();
 
   //read objects
   //int id, String tableName, dynamic classFields, dynamic className
-  Future readObj(int id, String tableName) async {
-    this.munObj = await DatabaseHelper.instance.generalRead(tableName, id);
-    print("mun object: ${munObj.firatName}");
+  Future<dynamic> readObj(int id, String tableName) async {
+    return await DatabaseHelper.instance.generalRead(tableName, id);
+    //print("mun object: ${munObj.firatName}");
   }
 
-  Future readAll(String tableName) async {
+  Future<List<dynamic>> readAll(String tableName) async {
     //We have to define list here as dynamci *******
-    List<dynamic> munList =
-        await DatabaseHelper.instance.generalReadAll(tableName);
-    print("mun object: ${munList[0].firatName}");
+    return await DatabaseHelper.instance.generalReadAll(tableName);
+    // print("mun object: ${munList[0].firatName}");
   }
 
   //Delete a row

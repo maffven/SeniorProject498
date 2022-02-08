@@ -2,67 +2,60 @@ import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-final String tableBin = 'Bin';
-class BinFields {
+final String tableBin = 'bin_table';
 
-    static final List<String> values = [
+class BinFields {
+  static final List<String> values = [
     //add all fields
-    binID, capacity, districtId
+    id, capacity, districtId
   ];
-  static final String binID = "BinId";
+  static final String id = "BinId";
   static final String capacity = "capacity";
   static final String districtId = "district";
-
 }
 
 class Bin {
- final int binID;
- final double capacity;
- final int districtId;
+  final int binID;
+  final double capacity;
+  final int districtId;
 
-  const Bin(
-      {@required this.binID,
-      @required this.capacity,
-      @required this.districtId,
-      });
+  const Bin({
+    @required this.binID,
+    @required this.capacity,
+    @required this.districtId,
+  });
 
   //Convert BinLevel object to json object
   Map<String, dynamic> toJson() => {
-        BinFields.binID: binID,
+        BinFields.id: binID,
         BinFields.capacity: capacity,
         BinFields.districtId: districtId,
-  
       };
 
-  Bin copy(
-          {int id,
-          double capacity,
-          int districtId,
-     
-      }) =>
+  Bin copy({
+    int id,
+    double capacity,
+    int districtId,
+  }) =>
       Bin(
-          binID: binID ?? this.binID,
+          binID: id ?? this.binID,
           capacity: capacity ?? this.capacity,
-          districtId: districtId ?? this.districtId
-          );
-
-
+          districtId: districtId ?? this.districtId);
 
   //convert from json to MunicipalityAdmin
-  static Bin fromJson(Map<String, Object> json) =>
-      Bin(
-          binID: json[BinFields.binID] as int,
-          capacity: json[BinFields.capacity] as double,
-          districtId: json[BinFields.districtId] as int,
-        
-          );
+  static Bin fromJson(Map<String, Object> json) => Bin(
+        binID: json[BinFields.id] as int,
+        capacity: double.parse(json[BinFields.capacity]),
+        districtId: json[BinFields.districtId] as int,
+      );
 
   Future<Bin> read(int id, dynamic instance) async {
+    print("in Bin calss");
     final db = await instance.database;
     final maps = await db.query(
       tableBin,
       columns: BinFields.values,
-      where: '${BinFields.binID} = ?',
+      where: '${BinFields.id} = ?',
       whereArgs: [id],
     );
 
@@ -73,25 +66,22 @@ class Bin {
     }
   }
 
-
   Future<List<dynamic>> readAll(dynamic instance) async {
     final db = await instance.database;
     final result = await db.query(tableBin);
     return result.map((json) => Bin.fromJson(json)).toList();
   }
 
-  Future<int> update(
-      int id, dynamic instance, Bin municipalityAdmin) async {
+  Future<int> update(int id, dynamic instance, Bin municipalityAdmin) async {
     final db = await instance.database;
     //we have to convert from object to json
     return db.update(tableBin, municipalityAdmin.toJson(),
-        where: '${BinFields.binID} = ?', whereArgs: [id]);
+        where: '${BinFields.id} = ?', whereArgs: [id]);
   }
 
   //delete a row
   Future<int> delete(int id, dynamic instance) async {
     final db = await instance.database;
-    return db.delete(tableBin,
-        where: '${BinFields.binID} = ?', whereArgs: [id]);
+    return db.delete(tableBin, where: '${BinFields.id} = ?', whereArgs: [id]);
   }
 }

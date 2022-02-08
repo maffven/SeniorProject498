@@ -65,7 +65,7 @@ class DatabaseHelper {
              $BinLevelFields.half_full,
              $BinLevelFields.full,
              $BinLevelFields.empty,
-           FOREIGN KEY (${BinLevelFields.binID}) REFERENCES $tableBin(${BinFields.binID})
+           FOREIGN KEY (${BinLevelFields.binID}) REFERENCES $tableBin(${BinFields.id})
           )
           ''');
     print('bin level table created');
@@ -76,7 +76,7 @@ class DatabaseHelper {
              $BinLocationFields.location TEXT NOT NULL,
              $BinLocationFields.coordinateX,
              $BinLocationFields.coordinateY,
-           FOREIGN KEY (${BinLocationFields.binID}) REFERENCES $tableBin(${BinFields.binID})
+           FOREIGN KEY (${BinLocationFields.binID}) REFERENCES $tableBin(${BinFields.id})
           )
           ''');
     print('bin location table created');
@@ -128,7 +128,7 @@ class DatabaseHelper {
     //Complaints table
     await db.execute('''
           CREATE TABLE $tableComplaints (
-            ${ComplaintsFields.complaintID} $idType,
+            ${ComplaintsFields.id} $idType,
             ${ComplaintsFields.complaintMessage} $textType,
             ${ComplaintsFields.status} $textType,
             ${ComplaintsFields.subject} $textType,
@@ -174,7 +174,8 @@ class DatabaseHelper {
         return await MunicipalityAdmin().read(id, instance);
         break;
 //--------------------------------------------------------------
-      case "Bin":
+      case "bin_table":
+        print("it is in DBHelper");
         return await Bin().read(id, instance);
         break;
 //--------------------------------------------------------------
@@ -195,11 +196,26 @@ class DatabaseHelper {
 //Read all rows
   Future<List<dynamic>> generalReadAll(String tableName) async {
     switch (tableName) {
+//--------------------------------------------------------------
       case "Municipality_Admin":
         return await MunicipalityAdmin().readAll(instance);
         break;
+//--------------------------------------------------------------
+      case "bin_table":
+        return await Bin().readAll(instance);
+        break;
+//--------------------------------------------------------------
+      case "BinLevel":
+        return await BinLevel().readAll(instance);
+        break;
+//--------------------------------------------------------------
+      case "BinLocation":
+        return await BinLocation().readAll(instance);
+        break;
+//--------------------------------------------------------------
       default:
         "cannot access data";
+//--------------------------------------------------------------
     }
   }
 

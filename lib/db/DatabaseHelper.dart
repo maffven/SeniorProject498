@@ -3,6 +3,8 @@ import 'package:flutter_application_1/model/Complaints.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/model/DriverStatus.dart';
+import 'package:flutter_application_1/model/BinLevel.dart';
+import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -43,6 +45,7 @@ class DatabaseHelper {
         version: _databaseVersion, onCreate: createDB);
   }
 
+  Future<void> deleteTable() async {}
   // SQL code to create the database table
   Future createDB(Database db, int version) async {
     //Bin table
@@ -50,10 +53,33 @@ class DatabaseHelper {
           CREATE TABLE $table (
             $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
             $columnCapacity TEXT NOT NULL,
-            $columnDistrict INTEGER NOT NULL
+           FOREIGN KEY (${BinFields.districtId}) REFERENCES $tableDistrict(${DistrictFields.districtID})
           )
           ''');
     print('bin table created');
+
+    //Bin level table
+    await db.execute('''
+          CREATE TABLE $BinLevel (
+             $BinLevelFields.level TEXT NOT NULL,
+             $BinLevelFields.half_full,
+             $BinLevelFields.full,
+             $BinLevelFields.empty,
+           FOREIGN KEY (${BinLevelFields.binID}) REFERENCES $tableBin(${BinFields.binID})
+          )
+          ''');
+    print('bin level table created');
+
+    //Bin location table
+    await db.execute('''
+          CREATE TABLE $BinLocation (
+             $BinLocationFields.location TEXT NOT NULL,
+             $BinLocationFields.coordinateX,
+             $BinLocationFields.coordinateY,
+           FOREIGN KEY (${BinLocationFields.binID}) REFERENCES $tableBin(${BinFields.binID})
+          )
+          ''');
+    print('bin location table created');
 
     //Rawan work
     //Municipality Admin table
@@ -143,11 +169,26 @@ class DatabaseHelper {
 
   Future<dynamic> generalRead(String tableName, int id) async {
     switch (tableName) {
+//--------------------------------------------------------------
       case "Municipality_Admin":
         return await MunicipalityAdmin().read(id, instance);
         break;
+//--------------------------------------------------------------
+      case "Bin":
+        return await Bin().read(id, instance);
+        break;
+//--------------------------------------------------------------
+      case "BinLevel":
+        return await BinLevel().read(id, instance);
+        break;
+//--------------------------------------------------------------
+      case "BinLocation":
+        return await BinLocation().read(id, instance);
+        break;
+//--------------------------------------------------------------
       default:
         "cannot access data";
+//--------------------------------------------------------------
     }
   }
 

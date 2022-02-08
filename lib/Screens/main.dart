@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
 import 'package:flutter_application_1/screens/first.dart';
 import 'package:flutter_application_1/model/Bin.dart';
+import 'package:flutter_application_1/model/BinLevel.dart';
+import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -143,11 +145,19 @@ super.initState();
                 onPressed: () async {
                   double name = double.parse(nameController.text);
                   int miles = int.parse(milesController.text);
-
+                /*  BinLevel binL = BinLevel(
+                    level: int.parse(milesController.text),
+                    
+                    , "", "", "", "");*/
+Bin bin = Bin(binID: miles,
+capacity: name,
+districtId: 49
+);
+addObj(bin, "bin_table");
                   //implement database helper
                   //   Bin(name,miles,7);
                   // _insert(name, miles);
-                  //_queryAll();
+                  // _queryAll();
 
                   //create object
                   MunicipalityAdmin mun = MunicipalityAdmin(
@@ -161,18 +171,22 @@ super.initState();
                   //addObj(mun, tableMunicipalityAdmin);
 
                   //ensure the object exists
-                  munObj =
+                  /* munObj =
                       await readObj(mun.municpalityID, tableMunicipalityAdmin);
-                  print("mun object: ${munObj.lastName}");
+                //  print("mun object: ${munObj.lastName}");
                   updateObj(mun.municpalityID, mun, tableMunicipalityAdmin);
                   List<dynamic> munListd =
                       await readAll(tableMunicipalityAdmin);
                   munList = munListd.cast();
-                  print("mun object list: ${munList[0].firatName}");
-                  deleteObj(mun.municpalityID, tableMunicipalityAdmin);
-                  //readAll(tableMunicipalityAdmin);
-                  addObj(mun, tableMunicipalityAdmin);
-                  //initDatabase();
+                 // print("mun object list: ${munList[0].firatName}");
+                //  deleteObj(mun.municpalityID, tableMunicipalityAdmin);*/
+                  List<dynamic> b = await readAll("bin_table");
+                  List <Bin> bb = b.cast();
+                for(int i =0; i<bb.length; i++){
+                print(bb[i].capacity);
+              }
+                  // addObj(mun, tableMunicipalityAdmin);
+                  //initDatabase();*/
                 },
                 child: Text(
                   'Login',
@@ -240,9 +254,10 @@ super.initState();
 
   Future addObj(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalCreate(obj, tableName);
-    print("municipality inserted");
+    print("object inserted");
   }
 
+  Future<void> deleteTable() async {}
   //generalUpdate(String tablename, int id, dynamic obj)
   Future updateObj(int id, dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalUpdate(tableName, id, obj);

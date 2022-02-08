@@ -16,8 +16,8 @@ class BinLevelFields {
 }
 
 class BinLevel {
-  final int binID;
-  final String level;
+ final int binID;
+ final String level;
  final String full;
  final String half_full;
  final String empty;

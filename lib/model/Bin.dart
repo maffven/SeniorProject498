@@ -9,15 +9,15 @@ class BinFields {
     //add all fields
     binID, capacity, districtId
   ];
-  static final String binID = "_BinId";
-  static final String capacity = "_capacity";
-  static final String districtId = "_districtId";
+  static final String binID = "BinId";
+  static final String capacity = "capacity";
+  static final String districtId = "district";
 
 }
 
 class Bin {
  final int binID;
- final String capacity;
+ final double capacity;
  final int districtId;
 
   const Bin(
@@ -35,8 +35,8 @@ class Bin {
       };
 
   Bin copy(
-          {int binID,
-          String capacity,
+          {int id,
+          double capacity,
           int districtId,
      
       }) =>
@@ -52,7 +52,7 @@ class Bin {
   static Bin fromJson(Map<String, Object> json) =>
       Bin(
           binID: json[BinFields.binID] as int,
-          capacity: json[BinFields.capacity] as String,
+          capacity: json[BinFields.capacity] as double,
           districtId: json[BinFields.districtId] as int,
         
           );

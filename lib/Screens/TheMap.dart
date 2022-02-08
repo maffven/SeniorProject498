@@ -91,8 +91,6 @@ static final CameraPosition _kInitialPosition =
         infoWindow: InfoWindow(title: "Park Guell"),
         icon: customIcon
         ));*/
-
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -115,7 +113,6 @@ static final CameraPosition _kInitialPosition =
               initialCameraPosition: _kInitialPosition,
               compassEnabled: true,
      
-
             ),
            /* Container(
               padding: EdgeInsets.all(15),

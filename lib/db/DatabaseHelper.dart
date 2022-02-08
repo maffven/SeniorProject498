@@ -174,7 +174,7 @@ class DatabaseHelper {
         return await MunicipalityAdmin().read(id, instance);
         break;
 //--------------------------------------------------------------
-      case "Bin":
+      case "bin_table":
         return await Bin().read(id, instance);
         break;
 //--------------------------------------------------------------

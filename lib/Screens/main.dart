@@ -60,6 +60,7 @@ super.initState();
   List<Bin> binsByCapacity = [];
   MunicipalityAdmin munObj = MunicipalityAdmin();
   List<MunicipalityAdmin> munList;
+  List<Bin> bb;
   //Take input from user or textview
   TextEditingController nameController = TextEditingController();
   TextEditingController milesController = TextEditingController();
@@ -145,15 +146,14 @@ super.initState();
                 onPressed: () async {
                   double name = double.parse(nameController.text);
                   int miles = int.parse(milesController.text);
-                /*  BinLevel binL = BinLevel(
+                  /*  BinLevel binL = BinLevel(
                     level: int.parse(milesController.text),
                     
                     , "", "", "", "");*/
-Bin bin = Bin(binID: miles,
-capacity: name,
-districtId: 49
-);
-addObj(bin, "bin_table");
+                  Bin bin = Bin(binID: 123, capacity: 15, districtId: 49);
+                  //addObj(bin, "bin_table");
+                  Bin bintry = await readObj(bin.binID, "bin_table");
+                  print("bin object: ${bintry.capacity}");
                   //implement database helper
                   //   Bin(name,miles,7);
                   // _insert(name, miles);
@@ -181,10 +181,10 @@ addObj(bin, "bin_table");
                  // print("mun object list: ${munList[0].firatName}");
                 //  deleteObj(mun.municpalityID, tableMunicipalityAdmin);*/
                   List<dynamic> b = await readAll("bin_table");
-                  List <Bin> bb = b.cast();
-                for(int i =0; i<bb.length; i++){
-                print(bb[i].capacity);
-              }
+                  bb = b.cast();
+                  for (int i = 0; i < bb.length; i++) {
+                    print("from list:  ${bb[i].capacity}");
+                  }
                   // addObj(mun, tableMunicipalityAdmin);
                   //initDatabase();*/
                 },

@@ -3,21 +3,21 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 final String tableBinLocation = 'BinLocation';
-class BinLocationFields {
 
-    static final List<String> values = [
+class BinLocationFields {
+  static final List<String> values = [
     //add all fields
-    binID, location, coordinateX, coordinateY
+    binID, id, coordinateX, coordinateY
   ];
   static final String binID = "_BinId";
-  static final String location = "_Location";
+  static final String id = "_Location";
   static final String coordinateX = "_CoordinateX";
   static final String coordinateY = "_CoordinateY";
 }
 
 class BinLocation {
   final int binID;
-  final String location;
+  final int location;
   final String coordinateX;
   final String coordinateY;
 
@@ -32,31 +32,27 @@ class BinLocation {
         BinLocationFields.binID: binID,
         BinLocationFields.coordinateX: coordinateX,
         BinLocationFields.coordinateY: coordinateY,
-        BinLocationFields.location: location,
-  
+        BinLocationFields.id: location,
       };
 
-  BinLocation copy(
-          {int binID,
-          String coordinateX,
-          String coordinateY,
-          String location,
-      }) =>
+  BinLocation copy({
+    int binID,
+    String coordinateX,
+    String coordinateY,
+    int id,
+  }) =>
       BinLocation(
           binID: binID ?? this.binID,
           coordinateX: coordinateX ?? this.coordinateX,
           coordinateY: coordinateY ?? this.coordinateY,
-          location: location ?? this.location);
-
-
+          location: id ?? this.location);
 
   //convert from json to MunicipalityAdmin
-  static BinLocation fromJson(Map<String, Object> json) =>
-      BinLocation(
-          binID: json[BinLocationFields.binID] as int,
-          coordinateX: json[BinLocationFields.coordinateX] as String,
-          coordinateY: json[BinLocationFields.coordinateY] as String,
-          location: json[BinLocationFields.location] as String);
+  static BinLocation fromJson(Map<String, Object> json) => BinLocation(
+      binID: json[BinLocationFields.binID] as int,
+      coordinateX: json[BinLocationFields.coordinateX] as String,
+      coordinateY: json[BinLocationFields.coordinateY] as String,
+      location: json[BinLocationFields.id] as int);
 
   Future<BinLocation> read(int id, dynamic instance) async {
     final db = await instance.database;
@@ -73,7 +69,6 @@ class BinLocation {
       throw Exception('ID $id not founs');
     }
   }
-
 
   Future<List<dynamic>> readAll(dynamic instance) async {
     final db = await instance.database;

@@ -3,7 +3,7 @@ import 'package:flutter_application_1/db/DatabaseHelper.dart';
 final String tableComplaints = 'complaints';
 
 class ComplaintsFields {
-  static final String id = '_complaintID';
+  static final String complaintID = '_complaintID';
   static final String complaintMessage = 'complaintMessage';
   static final String status = 'status';
   static final String subject = 'subject';
@@ -33,7 +33,7 @@ class Complaints {
     driverID = map['driverID'];
   }
   Map<String, dynamic> toMap() => {
-        ComplaintsFields.id: complaintID,
+        ComplaintsFields.complaintID: complaintID,
         ComplaintsFields.complaintMessage: complaintMessage,
         ComplaintsFields.status: status,
         ComplaintsFields.subject: subject,

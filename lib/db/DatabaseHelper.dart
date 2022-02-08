@@ -128,7 +128,7 @@ class DatabaseHelper {
     //Complaints table
     await db.execute('''
           CREATE TABLE $tableComplaints (
-            ${ComplaintsFields.id} $idType,
+            ${ComplaintsFields.complaintID} $idType,
             ${ComplaintsFields.complaintMessage} $textType,
             ${ComplaintsFields.status} $textType,
             ${ComplaintsFields.subject} $textType,

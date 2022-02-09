@@ -1,35 +1,88 @@
-import 'package:flutter_application_1/db/DatabaseHelper.dart';
+//import 'dart:html';
+//import 'package:flutter_application_1/db/DatabaseHelper.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
-final String tableDistrict ='district';
-class DistrictFields{
-static final String districtID='_districtID';
-static final String name = 'name';
-static final String numberOfBins='numberOfBins';
-static final String driverID='_driverID';
+final String tableDistrict = 'district';
 
+class DistrictFields {
+  static final List<String> values = [
+    //add all fields
+    districtID, name, numberOfBins, driverID
+  ];
+  static final String districtID = '_districtID';
+  static final String name = 'name';
+  static final String numberOfBins = 'numberOfBins';
+  static final String driverID = '_driverID';
 }
 
-class District{
+class District {
+  final int districtID;
+  final String name;
+  final int numberOfBins;
+  final int driverID;
 
- int districtID;
- String name ;
- int numberOfBins;
- int driverID;
+  const District({
+    @required this.districtID,
+    @required this.name,
+    @required this.numberOfBins,
+    @required this.driverID,
+  });
 
-District(districtID, name,numberOfBins, driverID);
-District.fromMap(Map<String, dynamic> map) {
-    districtID = map['districtID'];
-    name = map['name'];
-    numberOfBins = map['numberOfBins'];
-    driverID = map['driverID'];
+  Map<String, dynamic> toJson() => {
+        DistrictFields.districtID: districtID,
+        DistrictFields.name: name,
+        DistrictFields.numberOfBins: numberOfBins,
+        DistrictFields.driverID: driverID,
+      };
+
+  District copy(
+          {int districtID, String name, int numberOfBins, int driverID}) =>
+      District(
+          driverID: driverID ?? this.driverID,
+          districtID: districtID ?? this.districtID,
+          name: name ?? this.name,
+          numberOfBins: numberOfBins ?? this.numberOfBins);
+
+  static District fromJson(Map<String, Object> json) => District(
+      districtID: json[DistrictFields.districtID] as int,
+      driverID: json[DistrictFields.driverID] as int,
+      name: json[DistrictFields.name] as String,
+      numberOfBins: json[DistrictFields.numberOfBins] as int);
+
+  Future<District> read(int id, dynamic instance) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      District,
+      columns: DistrictFields.values,
+      where: '${DistrictFields.districtID} = ?',
+      whereArgs: [id],
+    );
+
+    if (maps.isNotEmpty) {
+      return District.fromJson(maps.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
   }
-Map<String, dynamic> toMap() {
-    return {
-      DistrictFields.districtID: districtID,
-      DistrictFields.name: name,
-      DistrictFields.numberOfBins: numberOfBins,
-      DistrictFields.driverID: driverID,
-    };
-}
 
+  Future<List<dynamic>> readAll(dynamic instance) async {
+    final db = await instance.database;
+    final result = await db.query(tableDistrict);
+    return result.map((json) => District.fromJson(json)).toList();
+  }
+
+  Future<int> update(int id, dynamic instance, District district) async {
+    final db = await instance.database;
+    //we have to convert from object to json
+    return db.update(tableDistrict, district.toJson(),
+        where: '${DistrictFields.districtID} = ?', whereArgs: [id]);
+  }
+
+  //delete a row
+  Future<int> delete(int id, dynamic instance) async {
+    final db = await instance.database;
+    return db.delete(tableDistrict,
+        where: '${DistrictFields.districtID} = ?', whereArgs: [id]);
+  }
 }

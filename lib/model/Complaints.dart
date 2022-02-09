@@ -1,8 +1,14 @@
-import 'package:flutter_application_1/db/DatabaseHelper.dart';
+//import 'package:flutter_application_1/db/DatabaseHelper.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 final String tableComplaints = 'complaints';
 
 class ComplaintsFields {
+  static final List<String> values = [
+    //add all fields
+    complaintID, complaintMessage, status, subject, date, binID, driverID
+  ];
   static final String complaintID = '_complaintID';
   static final String complaintMessage = 'complaintMessage';
   static final String status = 'status';
@@ -13,26 +19,25 @@ class ComplaintsFields {
 }
 
 class Complaints {
-  int complaintID;
-  String complaintMessage;
-  String status;
-  String subject;
-  DateTime date;
-  int binID;
-  int driverID;
+  final int complaintID;
+  final String complaintMessage;
+  final String status;
+  final String subject;
+  final DateTime date;
+  final int binID;
+  final int driverID;
 
-  Complaints(
-      complaintID, complaintMessage, status, subject, date, binID, driverID);
-  Complaints.fromMap(Map<String, dynamic> map) {
-    complaintID = map['complaintID'];
-    complaintMessage = map['complaintMessage'];
-    status = map['status'];
-    subject = map['subject'];
-    date = map['date'];
-    binID = map['binID'];
-    driverID = map['driverID'];
-  }
-  Map<String, dynamic> toMap() => {
+  const Complaints({
+    @required this.complaintID,
+    @required this.complaintMessage,
+    @required this.status,
+    @required this.subject,
+    @required this.date,
+    @required this.binID,
+    @required this.driverID,
+  });
+
+  Map<String, dynamic> toJson() => {
         ComplaintsFields.complaintID: complaintID,
         ComplaintsFields.complaintMessage: complaintMessage,
         ComplaintsFields.status: status,
@@ -41,4 +46,66 @@ class Complaints {
         ComplaintsFields.binID: binID,
         ComplaintsFields.driverID: driverID,
       };
+
+  Complaints copy(
+          {int complaintID,
+          String complaintMessage,
+          String status,
+          String subject,
+          DateTime date,
+          int binID,
+          int driverID}) =>
+      Complaints(
+          complaintID: complaintID ?? this.complaintID,
+          complaintMessage: complaintMessage ?? this.complaintMessage,
+          status: status ?? this.status,
+          subject: subject ?? this.subject,
+          date: date ?? this.date,
+          binID: binID ?? this.binID,
+          driverID: driverID ?? this.driverID);
+
+  static Complaints fromJson(Map<String, Object> json) => Complaints(
+      complaintID: json[ComplaintsFields.complaintID] as int,
+      binID: json[ComplaintsFields.binID] as int,
+      complaintMessage: json[ComplaintsFields.complaintMessage] as String,
+      status: json[ComplaintsFields.status] as String,
+      subject: json[ComplaintsFields.subject] as String,
+      date: json[ComplaintsFields.date] as DateTime,
+      driverID: json[ComplaintsFields.driverID] as int);
+
+  Future<Complaints> read(int id, dynamic instance) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      Complaints,
+      columns: ComplaintsFields.values,
+      where: '${ComplaintsFields.complaintID} = ?',
+      whereArgs: [id],
+    );
+
+    if (maps.isNotEmpty) {
+      return Complaints.fromJson(maps.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
+  }
+
+  Future<List<dynamic>> readAll(dynamic instance) async {
+    final db = await instance.database;
+    final result = await db.query(tableComplaints);
+    return result.map((json) => Complaints.fromJson(json)).toList();
+  }
+
+  Future<int> update(int id, dynamic instance, Complaints complaints) async {
+    final db = await instance.database;
+    //we have to convert from object to json
+    return db.update(tableComplaints, complaints.toJson(),
+        where: '${ComplaintsFields.complaintID} = ?', whereArgs: [id]);
+  }
+
+  //delete a row
+  Future<int> delete(int id, dynamic instance) async {
+    final db = await instance.database;
+    return db.delete(tableComplaints,
+        where: '${ComplaintsFields.complaintID} = ?', whereArgs: [id]);
+  }
 }

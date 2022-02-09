@@ -189,6 +189,14 @@ class DatabaseHelper {
         return await BinLocation().read(id, instance);
         break;
 //--------------------------------------------------------------
+      case "Complaints":
+        return await Complaints().read(id, instance);
+        break;
+//--------------------------------------------------------------
+      case "District":
+        return await District().read(id, instance);
+        break;
+//--------------------------------------------------------------
       default:
         "cannot access data";
 //--------------------------------------------------------------
@@ -215,6 +223,14 @@ class DatabaseHelper {
         return await BinLocation().readAll(instance);
         break;
 //--------------------------------------------------------------
+      case "Complaints":
+        return await Complaints().readAll(instance);
+        break;
+//--------------------------------------------------------------
+      case "District":
+        return await District().readAll(instance);
+        break;
+//--------------------------------------------------------------
       default:
         "cannot access data";
 //--------------------------------------------------------------
@@ -235,6 +251,27 @@ class DatabaseHelper {
       case "Municipality_Admin":
         return await MunicipalityAdmin().update(id, instance, obj);
         break;
+//--------------------------------------------------------------
+      case "bin_table":
+        return await Bin().update(id, instance, obj);
+        break;
+//--------------------------------------------------------------
+      case "BinLevel":
+        return await BinLevel().update(id, instance, obj);
+        break;
+//--------------------------------------------------------------
+      case "BinLocation":
+        return await BinLocation().update(id, instance, obj);
+        break;
+//--------------------------------------------------------------
+      case "Complaints":
+        return await Complaints().update(id, instance, obj);
+        break;
+//--------------------------------------------------------------
+      case "District":
+        return await District().update(id, instance, obj);
+        break;
+//--------------------------------------------------------------
       default:
         "cannot access data";
     }
@@ -246,6 +283,27 @@ class DatabaseHelper {
       case "Municipality_Admin":
         return await MunicipalityAdmin().delete(id, instance);
         break;
+//--------------------------------------------------------------
+      case "bin_table":
+        return await Bin().delete(id, instance);
+        break;
+//--------------------------------------------------------------
+      case "BinLevel":
+        return await BinLevel().delete(id, instance);
+        break;
+//--------------------------------------------------------------
+      case "BinLocation":
+        return await BinLocation().delete(id, instance);
+        break;
+//------------------------------------------------------------
+      case "Complaints":
+        return await Complaints().delete(id, instance);
+        break;
+//--------------------------------------------------------------
+      case "District":
+        return await District().delete(id, instance);
+        break;
+//--------------------------------------------------------------
       default:
         "cannot access data";
     }

@@ -12,7 +12,7 @@ void main() {
       home: new Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xffffDD83),
-          title: Text("Complaint"),
+          title: Text("Send Complaint"),
         ),
         body: new Center(
           child: new Container(

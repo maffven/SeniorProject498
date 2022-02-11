@@ -8,9 +8,9 @@ final String tableDistrict = 'district';
 class DistrictFields {
   static final List<String> values = [
     //add all fields
-    districtID, name, numberOfBins, driverID
+    id, name, numberOfBins, driverID
   ];
-  static final String districtID = '_districtID';
+  static final String id = '_districtID';
   static final String name = 'name';
   static final String numberOfBins = 'numberOfBins';
   static final String driverID = '_driverID';
@@ -30,22 +30,21 @@ class District {
   });
 
   Map<String, dynamic> toJson() => {
-        DistrictFields.districtID: districtID,
+        DistrictFields.id: districtID,
         DistrictFields.name: name,
         DistrictFields.numberOfBins: numberOfBins,
         DistrictFields.driverID: driverID,
       };
 
-  District copy(
-          {int districtID, String name, int numberOfBins, int driverID}) =>
+  District copy({int id, String name, int numberOfBins, int driverID}) =>
       District(
           driverID: driverID ?? this.driverID,
-          districtID: districtID ?? this.districtID,
+          districtID: id ?? this.districtID,
           name: name ?? this.name,
           numberOfBins: numberOfBins ?? this.numberOfBins);
 
   static District fromJson(Map<String, Object> json) => District(
-      districtID: json[DistrictFields.districtID] as int,
+      districtID: json[DistrictFields.id] as int,
       driverID: json[DistrictFields.driverID] as int,
       name: json[DistrictFields.name] as String,
       numberOfBins: json[DistrictFields.numberOfBins] as int);
@@ -55,7 +54,7 @@ class District {
     final maps = await db.query(
       District,
       columns: DistrictFields.values,
-      where: '${DistrictFields.districtID} = ?',
+      where: '${DistrictFields.id} = ?',
       whereArgs: [id],
     );
 
@@ -76,13 +75,13 @@ class District {
     final db = await instance.database;
     //we have to convert from object to json
     return db.update(tableDistrict, district.toJson(),
-        where: '${DistrictFields.districtID} = ?', whereArgs: [id]);
+        where: '${DistrictFields.id} = ?', whereArgs: [id]);
   }
 
   //delete a row
   Future<int> delete(int id, dynamic instance) async {
     final db = await instance.database;
     return db.delete(tableDistrict,
-        where: '${DistrictFields.districtID} = ?', whereArgs: [id]);
+        where: '${DistrictFields.id} = ?', whereArgs: [id]);
   }
 }

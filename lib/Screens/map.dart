@@ -15,7 +15,7 @@ const CameraPosition INITIAL_CAMERA_POSITION = CameraPosition(
   zoom: GMAP_DEFAULT_ZOOM,
 );
 void main() {
-  runApp(MyApp()); //function written by flutter
+  runApp(map()); //function written by flutter
 }
 
 List<Marker> markers = [
@@ -27,19 +27,15 @@ List<Marker> markers = [
     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
   )
 ];
-class MyApp extends StatelessWidget {
+class map extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomeDemo(),
     );
-   /* return Scaffold(
-      body: GoogleMap(
-        initialCameraPosition: INITIAL_CAMERA_POSITION,
-        markers: Set<Marker>.of(markers),
-      ),
-    );*/
+  
   }
 }
 
@@ -51,8 +47,9 @@ class HomeDemo extends StatefulWidget {
 class _LoginDemoState extends State<HomeDemo> {
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
 return Scaffold(
+  
       body: GoogleMap(
         initialCameraPosition: INITIAL_CAMERA_POSITION,
         markers: Set<Marker>.of(markers),

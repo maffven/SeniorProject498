@@ -34,7 +34,6 @@ class _LoginDemoState extends State<HomeDemo> {
       SingleChildScrollView(
         child: Column(
          children: <Widget>[
-      
            Container(
               margin: const EdgeInsets.only(top: 240.0, right:10),
               child: Center(

@@ -65,14 +65,6 @@ super.initState();
   TextEditingController nameController = TextEditingController();
   TextEditingController milesController = TextEditingController();
 
-//Login pop up
-  /*final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  void _showMessageInScaffold(String message) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(message),
-    ));
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

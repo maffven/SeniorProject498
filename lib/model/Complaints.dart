@@ -7,9 +7,9 @@ final String tableComplaints = 'complaints';
 class ComplaintsFields {
   static final List<String> values = [
     //add all fields
-    complaintID, complaintMessage, status, subject, date, binID, driverID
+    id, complaintMessage, status, subject, date, binID, driverID
   ];
-  static final String complaintID = '_complaintID';
+  static final String id = '_complaintID';
   static final String complaintMessage = 'complaintMessage';
   static final String status = 'status';
   static final String subject = 'subject';
@@ -38,7 +38,7 @@ class Complaints {
   });
 
   Map<String, dynamic> toJson() => {
-        ComplaintsFields.complaintID: complaintID,
+        ComplaintsFields.id: complaintID,
         ComplaintsFields.complaintMessage: complaintMessage,
         ComplaintsFields.status: status,
         ComplaintsFields.subject: subject,
@@ -48,7 +48,7 @@ class Complaints {
       };
 
   Complaints copy(
-          {int complaintID,
+          {int id,
           String complaintMessage,
           String status,
           String subject,
@@ -56,7 +56,7 @@ class Complaints {
           int binID,
           int driverID}) =>
       Complaints(
-          complaintID: complaintID ?? this.complaintID,
+          complaintID: id ?? this.complaintID,
           complaintMessage: complaintMessage ?? this.complaintMessage,
           status: status ?? this.status,
           subject: subject ?? this.subject,
@@ -65,7 +65,7 @@ class Complaints {
           driverID: driverID ?? this.driverID);
 
   static Complaints fromJson(Map<String, Object> json) => Complaints(
-      complaintID: json[ComplaintsFields.complaintID] as int,
+      complaintID: json[ComplaintsFields.id] as int,
       binID: json[ComplaintsFields.binID] as int,
       complaintMessage: json[ComplaintsFields.complaintMessage] as String,
       status: json[ComplaintsFields.status] as String,
@@ -78,7 +78,7 @@ class Complaints {
     final maps = await db.query(
       Complaints,
       columns: ComplaintsFields.values,
-      where: '${ComplaintsFields.complaintID} = ?',
+      where: '${ComplaintsFields.id} = ?',
       whereArgs: [id],
     );
 
@@ -99,13 +99,13 @@ class Complaints {
     final db = await instance.database;
     //we have to convert from object to json
     return db.update(tableComplaints, complaints.toJson(),
-        where: '${ComplaintsFields.complaintID} = ?', whereArgs: [id]);
+        where: '${ComplaintsFields.id} = ?', whereArgs: [id]);
   }
 
   //delete a row
   Future<int> delete(int id, dynamic instance) async {
     final db = await instance.database;
     return db.delete(tableComplaints,
-        where: '${ComplaintsFields.complaintID} = ?', whereArgs: [id]);
+        where: '${ComplaintsFields.id} = ?', whereArgs: [id]);
   }
 }

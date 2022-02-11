@@ -53,7 +53,7 @@ class DatabaseHelper {
           CREATE TABLE $table (
             $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
             $columnCapacity TEXT NOT NULL,
-           FOREIGN KEY (${BinFields.districtId}) REFERENCES $tableDistrict(${DistrictFields.districtID})
+           FOREIGN KEY (${BinFields.districtId}) REFERENCES $tableDistrict(${DistrictFields.id})
           )
           ''');
     print('bin table created');
@@ -128,7 +128,7 @@ class DatabaseHelper {
     //Complaints table
     await db.execute('''
           CREATE TABLE $tableComplaints (
-            ${ComplaintsFields.complaintID} $idType,
+            ${ComplaintsFields.id} $idType,
             ${ComplaintsFields.complaintMessage} $textType,
             ${ComplaintsFields.status} $textType,
             ${ComplaintsFields.subject} $textType,
@@ -144,7 +144,7 @@ class DatabaseHelper {
     //District table
     await db.execute('''
           CREATE TABLE $tableDistrict (
-            ${DistrictFields.districtID} $idType,
+            ${DistrictFields.id} $idType,
             ${DistrictFields.name} $textType,
             ${DistrictFields.numberOfBins} $number,
             ${DistrictFields.driverID} $number,
@@ -175,7 +175,6 @@ class DatabaseHelper {
         break;
 //--------------------------------------------------------------
       case "bin_table":
-
         print("it is in DBHelper");
 
         return await Bin().read(id, instance);

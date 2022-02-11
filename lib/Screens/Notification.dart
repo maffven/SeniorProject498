@@ -55,7 +55,7 @@ class _LoginDemoState extends State<HomeDemo> {
               ),
               BottomNavigationBarItem(
                 label: 'Notifications',
-                icon: Icon(CupertinoIcons.home),
+                icon: Icon(CupertinoIcons.bell),
               ),
               BottomNavigationBarItem(
                 label: 'Complaints',

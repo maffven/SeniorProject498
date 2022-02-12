@@ -69,8 +69,7 @@ class Complaint extends StatelessWidget {
                             labelText: 'District',
                             suffixStyle: const TextStyle(color: Colors.green)),
                         controller: district)),
-                      new PopupMenuButton<String>(
-                        
+                      new PopupMenuButton<String>(   
                         icon: const Icon(Icons.arrow_drop_down),
                         onSelected: (String value) {
                           district.text = value;

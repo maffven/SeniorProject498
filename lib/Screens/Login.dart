@@ -11,16 +11,8 @@ void main() {
   runApp(Login()); //function written by flutter
 }
 
-/*class MyApp extends StatelessWidget{
+//if login is successfull go to Menu.dart
 
-  @override
-  Widget build(BuildContext context) {
-   return MaterialApp( title: 'Welcome to Flutter',
-   home: Text('Manar Hennawi'),);
-   //create this App
-  }
-
-}*/
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

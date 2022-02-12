@@ -40,53 +40,7 @@ class _Dashboard extends State<DashboardDemo> {
                     height: 170,
                     // child: Image.asset('/Users/mac/Desktop/flutter_application_1/assets/images/first.png')),
                   ))),
-              CupertinoTabScaffold(
-                tabBar: CupertinoTabBar(
-                    onTap: (index) {
-                      switch (index) {
-                        case 0:
-                          print('Clicked Tab $index');
-                          break;
-                        case 1:
-                          print('Clicked Tab $index');
-                          break;
-                        case 2:
-                          print('Clicked Tab $index');
-                          break;
-                        case 3:
-                          print('Clicked Tab $index');
-                          break;
-                        case 4:
-                          print('Clicked Tab $index');
-                          break;
-                      }
-                    },
-                    items: [
-                      BottomNavigationBarItem(
-                        label: 'Dashboards',
-                        icon: Icon(CupertinoIcons.chart_pie),
-                      ),
-                      BottomNavigationBarItem(
-                        label: 'Map',
-                        icon: Icon(CupertinoIcons.map),
-                      ),
-                      BottomNavigationBarItem(
-                        label: 'Notifications',
-                        icon: Icon(CupertinoIcons.bell),
-                      ),
-                      BottomNavigationBarItem(
-                        label: 'Complaints',
-                        icon: Icon(CupertinoIcons.mail),
-                      ),
-                      BottomNavigationBarItem(
-                        label: 'Profile',
-                        icon: Icon(CupertinoIcons.person_circle),
-                      ),
-                    ]),
-                tabBuilder: (context, index) {
-                  return Container();
-                },
-              ),
+             
             ],
           ),
         ),

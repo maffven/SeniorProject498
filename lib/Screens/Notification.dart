@@ -3,71 +3,110 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/first.dart';
 
 void main() {
-  runApp(MyApp()); //function written by flutter
+  runApp(Notification()); //function written by flutter
 }
 
-class MyApp extends StatelessWidget {
+class Notification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeDemo(),
+      home: NotificationDemo(),
     );
   }
 }
 
-class HomeDemo extends StatefulWidget {
+class NotificationDemo extends StatefulWidget {
   @override
-  _LoginDemoState createState() => _LoginDemoState();
+  _NotificationDemoState createState() => _NotificationDemoState();
 }
 
-class _LoginDemoState extends State<HomeDemo> {
+class _NotificationDemoState extends State<NotificationDemo> {
   @override
-  Widget build(BuildContext context) => CupertinoTabScaffold(
-        tabBar: CupertinoTabBar(
-            onTap: (index) {
-              switch (index) {
-                case 0:
-                  print('Clicked Tab $index');
-                  break;
-                case 1:
-                  print('Clicked Tab $index');
-                  break;
-                case 2:
-                  print('Clicked Tab $index');
-                  break;
-                case 3:
-                  print('Clicked Tab $index');
-                  break;
-                case 4:
-                  print('Clicked Tab $index');
-                  break;
-              }
-            },
-            items: [
-              BottomNavigationBarItem(
-                label: 'Dashboards',
-                icon: Icon(CupertinoIcons.chart_pie),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Color(0xffffDD83),
+        title: Text("Login"),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 150.0),
+              child: Center(
+                child: Container(
+                  decoration: new BoxDecoration(
+                    image: new DecorationImage(
+                      image: AssetImage("/assets/images/second.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  width: 207,
+                  height: 170,
+                  // child: Image.asset('/Users/mac/Desktop/flutter_application_1/assets/images/first.png')),
+                ),
               ),
-              BottomNavigationBarItem(
-                label: 'Map',
-                icon: Icon(CupertinoIcons.map),
+            ),
+            Padding(
+              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+              padding: const EdgeInsets.only(
+                  left: 15.0, right: 15.0, top: 20, bottom: 30),
+              child: Text(
+                'Track your bins effictevily \n for a better enviroment',
+                style: TextStyle(fontSize: 24),
               ),
-              BottomNavigationBarItem(
-                label: 'Notifications',
-                icon: Icon(CupertinoIcons.bell),
+            ),
+
+            ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+    
+                  ElevatedButton(
+                    
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Color(0xff28CC9E)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          side: BorderSide(
+                            color: Color(0xff000000),
+                            width: 0.4,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              
+                ],
               ),
-              BottomNavigationBarItem(
-                label: 'Complaints',
-                icon: Icon(CupertinoIcons.mail),
+            ),
+
+           
+            Container(
+              height: 50,
+              width: 250,
+              margin: const EdgeInsets.only(top: 40.0),
+              decoration: BoxDecoration(
+                  color: Color(0xff28CC9E),
+                  borderRadius: BorderRadius.circular(20)),
+              child: FlatButton(
+                onPressed: () {},
+                child: Text(
+                  'Login',
+                  style: TextStyle(color: Colors.white, fontSize: 25),
+                ),
               ),
-              BottomNavigationBarItem(
-                label: 'Profile',
-                icon: Icon(CupertinoIcons.person_circle),
-              ),
-            ]),
-        tabBuilder: (context, index) {
-          return Container();
-        },
-      );
+            ),
+            SizedBox(
+              height: 130,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

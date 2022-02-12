@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
 void main() {
+  runApp(Complaint());
+  
+ }
+
+
+class Complaint extends StatelessWidget {
+  //function written by flutter
   final TextEditingController binId = new TextEditingController();
   final TextEditingController district = new TextEditingController();
   final TextEditingController summary = new TextEditingController();
   final TextEditingController description = new TextEditingController();
   var items = ['1', '2', '3', '4']; //from database
-  runApp(
-    new MaterialApp(
+  Widget build(BuildContext context) { 
+  return MaterialApp(
       title: 'Drop List Example',
       home: new Scaffold(
         appBar: AppBar(
@@ -137,6 +144,7 @@ void main() {
           ),
         ),
       ),
-    ),
-  );
+    );
+
+}
 }

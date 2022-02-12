@@ -8,7 +8,7 @@ import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:sqflite/sqflite.dart';
 
 void main() {
-  runApp(MyApp()); //function written by flutter
+  runApp(Login()); //function written by flutter
 }
 
 /*class MyApp extends StatelessWidget{
@@ -21,7 +21,7 @@ void main() {
   }
 
 }*/
-class MyApp extends StatelessWidget {
+class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

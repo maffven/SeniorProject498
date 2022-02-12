@@ -2,25 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/first.dart';
 
 void main() {
-  runApp(MyApp()); //function written by flutter
-}
+  runApp(first());
+  
+ }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeDemo(),
-    );
-  }
-}
 
-class HomeDemo extends StatefulWidget {
-  @override
-  _LoginDemoState createState() => _LoginDemoState();
-}
 
-class _LoginDemoState extends State<HomeDemo> {
+class first extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(

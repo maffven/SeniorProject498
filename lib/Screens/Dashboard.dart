@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Screens/map.dart';
 import 'package:flutter_application_1/screens/first.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(Dashboard());
 
-class MyApp extends StatelessWidget {
+class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeDemo(),
+      home: DashboardDemo(),
     );
   }
 }
 
-class HomeDemo extends StatefulWidget {
+class DashboardDemo extends StatefulWidget {
   @override
   _Dashboard createState() => _Dashboard();
 }
 
-class _Dashboard extends State<HomeDemo> {
+class _Dashboard extends State<DashboardDemo> {
 // Bottom menu bar
   @override
   Widget build(BuildContext context) => Scaffold(

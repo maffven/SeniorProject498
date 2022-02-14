@@ -1,9 +1,8 @@
-//for driver 
-   
+//for driver
+
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BarChartDashboard extends StatefulWidget {
   final Widget child;
@@ -17,8 +16,8 @@ class _BarChartDashboard extends State<BarChartDashboard> {
   //List to store bar chart data
   List<charts.Series<BarChartData, String>> _seriesData;
 
-//to generate data 
- _generateData() {
+//to generate data
+  _generateData() {
     var data1 = [
       new BarChartData("Alnaseem", "Empty", 30),
       new BarChartData("Alrawda", "Empty", 40),
@@ -35,8 +34,8 @@ class _BarChartDashboard extends State<BarChartDashboard> {
       new BarChartData("Alwaha", 'half-full', 180),
     ];
 
-      //First district 
-       _seriesData.add(
+    //First district
+    _seriesData.add(
       charts.Series(
         domainFn: (BarChartData data, _) => data.distictName,
         measureFn: (BarChartData data, _) => data.numberOfBins,
@@ -45,10 +44,10 @@ class _BarChartDashboard extends State<BarChartDashboard> {
         fillPatternFn: (_, __) => charts.FillPatternType.solid,
         fillColorFn: (BarChartData data, _) =>
             charts.ColorUtil.fromDartColor(Color(0xff990099)),
-      ), 
+      ),
     );
-      //second district 
-        _seriesData.add(
+    //second district
+    _seriesData.add(
       charts.Series(
         domainFn: (BarChartData data, _) => data.distictName,
         measureFn: (BarChartData data, _) => data.numberOfBins,
@@ -57,11 +56,11 @@ class _BarChartDashboard extends State<BarChartDashboard> {
         fillPatternFn: (_, __) => charts.FillPatternType.solid,
         fillColorFn: (BarChartData data, _) =>
             charts.ColorUtil.fromDartColor(Color(0xff990099)),
-      ), 
+      ),
     );
-     
-      //Third district
-       _seriesData.add(
+
+    //Third district
+    _seriesData.add(
       charts.Series(
         domainFn: (BarChartData data, _) => data.distictName,
         measureFn: (BarChartData data, _) => data.numberOfBins,
@@ -70,10 +69,10 @@ class _BarChartDashboard extends State<BarChartDashboard> {
         fillPatternFn: (_, __) => charts.FillPatternType.solid,
         fillColorFn: (BarChartData data, _) =>
             charts.ColorUtil.fromDartColor(Color(0xff990099)),
-      ), 
+      ),
     );
- } //generateData
- 
+  } //generateData
+
   @override
   void initState() {
     // TODO: implement initState
@@ -82,17 +81,17 @@ class _BarChartDashboard extends State<BarChartDashboard> {
     _generateData();
   }
 
-    @override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
-            appBar: AppBar(
-          backgroundColor: Color(0xffffDD83),
-          title: Text("Dashboard"),
-        ),
-         /* appBar: AppBar(
+          appBar: AppBar(
+            backgroundColor: Color(0xffffDD83),
+            title: Text("Dashboard"),
+          ),
+          /* appBar: AppBar(
             backgroundColor: Color(0xff1976d2),
             //backgroundColor: Color(0xff308e1c),
             bottom: TabBar(
@@ -116,7 +115,10 @@ class _BarChartDashboard extends State<BarChartDashboard> {
                     child: Column(
                       children: <Widget>[
                         Text(
-                            'SO₂ emissions, by world region (in million tonnes)',style: TextStyle(fontSize: 24.0,fontWeight: FontWeight.bold),),
+                          'SO₂ emissions, by world region (in million tonnes)',
+                          style: TextStyle(
+                              fontSize: 24.0, fontWeight: FontWeight.bold),
+                        ),
                         Expanded(
                           child: charts.BarChart(
                             _seriesData,
@@ -139,12 +141,11 @@ class _BarChartDashboard extends State<BarChartDashboard> {
   }
 }
 
-
-//For bar chart data 
+//For bar chart data
 class BarChartData {
-  String DistrictName;
-  double numberOfBins; 
-  String state; // full, half, empty 
+  String distictName;
+  double numberOfBins;
+  String state; // full, half, empty
 
-  BarChartData(this.DistrictName, this.state, this.numberOfBins);
+  BarChartData(this.distictName, this.state, this.numberOfBins);
 }

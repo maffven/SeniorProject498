@@ -4,7 +4,7 @@ import 'package:flutter_application_1/screens/first.dart';
 import 'package:flutter_application_1/screens/map.dart';
 import 'package:flutter_application_1/screens/Complaint.dart';
 import 'package:flutter_application_1/screens/Notification.dart';
-import 'package:flutter_application_1/screens/PieChartDashboard.dart';
+import 'package:flutter_application_1/screens/BarChartData.dart';
 import 'package:flutter_application_1/screens/Login.dart';
 
 void main() => runApp(MyApp());
@@ -53,7 +53,7 @@ class Main extends StatelessWidget {
       tabBuilder: (BuildContext context, int index) {
         switch (index) {
           case 0:
-            return PieChartDashboardDemo();
+            return BarChartDashboard();
             break;
           case 1:
             return map();

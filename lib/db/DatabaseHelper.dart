@@ -44,7 +44,6 @@ class DatabaseHelper {
   }
 
   Future<void> deleteTable(Database db) async {
-
     await db.execute("DROP TABLE $tableBin");
     print("Bin deleted");
     await db.execute("DROP TABLE $tableBinLevel");
@@ -61,13 +60,12 @@ class DatabaseHelper {
     print("tableDriverStatus deleted");
     await db.execute("DROP TABLE $MunicipalityAdminFields");
     print("MunicipalityAdminFields deleted");
-
   }
+
   // SQL code to create the database table
   Future createDB(Database db, int version) async {
-    
     //Bin table
-     await db.execute('''
+    await db.execute('''
           CREATE TABLE $tableBin (
             ${BinFields.id} $idType,
             ${BinFields.capacity} $doubleNum ,

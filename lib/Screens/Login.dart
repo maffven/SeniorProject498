@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
-import 'package:flutter_application_1/screens/first.dart';
 import 'package:flutter_application_1/model/Bin.dart';
-import 'package:flutter_application_1/model/BinLevel.dart';
 import 'package:flutter_application_1/model/Driver.dart';
-import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
-import 'package:sqflite/sqflite.dart';
 
 void main() {
   runApp(Login()); //function written by flutter
@@ -32,15 +28,15 @@ class LoginDemo extends StatefulWidget {
 //Rawan work
 
 class _LoginDemoState extends State<LoginDemo> {
-  static Database _database;
-  Future<Database> get database async {
+  //static Database _database;
+/* Future<Database> get database async {
     if (_database != null) return _database;
     // lazily instantiate the db the first time it is accessed
     _database = await initDatabase();
     return _database;
-  }
+  }*/
 
-  final dbHelper = DatabaseHelper.instance;
+  //final dbHelper = DatabaseHelper.instance;
 /*@override
 void initState(){
 super.initState();
@@ -148,12 +144,13 @@ super.initState();
                       email: " manarhennawi00@gmail.com",
                       phone: 0508672505,
                       workTime: "5");
+
 //print(tableDriver);
 //addObj(driver, tableDriver);
 //Driver driver1 = await readObj(3, tableDriver);
 //print(driver1.firstName);
 //await db.execute("DROP TABLE IF EXISTS tableName");
-                  Bin bin = Bin(binID: 123, capacity: 15, districtId: 49);
+                  // Bin bin = Bin(binID: 123, capacity: 15, districtId: 49);
                   //addObj(bin, "bin_table");
                   //  Bin bintry = await readObj(bin.binID, "bin_table");
                   //  print("bin object: ${bintry.capacity}");
@@ -171,7 +168,7 @@ super.initState();
                       email: "roro1999@gmail.com",
                       password: "1851420");
                   //inserting row inside muncipality table
-                  // addObj(mun, tableMunicipalityAdmin);
+                  addObj(mun, tableMunicipalityAdmin);
 
                   //ensure the object exists
                   /* munObj =
@@ -183,7 +180,7 @@ super.initState();
                   munList = munListd.cast();
                  // print("mun object list: ${munList[0].firatName}");
                 //  deleteObj(mun.municpalityID, tableMunicipalityAdmin);*/
-                  List<dynamic> b = await readAll("bin_table");
+                  /* List<dynamic> b = await readAll("bin_table");
                   bb = b.cast();
                   for (int i = 0; i < bb.length; i++) {
                     print("from list:  ${bb[i].capacity}");
@@ -192,7 +189,8 @@ super.initState();
                   dd = d.cast();
                   for (int i = 0; i < dd.length; i++) {
                     print("from list:  ${dd[i].driverID}");
-                  }
+                  }*/
+                  //close();
                   // addObj(mun, tableMunicipalityAdmin);
                   //initDatabase();*/
                 },
@@ -212,11 +210,11 @@ super.initState();
   }
 
   // this opens the database (and creates it if it doesn't exist)
-  initDatabase() async {
+  /*initDatabase() async {
     DatabaseHelper dh = new DatabaseHelper();
     //dh.deleteTable(_database);
-    dh.createDB(_database, 1);
-  }
+   dh.createDB(_database, 2);
+  }*/
 
   /* void _insert(name, miles) async {
     // row to insert
@@ -260,10 +258,10 @@ super.initState();
     final rowsDeleted = await dbHelper.delete(id);
     // _showMessageInScaffold('deleted $rowsDeleted row(s): row $id');
   }*/
-  Future deleteTAll() async {
+  /*Future deleteTAll() async {
     await DatabaseHelper.instance.deleteTable(_database);
     print("tables deleted");
-  }
+  }*/
 
   Future addObj(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalCreate(obj, tableName);
@@ -293,5 +291,11 @@ super.initState();
   //gneralDelete(int id, String tablename)
   Future deleteObj(int id, String tableName) async {
     await DatabaseHelper.instance.gneralDelete(id, tableName);
+  }
+
+  //Close database  Method
+  Future close() async {
+    final db = await DatabaseHelper.instance.database;
+    db.close();
   }
 }

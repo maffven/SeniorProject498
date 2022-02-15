@@ -37,8 +37,8 @@ class BinLocation {
 
   BinLocation copy({
     int binID,
-    String coordinateX,
-    String coordinateY,
+    int coordinateX,
+    int coordinateY,
     int id,
   }) =>
       BinLocation(

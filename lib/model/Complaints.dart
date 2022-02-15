@@ -21,7 +21,7 @@ class ComplaintsFields {
 class Complaints {
   final int complaintID;
   final String complaintMessage;
-  final String status;
+  final bool status;
   final String subject;
   final DateTime date;
   final int binID;
@@ -40,7 +40,7 @@ class Complaints {
   Map<String, dynamic> toJson() => {
         ComplaintsFields.id: complaintID,
         ComplaintsFields.complaintMessage: complaintMessage,
-        ComplaintsFields.status: status,
+        ComplaintsFields.status: status ? 1 : 0,
         ComplaintsFields.subject: subject,
         ComplaintsFields.date: date.toIso8601String(),
         ComplaintsFields.binID: binID,
@@ -50,7 +50,7 @@ class Complaints {
   Complaints copy(
           {int id,
           String complaintMessage,
-          String status,
+          bool status,
           String subject,
           DateTime date,
           int binID,
@@ -68,7 +68,7 @@ class Complaints {
       complaintID: json[ComplaintsFields.id] as int,
       binID: json[ComplaintsFields.binID] as int,
       complaintMessage: json[ComplaintsFields.complaintMessage] as String,
-      status: json[ComplaintsFields.status] as String,
+      status: json[ComplaintsFields.status] == 1,
       subject: json[ComplaintsFields.subject] as String,
       date: DateTime.parse(json[ComplaintsFields.date] as String),
       driverID: json[ComplaintsFields.driverID] as int);

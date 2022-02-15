@@ -100,7 +100,7 @@ class DatabaseHelper {
           CREATE TABLE $tableDriver (
             ${DriverFields.id} $idType,
             ${DriverFields.municpalityID} $number,
-            ${DriverFields.firatName} $textType,
+            ${DriverFields.firstName} $textType,
             ${DriverFields.lastName} $textType,
             ${DriverFields.password} $textType,
             ${DriverFields.email} $textType,

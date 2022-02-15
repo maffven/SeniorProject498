@@ -3,6 +3,7 @@ import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
 import 'package:flutter_application_1/screens/first.dart';
 import 'package:flutter_application_1/model/Bin.dart';
 import 'package:flutter_application_1/model/BinLevel.dart';
+import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:sqflite/sqflite.dart';
@@ -53,9 +54,10 @@ super.initState();
   MunicipalityAdmin munObj = MunicipalityAdmin();
   List<MunicipalityAdmin> munList;
   List<Bin> bb;
+  List<Driver> dd;
   //Take input from user or textview
-  TextEditingController nameController = TextEditingController();
-  TextEditingController milesController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,7 @@ super.initState();
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                  controller: nameController,
+                  controller: phoneController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Phone number',
@@ -101,7 +103,7 @@ super.initState();
                   left: 15.0, right: 15.0, top: 15, bottom: 0),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                controller: milesController,
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -128,12 +130,23 @@ super.initState();
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
-                  double name = double.parse(nameController.text);
-                  int miles = int.parse(milesController.text);
+                 // double name = double.parse(nameController.text);
+                 // int miles = int.parse(milesController.text);
                   /*  BinLevel binL = BinLevel(
                     level: int.parse(milesController.text),
-                    
                     , "", "", "", "");*/
+               // int phone = int.parse(phoneController.text);
+              //  String password = passwordController.text;
+                //create a login 
+Driver driver = Driver (driverID: 3, municpalityID: 123,firstName: "manar", lastName: "hennawi", password: "11224456",
+ email: " manarhennawi00@gmail.com",
+  phone: 0508672505,
+   workTime: "5");
+//print(tableDriver);
+//addObj(driver, tableDriver);
+//Driver driver1 = await readObj(3, tableDriver);
+//print(driver1.firstName);
+//await db.execute("DROP TABLE IF EXISTS tableName");
                   Bin bin = Bin(binID: 123, capacity: 15, districtId: 49);
                   //addObj(bin, "bin_table");
                   Bin bintry = await readObj(bin.binID, "bin_table");
@@ -168,6 +181,11 @@ super.initState();
                   bb = b.cast();
                   for (int i = 0; i < bb.length; i++) {
                     print("from list:  ${bb[i].capacity}");
+                  }
+                     List<dynamic> d = await readAll(tableMunicipalityAdmin);
+                  dd = d.cast();
+                  for (int i = 0; i < dd.length; i++) {
+                    print("from list:  ${dd[i].driverID}");
                   }
                   // addObj(mun, tableMunicipalityAdmin);
                   //initDatabase();*/

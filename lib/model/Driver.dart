@@ -6,13 +6,13 @@ final String tableDriver = 'Driver';
 class DriverFields {
   static final List<String> values = [
     //add all fields
-    id, municpalityID, firatName, lastName, password, email, phone, workTime
+    id, municpalityID, firstName, lastName, password, email, phone, workTime
   ];
 
   //col names
   static final String id = "_Driver_ID";
   static final String municpalityID = "_Municipality_ID";
-  static final String firatName = "First_name";
+  static final String firstName = "First_name";
   static final String lastName = "Last_name";
   static final String password = "Password";
   static final String email = "Email";
@@ -23,7 +23,7 @@ class DriverFields {
 class Driver {
   final int driverID;
   final int municpalityID;
-  final String firatName;
+  final String firstName;
   final String lastName;
   final String password;
   final String email;
@@ -33,18 +33,19 @@ class Driver {
   const Driver({
     @required this.driverID,
     @required this.municpalityID,
-    @required this.firatName,
+    @required this.firstName,
     @required this.lastName,
     @required this.password,
     @required this.email,
     @required this.phone,
     @required this.workTime,
   });
+  
 
   Map<String, dynamic> toJson() => {
         DriverFields.id: driverID,
         DriverFields.municpalityID: municpalityID,
-        DriverFields.firatName: firatName,
+        DriverFields.firstName: firstName,
         DriverFields.lastName: lastName,
         DriverFields.password: password,
         DriverFields.email: email,
@@ -64,7 +65,7 @@ class Driver {
       Driver(
           driverID: id ?? this.driverID,
           municpalityID: municpalityID ?? this.municpalityID,
-          firatName: firatName ?? this.firatName,
+          firstName: firatName ?? this.firstName,
           lastName: lastName ?? this.lastName,
           password: password ?? this.password,
           email: email ?? this.email,
@@ -74,7 +75,7 @@ class Driver {
   static Driver fromJson(Map<String, Object> json) => Driver(
       driverID: json[DriverFields.id] as int,
       municpalityID: json[DriverFields.municpalityID] as int,
-      firatName: json[DriverFields.firatName] as String,
+      firstName: json[DriverFields.firstName] as String,
       lastName: json[DriverFields.lastName] as String,
       password: json[DriverFields.password] as String,
       email: json[DriverFields.email] as String,

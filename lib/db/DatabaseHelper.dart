@@ -43,28 +43,31 @@ class DatabaseHelper {
         version: _databaseVersion, onCreate: createDB);
   }
 
-  Future<void> deleteTable() async {}
-  // SQL code to create the database table
-  Future createDB(Database db, int version) async {
-    await db.execute("DROP TABLE IF EXISTS $tableBin");
+  Future<void> deleteTable(Database db) async {
+
+    await db.execute("DROP TABLE $tableBin");
     print("Bin deleted");
-    await db.execute("DROP TABLE IF EXISTS $tableBinLevel");
+    await db.execute("DROP TABLE $tableBinLevel");
     print("BinLevel deleted");
-    await db.execute("DROP TABLE IF EXISTS $tableBinLocation");
+    await db.execute("DROP TABLE $tableBinLocation");
     print("tableBinLocation deleted");
-    await db.execute("DROP TABLE IF EXISTS $tableComplaints");
+    await db.execute("DROP TABLE $tableComplaints");
     print("tableComplaints deleted");
-    await db.execute("DROP TABLE IF EXISTS $tableDistrict");
+    await db.execute("DROP TABLE $tableDistrict");
     print("tableComplaints deleted");
-    await db.execute("DROP TABLE IF EXISTS $tableDriver");
+    await db.execute("DROP TABLE $tableDriver");
     print("tableDriver deleted");
-    await db.execute("DROP TABLE IF EXISTS $tableDriverStatus");
+    await db.execute("DROP TABLE $tableDriverStatus");
     print("tableDriverStatus deleted");
-    await db.execute("DROP TABLE IF EXISTS $MunicipalityAdminFields");
+    await db.execute("DROP TABLE $MunicipalityAdminFields");
     print("MunicipalityAdminFields deleted");
 
+  }
+  // SQL code to create the database table
+  Future createDB(Database db, int version) async {
+    
     //Bin table
-    /* await db.execute('''
+     await db.execute('''
           CREATE TABLE $tableBin (
             ${BinFields.id} $idType,
             ${BinFields.capacity} $doubleNum ,
@@ -101,7 +104,7 @@ class DatabaseHelper {
     await db.execute('''
           CREATE TABLE $tableMunicipalityAdmin(
             ${MunicipalityAdminFields.id} $idType,
-            ${MunicipalityAdminFields.firatName} $textType,
+            ${MunicipalityAdminFields.firstName} $textType,
             ${MunicipalityAdminFields.lastName} $textType,
             ${MunicipalityAdminFields.password} $textType,
             ${MunicipalityAdminFields.email} $textType,
@@ -166,7 +169,7 @@ class DatabaseHelper {
             FOREIGN KEY (${DistrictFields.driverID}) REFERENCES $tableDriver(${DriverFields.id})
           )
           ''');
-    print('District table created');*/
+    print('District table created');
   }
 
   // create a row

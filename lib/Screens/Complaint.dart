@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_application_1/db/DatabaseHelper.dart';
+import 'package:sqflite/sqflite.dart';
 void main() {
   runApp(Complaint());
   
@@ -7,6 +8,18 @@ void main() {
 
 
 class Complaint extends StatelessWidget {
+
+
+   static Database _database;
+  Future<Database> get database async {
+    if (_database != null) return _database;
+    // lazily instantiate the db the first time it is accessed
+    _database = await initDatabase();
+    return _database;
+  }
+
+  final dbHelper = DatabaseHelper.instance;
+
   //function written by flutter
   final TextEditingController binId = new TextEditingController();
   final TextEditingController district = new TextEditingController();
@@ -131,7 +144,9 @@ class Complaint extends StatelessWidget {
                       color: Color(0xff28CC9E),
                       borderRadius: BorderRadius.circular(20)),
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print('hi');
+                    },
                     child: Text(
                       'Submit',
                       style: TextStyle(color: Colors.white, fontSize: 25),
@@ -146,4 +161,12 @@ class Complaint extends StatelessWidget {
     );
 
 }
+
+
+// this opens the database (and creates it if it doesn't exist)
+  initDatabase() async {
+    DatabaseHelper dh = new DatabaseHelper();
+    dh.createDB(_database, 1);
+  }
+
 }

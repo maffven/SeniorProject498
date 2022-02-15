@@ -130,6 +130,7 @@ super.initState();
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
+                 await deleteTAll();
                   // double name = double.parse(nameController.text);
                   // int miles = int.parse(milesController.text);
                   /*  BinLevel binL = BinLevel(
@@ -154,8 +155,8 @@ super.initState();
 //await db.execute("DROP TABLE IF EXISTS tableName");
                   Bin bin = Bin(binID: 123, capacity: 15, districtId: 49);
                   //addObj(bin, "bin_table");
-                  Bin bintry = await readObj(bin.binID, "bin_table");
-                  print("bin object: ${bintry.capacity}");
+                //  Bin bintry = await readObj(bin.binID, "bin_table");
+                //  print("bin object: ${bintry.capacity}");
                   //implement database helper
                   //   Bin(name,miles,7);
                   // _insert(name, miles);
@@ -163,15 +164,15 @@ super.initState();
 
                   //create object
                   MunicipalityAdmin mun = MunicipalityAdmin(
-                      municpalityID: 123,
-                      firatName: "noha",
+                      municpalityID: 1243,
+                      firstName: "noha",
                       lastName: "Alghamdi",
                       phone: 0591450563,
                       email: "roro1999@gmail.com",
                       password: "1851420");
                   //inserting row inside muncipality table
-                  //addObj(mun, tableMunicipalityAdmin);
-
+                 // addObj(mun, tableMunicipalityAdmin);
+                  
                   //ensure the object exists
                   /* munObj =
                       await readObj(mun.municpalityID, tableMunicipalityAdmin);
@@ -213,7 +214,8 @@ super.initState();
   // this opens the database (and creates it if it doesn't exist)
   initDatabase() async {
     DatabaseHelper dh = new DatabaseHelper();
-    dh.createDB(_database, 2);
+    //dh.deleteTable(_database);
+    dh.createDB(_database, 1);
   }
 
   /* void _insert(name, miles) async {
@@ -258,7 +260,10 @@ super.initState();
     final rowsDeleted = await dbHelper.delete(id);
     // _showMessageInScaffold('deleted $rowsDeleted row(s): row $id');
   }*/
-
+ Future deleteTAll() async {
+    await DatabaseHelper.instance.deleteTable(_database);
+    print("tables deleted");
+  }
   Future addObj(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalCreate(obj, tableName);
     print("object inserted");

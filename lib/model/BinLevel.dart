@@ -19,9 +19,9 @@ class BinLevelFields {
 class BinLevel {
   final int binID;
   final int level;
-  final String full;
-  final String half_full;
-  final String empty;
+  final bool full;
+  final bool half_full;
+  final bool empty;
 
   const BinLevel({
     @required this.binID,
@@ -35,9 +35,9 @@ class BinLevel {
   Map<String, dynamic> toJson() => {
         BinLevelFields.binID: binID,
         BinLevelFields.id: level,
-        BinLevelFields.full: full,
-        BinLevelFields.half_full: half_full,
-        BinLevelFields.empty: empty,
+        BinLevelFields.full: full ? 1 : 0,
+        BinLevelFields.half_full: half_full ? 1 : 0,
+        BinLevelFields.empty: empty ? 1 : 0,
       };
 
   BinLevel copy(
@@ -53,9 +53,9 @@ class BinLevel {
   static BinLevel fromJson(Map<String, Object> json) => BinLevel(
       binID: json[BinLevelFields.binID] as int,
       level: json[BinLevelFields.id] as int,
-      half_full: json[BinLevelFields.half_full] as String,
-      full: json[BinLevelFields.full] as String,
-      empty: json[BinLevelFields.empty] as String);
+      half_full: json[BinLevelFields.half_full] == 1,
+      full: json[BinLevelFields.full] == 1,
+      empty: json[BinLevelFields.empty] == 1);
 
   Future<BinLevel> read(int id, dynamic instance) async {
     final db = await instance.database;

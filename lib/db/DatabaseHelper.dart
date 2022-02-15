@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_application_1/model/Bin.dart';
 import 'package:flutter_application_1/model/Complaints.dart';
 import 'package:flutter_application_1/model/District.dart';
@@ -12,16 +14,11 @@ import 'package:sqflite/sqflite.dart';
 class DatabaseHelper {
   static final _databaseName = "Wastedb.db";
   static final _databaseVersion = 1;
-  static final table = 'bin_table';
-  static final columnId = 'binID';
-  static final columnCapacity = 'capacity';
-  static final columnDistrict = 'district';
-
-  //Rawan work
   static final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
   static final boolType = 'BOOLEAN NOT NULL';
   static final number = 'INTEGER NOT NULL';
   static final textType = 'TEXT NOT NULL';
+  static final doubleNum = 'REAL NOT NULL';
 
   DatabaseHelper() {}
   // make this a singleton class
@@ -41,6 +38,7 @@ class DatabaseHelper {
   // this opens the database (and creates it if it doesn't exist)
   initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
+    print('db location : ' + path);
     return await openDatabase(path,
         version: _databaseVersion, onCreate: createDB);
   }
@@ -48,11 +46,28 @@ class DatabaseHelper {
   Future<void> deleteTable() async {}
   // SQL code to create the database table
   Future createDB(Database db, int version) async {
+    await db.execute("DROP TABLE IF EXISTS $tableBin");
+    print("Bin deleted");
+    await db.execute("DROP TABLE IF EXISTS $tableBinLevel");
+    print("BinLevel deleted");
+    await db.execute("DROP TABLE IF EXISTS $tableBinLocation");
+    print("tableBinLocation deleted");
+    await db.execute("DROP TABLE IF EXISTS $tableComplaints");
+    print("tableComplaints deleted");
+    await db.execute("DROP TABLE IF EXISTS $tableDistrict");
+    print("tableComplaints deleted");
+    await db.execute("DROP TABLE IF EXISTS $tableDriver");
+    print("tableDriver deleted");
+    await db.execute("DROP TABLE IF EXISTS $tableDriverStatus");
+    print("tableDriverStatus deleted");
+    await db.execute("DROP TABLE IF EXISTS $MunicipalityAdminFields");
+    print("MunicipalityAdminFields deleted");
+
     //Bin table
-    await db.execute('''
-          CREATE TABLE $table (
-            $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
-            $columnCapacity TEXT NOT NULL,
+    /* await db.execute('''
+          CREATE TABLE $tableBin (
+            ${BinFields.id} $idType,
+            ${BinFields.capacity} $doubleNum ,
            FOREIGN KEY (${BinFields.districtId}) REFERENCES $tableDistrict(${DistrictFields.id})
           )
           ''');
@@ -61,10 +76,10 @@ class DatabaseHelper {
     //Bin level table
     await db.execute('''
           CREATE TABLE $BinLevel (
-             $BinLevelFields.level TEXT NOT NULL,
-             $BinLevelFields.half_full,
-             $BinLevelFields.full,
-             $BinLevelFields.empty,
+             ${BinLevelFields.id} $idType,
+             ${BinLevelFields.half_full} $boolType,
+             ${BinLevelFields.full} $boolType,
+             ${BinLevelFields.empty} $boolType,
            FOREIGN KEY (${BinLevelFields.binID}) REFERENCES $tableBin(${BinFields.id})
           )
           ''');
@@ -73,9 +88,9 @@ class DatabaseHelper {
     //Bin location table
     await db.execute('''
           CREATE TABLE $BinLocation (
-             $BinLocationFields.location TEXT NOT NULL,
-             $BinLocationFields.coordinateX,
-             $BinLocationFields.coordinateY,
+             ${BinLocationFields.id} $idType,
+             ${BinLocationFields.coordinateX} $number,
+             ${BinLocationFields.coordinateY} $number,
            FOREIGN KEY (${BinLocationFields.binID}) REFERENCES $tableBin(${BinFields.id})
           )
           ''');
@@ -136,7 +151,7 @@ class DatabaseHelper {
             ${ComplaintsFields.driverID} $number,
             ${ComplaintsFields.binID} $number,
             FOREIGN KEY (${ComplaintsFields.driverID}) REFERENCES $tableDriver(${DriverFields.id}),
-            FOREIGN KEY (${ComplaintsFields.binID}) REFERENCES $table($columnId)
+            FOREIGN KEY (${ComplaintsFields.binID}) REFERENCES $tableBin($BinFields.id)
           )
           ''');
     print('Complaints table created');
@@ -151,7 +166,7 @@ class DatabaseHelper {
             FOREIGN KEY (${DistrictFields.driverID}) REFERENCES $tableDriver(${DriverFields.id})
           )
           ''');
-    print('District table created');
+    print('District table created');*/
   }
 
   // create a row

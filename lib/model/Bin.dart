@@ -9,9 +9,9 @@ class BinFields {
     //add all fields
     id, capacity, districtId
   ];
-  static final String id = "BinId";
+  static final String id = "_BinId";
   static final String capacity = "capacity";
-  static final String districtId = "district";
+  static final String districtId = "districtID";
 }
 
 class Bin {

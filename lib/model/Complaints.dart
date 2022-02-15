@@ -70,7 +70,7 @@ class Complaints {
       complaintMessage: json[ComplaintsFields.complaintMessage] as String,
       status: json[ComplaintsFields.status] as String,
       subject: json[ComplaintsFields.subject] as String,
-      date: json[ComplaintsFields.date] as DateTime,
+      date: DateTime.parse(json[ComplaintsFields.date] as String),
       driverID: json[ComplaintsFields.driverID] as int);
 
   Future<Complaints> read(int id, dynamic instance) async {

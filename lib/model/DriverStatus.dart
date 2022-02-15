@@ -57,9 +57,9 @@ class DriverStatus {
   static DriverStatus fromJson(Map<String, Object> json) => DriverStatus(
       statusID: json[DriverStatusFields.id] as int,
       driverID: json[DriverStatusFields.driverID] as int,
-      completed: json[DriverStatusFields.completed] as bool,
-      incomplete: json[DriverStatusFields.incomplete] as bool,
-      lateStatus: json[DriverStatusFields.lateStatus] as bool);
+      completed: json[DriverStatusFields.completed] == 1,
+      incomplete: json[DriverStatusFields.incomplete] == 1,
+      lateStatus: json[DriverStatusFields.lateStatus] == 1);
 
   Future<DriverStatus> read(int id, dynamic instance) async {
     final db = await instance.database;

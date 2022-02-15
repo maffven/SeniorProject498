@@ -130,18 +130,23 @@ super.initState();
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
-                 // double name = double.parse(nameController.text);
-                 // int miles = int.parse(milesController.text);
+                  // double name = double.parse(nameController.text);
+                  // int miles = int.parse(milesController.text);
                   /*  BinLevel binL = BinLevel(
                     level: int.parse(milesController.text),
                     , "", "", "", "");*/
-               // int phone = int.parse(phoneController.text);
-              //  String password = passwordController.text;
-                //create a login 
-Driver driver = Driver (driverID: 3, municpalityID: 123,firstName: "manar", lastName: "hennawi", password: "11224456",
- email: " manarhennawi00@gmail.com",
-  phone: 0508672505,
-   workTime: "5");
+                  // int phone = int.parse(phoneController.text);
+                  //  String password = passwordController.text;
+                  //create a login
+                  Driver driver = Driver(
+                      driverID: 3,
+                      municpalityID: 123,
+                      firstName: "manar",
+                      lastName: "hennawi",
+                      password: "11224456",
+                      email: " manarhennawi00@gmail.com",
+                      phone: 0508672505,
+                      workTime: "5");
 //print(tableDriver);
 //addObj(driver, tableDriver);
 //Driver driver1 = await readObj(3, tableDriver);
@@ -182,7 +187,7 @@ Driver driver = Driver (driverID: 3, municpalityID: 123,firstName: "manar", last
                   for (int i = 0; i < bb.length; i++) {
                     print("from list:  ${bb[i].capacity}");
                   }
-                     List<dynamic> d = await readAll(tableMunicipalityAdmin);
+                  List<dynamic> d = await readAll(tableMunicipalityAdmin);
                   dd = d.cast();
                   for (int i = 0; i < dd.length; i++) {
                     print("from list:  ${dd[i].driverID}");
@@ -208,7 +213,7 @@ Driver driver = Driver (driverID: 3, municpalityID: 123,firstName: "manar", last
   // this opens the database (and creates it if it doesn't exist)
   initDatabase() async {
     DatabaseHelper dh = new DatabaseHelper();
-    dh.createDB(_database, 1);
+    dh.createDB(_database, 2);
   }
 
   /* void _insert(name, miles) async {

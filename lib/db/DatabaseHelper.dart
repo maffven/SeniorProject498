@@ -42,7 +42,19 @@ class DatabaseHelper {
     return await openDatabase(path,
         version: _databaseVersion, onCreate: createDB);
   }
-
+Future createTableBin() async{
+//Bin level table
+    await _database.execute('''
+          CREATE TABLE $BinLevel (
+             ${BinLevelFields.id} $idType,
+             ${BinLevelFields.half_full} $boolType,
+             ${BinLevelFields.full} $boolType,
+             ${BinLevelFields.empty} $boolType,
+           FOREIGN KEY (${BinLevelFields.binID}) REFERENCES $tableBin(${BinFields.id})
+          )
+          ''');
+    print('bin level table created');
+}
   Future<void> deleteTable(Database db) async {
     await db.execute("DROP TABLE $tableBin");
     print("Bin deleted");
@@ -61,7 +73,112 @@ class DatabaseHelper {
     await db.execute("DROP TABLE $MunicipalityAdminFields");
     print("MunicipalityAdminFields deleted");
   }
+Future createTable(Database db) async {
+   //Bin table
+    await db.execute('''
+          CREATE TABLE $tableBin (
+            ${BinFields.id} $idType,
+            ${BinFields.capacity} $doubleNum ,
+           FOREIGN KEY (${BinFields.districtId}) REFERENCES $tableDistrict(${DistrictFields.id})
+          )
+          ''');
+    print('bin table created');
 
+    //Bin level table
+    await db.execute('''
+          CREATE TABLE $BinLevel (
+             ${BinLevelFields.id} $idType,
+             ${BinLevelFields.half_full} $boolType,
+             ${BinLevelFields.full} $boolType,
+             ${BinLevelFields.empty} $boolType,
+           FOREIGN KEY (${BinLevelFields.binID}) REFERENCES $tableBin(${BinFields.id})
+          )
+          ''');
+    print('bin level table created');
+
+    //Bin location table
+    await db.execute('''
+          CREATE TABLE $BinLocation (
+             ${BinLocationFields.id} $idType,
+             ${BinLocationFields.coordinateX} $number,
+             ${BinLocationFields.coordinateY} $number,
+           FOREIGN KEY (${BinLocationFields.binID}) REFERENCES $tableBin(${BinFields.id})
+          )
+          ''');
+    print('bin location table created');
+
+    //Rawan work
+    //Municipality Admin table
+    await db.execute('''
+          CREATE TABLE $tableMunicipalityAdmin(
+            ${MunicipalityAdminFields.id} $idType,
+            ${MunicipalityAdminFields.firstName} $textType,
+            ${MunicipalityAdminFields.lastName} $textType,
+            ${MunicipalityAdminFields.password} $textType,
+            ${MunicipalityAdminFields.email} $textType,
+            ${MunicipalityAdminFields.phone} $number
+          )
+          ''');
+    print('Municipality Admin table created');
+
+    //Driver table
+    await db.execute('''
+          CREATE TABLE $tableDriver (
+            ${DriverFields.id} $idType,
+            ${DriverFields.municpalityID} $number,
+            ${DriverFields.firstName} $textType,
+            ${DriverFields.lastName} $textType,
+            ${DriverFields.password} $textType,
+            ${DriverFields.email} $textType,
+            ${DriverFields.phone} $number,
+            ${DriverFields.workTime} $textType,
+            FOREIGN KEY (${DriverFields.municpalityID}) REFERENCES $tableMunicipalityAdmin(${MunicipalityAdminFields.id})
+          )
+          ''');
+    print('Driver table created');
+
+    //Driver Status table
+    await db.execute('''
+          CREATE TABLE $tableDriverStatus(
+            ${DriverStatusFields.id} $idType,
+            ${DriverStatusFields.driverID} $number,
+            ${DriverStatusFields.completed} $boolType,
+            ${DriverStatusFields.incomplete} $boolType,
+            ${DriverStatusFields.lateStatus} $boolType,
+            FOREIGN KEY (${DriverStatusFields.id}) REFERENCES $tableDriver(${DriverFields.id})
+          )
+          ''');
+    print('Driver status table created');
+
+    //Lina work
+    //Complaints table
+    await db.execute('''
+          CREATE TABLE $tableComplaints (
+            ${ComplaintsFields.id} $idType,
+            ${ComplaintsFields.complaintMessage} $textType,
+            ${ComplaintsFields.status} $textType,
+            ${ComplaintsFields.subject} $textType,
+            ${ComplaintsFields.date} $textType,
+            ${ComplaintsFields.driverID} $number,
+            ${ComplaintsFields.binID} $number,
+            FOREIGN KEY (${ComplaintsFields.driverID}) REFERENCES $tableDriver(${DriverFields.id}),
+            FOREIGN KEY (${ComplaintsFields.binID}) REFERENCES $tableBin($BinFields.id)
+          )
+          ''');
+    print('Complaints table created');
+
+    //District table
+    await db.execute('''
+          CREATE TABLE $tableDistrict (
+            ${DistrictFields.id} $idType,
+            ${DistrictFields.name} $textType,
+            ${DistrictFields.numberOfBins} $number,
+            ${DistrictFields.driverID} $number,
+            FOREIGN KEY (${DistrictFields.driverID}) REFERENCES $tableDriver(${DriverFields.id})
+          )
+          ''');
+    print('District table created');
+  }
   // SQL code to create the database table
   Future createDB(Database db, int version) async {
     //Bin table

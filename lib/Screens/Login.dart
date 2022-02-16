@@ -130,7 +130,7 @@ super.initState();
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
-                  //await deleteTAll();
+             // await createTAll();
                   // double name = double.parse(nameController.text);
                   // int miles = int.parse(milesController.text);
                   /*  BinLevel binL = BinLevel(
@@ -154,7 +154,7 @@ super.initState();
 //print(driver1.firstName);
 //await db.execute("DROP TABLE IF EXISTS tableName");
                   Bin bin = Bin(binID: 123, capacity: 15, districtId: 49);
-                  //addObj(bin, "bin_table");
+               //  addObj(bin, tableBin);
                   //  Bin bintry = await readObj(bin.binID, "bin_table");
                   //  print("bin object: ${bintry.capacity}");
                   //implement database helper
@@ -171,7 +171,8 @@ super.initState();
                       email: "roro1999@gmail.com",
                       password: "1851420");
                   //inserting row inside muncipality table
-                  // addObj(mun, tableMunicipalityAdmin);
+                  
+                 //addObj(mun, tableMunicipalityAdmin);
 
                   //ensure the object exists
                   /* munObj =
@@ -183,7 +184,7 @@ super.initState();
                   munList = munListd.cast();
                  // print("mun object list: ${munList[0].firatName}");
                 //  deleteObj(mun.municpalityID, tableMunicipalityAdmin);*/
-                  List<dynamic> b = await readAll("bin_table");
+                 /* List<dynamic> b = await readAll("bin_table");
                   bb = b.cast();
                   for (int i = 0; i < bb.length; i++) {
                     print("from list:  ${bb[i].capacity}");
@@ -218,59 +219,21 @@ super.initState();
     dh.createDB(_database, 1);
   }
 
-  /* void _insert(name, miles) async {
-    // row to insert
-    Map<String, dynamic> row = {
-      DatabaseHelper.columnId: miles,
-      DatabaseHelper.columnCapacity: name,
-      DatabaseHelper.columnDistrict: 9
-    };
-    Bin car = Bin.fromMap(row);
-   
-    // final id = await car.toMap();
-    //_showMessageInScaffold('inserted row id: $id');
-  }*/
-
-  /*void _queryAll() async {
-    final allRows = await dbHelper.queryAllRows();
-    bins.clear();
-    List<Map<String, dynamic>> queryRows =
-        await DatabaseHelper.instance.queryAllRows();
-    allRows.forEach((row) => bins.add(Bin.fromMap(row)));
-    print(queryRows);
-    //_showMessageInScaffold('Query done.');
-    setState(() {});
-  }*/
-
-  /*void _query(name) async {
-    final allRows = await dbHelper.queryRows(name);
-    binsByCapacity.clear();
-    allRows.forEach((row) => binsByCapacity.add(Bin.fromMap(row)));
-  }*/
-
-  /* void _update(id, name, miles) async {
-    // row to update
-    Bin car = Bin(id, name, miles);
-    final rowsAffected = await dbHelper.update(car);
-    //_showMessageInScaffold('updated $rowsAffected row(s)');
-  }*/
-
-  /*void _delete(id) async {
-    // Assuming that the number of rows is the id for the last row.
-    final rowsDeleted = await dbHelper.delete(id);
-    // _showMessageInScaffold('deleted $rowsDeleted row(s): row $id');
-  }*/
   Future deleteTAll() async {
     await DatabaseHelper.instance.deleteTable(_database);
     print("tables deleted");
   }
-
+ Future createTAll() async {
+    await DatabaseHelper.instance.createTable(_database);
+    print("tables created");
+  }
   Future addObj(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalCreate(obj, tableName);
     print("object inserted");
   }
+  Future<void> deleteTable() async {
 
-  Future<void> deleteTable() async {}
+  }
   //generalUpdate(String tablename, int id, dynamic obj)
   Future updateObj(int id, dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalUpdate(tableName, id, obj);

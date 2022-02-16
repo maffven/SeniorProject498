@@ -2,7 +2,7 @@ import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-final String tableBin = 'bin_table';
+final String tableBin = 'bin';
 
 class BinFields {
   static final List<String> values = [
@@ -11,7 +11,7 @@ class BinFields {
   ];
   static final String id = "_BinId";
   static final String capacity = "capacity";
-  static final String districtId = "districtID";
+  static final String districtId = "_districtID";
 }
 
 class Bin {

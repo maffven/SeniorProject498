@@ -29,21 +29,25 @@ class MapScreenState extends State<Profile> {
                 child: Center(
                   child: Expanded(
                     child: Container(
-                      height: 600.0,
+                      height: 700.0,
                       child: ListView(
                         padding: const EdgeInsets.all(8),
                         children: <Widget>[
                           Container(
                             color: Color(0xffFFFFFF),
+                            padding: EdgeInsets.only(bottom: 0.0),
                             child: Padding(
-                              padding: EdgeInsets.only(bottom: 25.0),
+                              padding: EdgeInsets.only(bottom: 0.0),
                               child: new Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Padding(
                                       padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 25.0),
+                                          left: 25.0,
+                                          right: 25.0,
+                                          top: 0.0,
+                                          bottom: 0.0),
                                       child: new Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -191,7 +195,10 @@ class MapScreenState extends State<Profile> {
                                       )),
                                   Padding(
                                       padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 25.0),
+                                          left: 25.0,
+                                          right: 25.0,
+                                          top: 25.0,
+                                          bottom: 0.0),
                                       child: new Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -213,7 +220,10 @@ class MapScreenState extends State<Profile> {
                                       )),
                                   Padding(
                                       padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 2.0),
+                                          left: 25.0,
+                                          right: 25.0,
+                                          top: 2.0,
+                                          bottom: 0.0),
                                       child: new Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -270,7 +280,7 @@ class MapScreenState extends State<Profile> {
         children: <Widget>[
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(right: 10.0),
+              padding: EdgeInsets.only(right: 10.0, top: 0.0, bottom: 0.0),
               child: Container(
                   child: new RaisedButton(
                 child: new Text("Save"),

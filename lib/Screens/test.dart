@@ -40,26 +40,29 @@ class test extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 150.0),
                 child: Center(
-                  child: Container(
-                    child: ListView(
-                      padding: const EdgeInsets.all(8),
-                      children: <Widget>[
-                        Container(
-                          height: 50,
-                          child: const Center(
-                              child: Text('Alnaseem Full bin 1807422')),
-                        ),
-                        Container(
-                          height: 50,
-                          child: const Center(
-                              child: Text('AlRawdhah Full bin 1808422')),
-                        ),
-                        Container(
-                          height: 50,
-                          child: const Center(
-                              child: Text('Alnaeem Full bin 1819422')),
-                        )
-                      ],
+                  child: Expanded(
+                    child: Container(
+                      height: 400.0,
+                      child: ListView(
+                        padding: const EdgeInsets.all(8),
+                        children: <Widget>[
+                          Container(
+                            height: 50,
+                            child: const Center(
+                                child: Text('Alnaseem Full bin 1807422')),
+                          ),
+                          Container(
+                            height: 50,
+                            child: const Center(
+                                child: Text('AlRawdhah Full bin 1808422')),
+                          ),
+                          Container(
+                            height: 50,
+                            child: const Center(
+                                child: Text('Alnaeem Full bin 1819422')),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

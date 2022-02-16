@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_application_1/Screens/Profile.dart';
 import 'package:flutter_application_1/screens/first.dart';
 import 'package:flutter_application_1/screens/map.dart';
 import 'package:flutter_application_1/screens/Complaint.dart';
@@ -54,17 +55,21 @@ class Main extends StatelessWidget {
       tabBuilder: (BuildContext context, int index) {
         switch (index) {
           case 0:
-           // return BarAndPieChartDashboard();
+            //return BarAndPieChartDashboard();
             return PieChartDashboard();
             break;
           case 1:
             return map();
             break;
           case 2:
+            return NotificationDemo();
             break;
           case 3:
             return Complaint();
-
+            break;
+          case 4:
+            return Profile();
+            break;
           default:
             return Login();
         }

@@ -126,7 +126,7 @@ super.initState();
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
-             // await createTAll();
+                  // await createTAll();
                   // double name = double.parse(nameController.text);
                   // int miles = int.parse(milesController.text);
                   /*  BinLevel binL = BinLevel(
@@ -150,13 +150,8 @@ super.initState();
 //Driver driver1 = await readObj(3, tableDriver);
 //print(driver1.firstName);
 //await db.execute("DROP TABLE IF EXISTS tableName");
-<<<<<<< HEAD
                   Bin bin = Bin(binID: 123, capacity: 15, districtId: 49);
-               //  addObj(bin, tableBin);
-=======
-                  // Bin bin = Bin(binID: 123, capacity: 15, districtId: 49);
-                  //addObj(bin, "bin_table");
->>>>>>> 56d5d6822d4243ddd828c6232630766d07ea32aa
+                  //  addObj(bin, tableBin);
                   //  Bin bintry = await readObj(bin.binID, "bin_table");
                   //  print("bin object: ${bintry.capacity}");
                   //implement database helper
@@ -173,12 +168,7 @@ super.initState();
                       email: "roro1999@gmail.com",
                       password: "1851420");
                   //inserting row inside muncipality table
-<<<<<<< HEAD
-                  
-                 //addObj(mun, tableMunicipalityAdmin);
-=======
-                  addObj(mun, tableMunicipalityAdmin);
->>>>>>> 56d5d6822d4243ddd828c6232630766d07ea32aa
+                  //addObj(mun, tableMunicipalityAdmin);
 
                   //ensure the object exists
                   /* munObj =
@@ -190,11 +180,7 @@ super.initState();
                   munList = munListd.cast();
                  // print("mun object list: ${munList[0].firatName}");
                 //  deleteObj(mun.municpalityID, tableMunicipalityAdmin);*/
-<<<<<<< HEAD
-                 /* List<dynamic> b = await readAll("bin_table");
-=======
                   /* List<dynamic> b = await readAll("bin_table");
->>>>>>> 56d5d6822d4243ddd828c6232630766d07ea32aa
                   bb = b.cast();
                   for (int i = 0; i < bb.length; i++) {
                     print("from list:  ${bb[i].capacity}");
@@ -230,16 +216,14 @@ super.initState();
    dh.createDB(_database, 2);
   }*/
 
-<<<<<<< HEAD
-  Future deleteTAll() async {
+  /*Future deleteTAll() async {
     await DatabaseHelper.instance.deleteTable(_database);
     print("tables deleted");
   }
  Future createTAll() async {
     await DatabaseHelper.instance.createTable(_database);
     print("tables created");
-  }
-=======
+  }*/
   /* void _insert(name, miles) async {
     // row to insert
     Map<String, dynamic> row = {
@@ -286,15 +270,12 @@ super.initState();
     await DatabaseHelper.instance.deleteTable(_database);
     print("tables deleted");
   }*/
-
->>>>>>> 56d5d6822d4243ddd828c6232630766d07ea32aa
   Future addObj(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalCreate(obj, tableName);
     print("object inserted");
   }
-  Future<void> deleteTable() async {
 
-  }
+  Future<void> deleteTable() async {}
   //generalUpdate(String tablename, int id, dynamic obj)
   Future updateObj(int id, dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalUpdate(tableName, id, obj);

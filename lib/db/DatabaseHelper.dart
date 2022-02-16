@@ -43,8 +43,8 @@ class DatabaseHelper {
     return await openDatabase(path,
         version: _databaseVersion, onCreate: createDB);
   }
-<<<<<<< HEAD
-Future createTableBin() async{
+
+  Future createTableBin() async {
 //Bin level table
     await _database.execute('''
           CREATE TABLE $BinLevel (
@@ -56,12 +56,9 @@ Future createTableBin() async{
           )
           ''');
     print('bin level table created');
-}
-  Future<void> deleteTable(Database db) async {
-=======
+  }
 
-  /*Future<void> deleteTable(Database db) async {
->>>>>>> 56d5d6822d4243ddd828c6232630766d07ea32aa
+  Future<void> deleteTable(Database db) async {
     await db.execute("DROP TABLE $tableBin");
     print("Bin deleted");
     await db.execute("DROP TABLE $tableBinLevel");
@@ -78,10 +75,10 @@ Future createTableBin() async{
     print("tableDriverStatus deleted");
     await db.execute("DROP TABLE $MunicipalityAdminFields");
     print("MunicipalityAdminFields deleted");
-<<<<<<< HEAD
   }
-Future createTable(Database db) async {
-   //Bin table
+
+  Future createTable(Database db) async {
+    //Bin table
     await db.execute('''
           CREATE TABLE $tableBin (
             ${BinFields.id} $idType,
@@ -143,9 +140,6 @@ Future createTable(Database db) async {
           )
           ''');
     print('Driver table created');
-=======
-  }*/
->>>>>>> 56d5d6822d4243ddd828c6232630766d07ea32aa
 
     //Driver Status table
     await db.execute('''
@@ -189,6 +183,7 @@ Future createTable(Database db) async {
           ''');
     print('District table created');
   }
+
   // SQL code to create the database table
   Future createDB(Database db, int version) async {
     print("inside create method");

@@ -40,8 +40,7 @@ class BinLevel {
         BinLevelFields.empty: empty ? 1 : 0,
       };
 
-  BinLevel copy(
-          {int binID, String full, int id, String half_full, String empty}) =>
+  BinLevel copy({int binID, bool full, int id, bool half_full, bool empty}) =>
       BinLevel(
           binID: binID ?? this.binID,
           level: id ?? this.level,

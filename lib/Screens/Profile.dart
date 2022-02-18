@@ -15,39 +15,72 @@ class MapScreenState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
+        home: DefaultTabController(
+      length: 2,
+      child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Color(0xffffDD83),
-          title: Text("Profile"),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 150.0),
-                child: Center(
+            backgroundColor: Color(0xffffDD83),
+            title: Text("Profile"),
+            bottom: TabBar(
+              indicatorColor: Colors.white,
+              tabs: [
+                Tab(text: "INFO"),
+                Tab(
+                  text: "STATUS",
+                ),
+              ],
+            )),
+        body: TabBarView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 50.0),
+              child: Center(
                   child: Expanded(
-                    child: Container(
-                      height: 700.0,
-                      child: ListView(
-                        padding: const EdgeInsets.all(8),
+                      child: Container(
+                height: 600.0,
+                child: ListView(padding: const EdgeInsets.all(8), children: <
+                    Widget>[
+                  Container(
+                    color: Color(0xffFFFFFF),
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 25.0),
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Container(
+                          Padding(
+                            padding: EdgeInsets.only(top: 20.0),
+                            child: new Stack(
+                              fit: StackFit.loose,
+                              children: <Widget>[
+                                new Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    new Container(
+                                        width: 140.0,
+                                        height: 140.0,
+                                        child: new Icon(
+                                          Icons.person_rounded,
+                                          size: 150.0,
+                                        )),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          new Container(
                             color: Color(0xffFFFFFF),
-                            padding: EdgeInsets.only(bottom: 0.0),
                             child: Padding(
-                              padding: EdgeInsets.only(bottom: 0.0),
+                              padding: EdgeInsets.only(bottom: 25.0),
                               child: new Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Padding(
                                       padding: EdgeInsets.only(
-                                          left: 25.0,
-                                          right: 25.0,
-                                          top: 0.0,
-                                          bottom: 0.0),
+                                          left: 25.0, right: 25.0, top: 25.0),
                                       child: new Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -59,7 +92,7 @@ class MapScreenState extends State<Profile> {
                                             mainAxisSize: MainAxisSize.min,
                                             children: <Widget>[
                                               new Text(
-                                                'INFO',
+                                                'Personal Information',
                                                 style: TextStyle(
                                                     fontSize: 18.0,
                                                     fontWeight:
@@ -195,10 +228,7 @@ class MapScreenState extends State<Profile> {
                                       )),
                                   Padding(
                                       padding: EdgeInsets.only(
-                                          left: 25.0,
-                                          right: 25.0,
-                                          top: 25.0,
-                                          bottom: 0.0),
+                                          left: 25.0, right: 25.0, top: 25.0),
                                       child: new Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -220,10 +250,7 @@ class MapScreenState extends State<Profile> {
                                       )),
                                   Padding(
                                       padding: EdgeInsets.only(
-                                          left: 25.0,
-                                          right: 25.0,
-                                          top: 2.0,
-                                          bottom: 0.0),
+                                          left: 25.0, right: 25.0, top: 2.0),
                                       child: new Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -255,13 +282,193 @@ class MapScreenState extends State<Profile> {
                       ),
                     ),
                   ),
-                ),
+                ]),
+              ))),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 25.0),
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                      padding:
+                          EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          new Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              new Text(
+                                'District : AlNaseem , AlRawdhah',
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                          new Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[],
+                          )
+                        ],
+                      )),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: 55.0, right: 15.0, top: 25.0, bottom: 0.0),
+                      child: new Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              new Text(
+                                'Number of bins',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 350,
+                              ),
+                              new Text(
+                                'Performance',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ],
+                      )),
+                  Padding(
+                      padding:
+                          EdgeInsets.only(left: 25.0, right: 2.0, top: 2.0),
+                      child: new Row(
+                        //mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Align(
+                            child: Container(
+                              height: 50,
+                              width: 100,
+                              margin:
+                                  EdgeInsets.only(top: 40, left: 40, right: 40),
+                              decoration: new BoxDecoration(
+                                color: Colors.green,
+                                border:
+                                    Border.all(color: Colors.black, width: 0.0),
+                                borderRadius: new BorderRadius.all(
+                                    Radius.elliptical(100, 50)),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 35.0),
+                              child: Text("22"),
+                            ),
+                          ),
+                          new Container(
+                            height: 50,
+                            width: 100,
+                            margin:
+                                EdgeInsets.only(top: 40, left: 300, right: 0),
+                            decoration: new BoxDecoration(
+                              color: Colors.green,
+                              border:
+                                  Border.all(color: Colors.black, width: 0.0),
+                              borderRadius: new BorderRadius.all(
+                                  Radius.elliptical(100, 50)),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 35.0),
+                            child: Text("60%"),
+                          ),
+                        ],
+                      )),
+
+                  Padding(
+                      padding:
+                          EdgeInsets.only(left: 55.0, right: 25.0, top: 25.0),
+                      child: new Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              new Text(
+                                'Bins collected',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 350,
+                              ),
+                              new Text(
+                                'Bins not collected',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ],
+                      )),
+                  Padding(
+                      padding:
+                          EdgeInsets.only(left: 25.0, right: 25.0, top: 2.0),
+                      child: new Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Align(
+                            child: Container(
+                              height: 50,
+                              width: 100,
+                              margin:
+                                  EdgeInsets.only(top: 40, left: 40, right: 40),
+                              decoration: new BoxDecoration(
+                                color: Colors.green,
+                                border:
+                                    Border.all(color: Colors.black, width: 0.0),
+                                borderRadius: new BorderRadius.all(
+                                    Radius.elliptical(100, 50)),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 35.0),
+                              child: Text("12"),
+                            ),
+                          ),
+                          new Container(
+                            height: 50,
+                            width: 100,
+                            margin:
+                                EdgeInsets.only(top: 40, left: 300, right: 0),
+                            decoration: new BoxDecoration(
+                              color: Colors.green,
+                              border:
+                                  Border.all(color: Colors.black, width: 0.0),
+                              borderRadius: new BorderRadius.all(
+                                  Radius.elliptical(100, 50)),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 35.0),
+                            child: Text("10"),
+                          ),
+                        ],
+                      )),
+
+                  //  !_status ? _getActionButtons() : new Container(),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
+    ));
   }
 
   @override

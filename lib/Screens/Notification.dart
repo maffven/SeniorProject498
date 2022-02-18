@@ -1,110 +1,117 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/first.dart';
+//import 'package:custom_list_flutter_app/Person.dart';
 
-class Notification extends StatelessWidget {
+class Notification extends StatefulWidget {
+  @override
+  final Widget child;
+  Notification({Key key, this.child}) : super(key: key);
+  MapScreenState createState() => MapScreenState();
+}
+
+class notif {
+  String name;
+  String count;
+
+  notif({this.name, this.count});
+}
+
+List<notif> persons = [
+  notif(name: 'Alrawdah ', count: 'Full bin 1807422'),
+  notif(name: 'AlNaseem ', count: 'Full bin 1807422'),
+  notif(name: 'AlWaha ', count: 'Full bin 1807422')
+];
+
+class MapScreenState extends State<Notification> {
+  bool _status = true;
+  final FocusNode myFocusNode = FocusNode();
+
+  Widget personDetailCard(Person) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Card(
+        color: Color(0xffffDD83),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: 50.0,
+                  height: 50.0,
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    Person.name,
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    Person.count,
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: NotificationDemo(),
-    );
-  }
-}
-
-class NotificationDemo extends StatefulWidget {
-  @override
-  _NotificationDemoState createState() => _NotificationDemoState();
-}
-
-class _NotificationDemoState extends State<NotificationDemo> {
-  @override
-  Widget build(BuildContext context) {
-    final String title = "";
-    // final Function onTap ;
-    final bool enable = true;
-    const kLightColor = Color(0xFF808080);
-    const kDarkColor = Color(0xFF303030);
-    return Scaffold(
-      backgroundColor: Colors.white,
+        home: Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xffffDD83),
-        title: Text("Notification"),
-      ),
-      body: SingleChildScrollView(
-        child: Column(children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 150.0),
-            child: Center(
-                child: Container(
-              child: ListView(
-                padding: const EdgeInsets.all(8),
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    child:
-                        const Center(child: Text('Alnaseem Full bin 1807422')),
-                  ),
-                  Container(
-                    height: 50,
-                    child:
-                        const Center(child: Text('AlRawdhah Full bin 1808422')),
-                  ),
-                  Container(
-                    height: 50,
-                    child:
-                        const Center(child: Text('Alnaeem Full bin 1819422')),
-                  )
-                ],
-              ),
-            )
+        centerTitle: true,
+        title: Text("Notifications"),
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.menu),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.notifications),
+          ),
+        ],
 
-                // child: Image.asset('/Users/mac/Desktop/flutter_application_1/assets/images/first.png')),
+        //title: Text("Notifications"),
+      ),
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 50, 10, 10),
+        child: Column(
+          children: <Widget>[
+            Row(
+              // backgroundColor: Color(0xffffDD83),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Icon(Icons.menu, size: 35, color: Colors.white),
+                Text(
+                  'Notifications',
+                  style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
-          ),
-          Padding(
-            //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
-            padding: const EdgeInsets.only(
-                left: 15.0, right: 15.0, top: 20, bottom: 30),
-            child: Text(
-              '',
-              style: TextStyle(fontSize: 24),
+                Icon(Icons.notifications_none, size: 35, color: Colors.white)
+                // backgroundColor: Color(0xffffDD83),
+              ],
             ),
-          ),
-        ]),
-
-        //      ListTile(
-        //       title: Row(
-        //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //        children: <Widget>[
-        //   ListTile(
-        //      leading: Container(
-        //          height: 50.0, width: 50.0, decoration: BoxDecoration()),
-        ////         title: Text(title, style: TextStyle(color: kDarkColor)),
-        //subtitle: Text(subtitle, style: TextStyle(color: kLightColor)),
-        //  onTap: onTap,
-        //           enabled: enable,
-        //         )
-        //       ],
-        //     ),
-        //   ),
-
-        //         Container(
-        ///          height: 50,
-        //          width: 250,
-        //         margin: const EdgeInsets.only(top: 40.0),
-        //        decoration: BoxDecoration(
-        //            color: Color(0xff28CC9E),
-        //            borderRadius: BorderRadius.circular(20)),
-        //     child: FlatButton(
-        //     onPressed: () {},
-        //     child: Text(
-        //       'Login',
-        //      style: TextStyle(color: Colors.white, fontSize: 25),
-        //    ),
-        //  ),
-        // ),
+            Column(
+                children: persons.map((p) {
+              return personDetailCard(p);
+            }).toList()),
+          ],
+        ),
       ),
-    );
+    ));
   }
 }

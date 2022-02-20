@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 //import 'package:custom_list_flutter_app/Person.dart';
 
-class Notification extends StatefulWidget {
+class Notifications extends StatefulWidget {
   @override
   final Widget child;
-  Notification({Key key, this.child}) : super(key: key);
-  MapScreenState createState() => MapScreenState();
+  Notifications({Key key, this.child}) : super(key: key);
+  NotificationState createState() => NotificationState();
 }
 
 class notif {
@@ -21,7 +21,7 @@ List<notif> persons = [
   notif(name: 'AlWaha ', count: 'Full bin 1807422')
 ];
 
-class MapScreenState extends State<Notification> {
+class NotificationState extends State<Notifications> {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
 

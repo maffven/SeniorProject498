@@ -44,20 +44,6 @@ class DatabaseHelper {
         version: _databaseVersion, onCreate: createDB);
   }
 
-  Future createTableBin() async {
-//Bin level table
-    await _database.execute('''
-          CREATE TABLE $BinLevel (
-             ${BinLevelFields.id} $idType,
-             ${BinLevelFields.half_full} $boolType,
-             ${BinLevelFields.full} $boolType,
-             ${BinLevelFields.empty} $boolType,
-           FOREIGN KEY (${BinLevelFields.binID}) REFERENCES $tableBin(${BinFields.id})
-          )
-          ''');
-    print('bin level table created');
-  }
-
   Future<void> deleteTable(Database db) async {
     await db.execute("DROP TABLE $tableBin");
     print("Bin deleted");
@@ -301,6 +287,7 @@ class DatabaseHelper {
   ) async {
     final db = await instance.database;
     //inset to database
+
     final id = await db.insert(tableName, table.toJson());
     return table.copy(id: id);
   }
@@ -313,8 +300,20 @@ class DatabaseHelper {
       case "Municipality_Admin":
         return await MunicipalityAdmin().read(id, instance);
         break;
+
+        //--------------------------------------------------------------
+
+      case "Driver":
+        return await Driver().read(id, instance);
+        break;
+
+        //--------------------------------------------------------------
+      case "DriverStatusFields":
+        return await DriverStatus().read(id, instance);
+        break;
+
 //--------------------------------------------------------------
-      case "bin_table":
+      case "bin":
         print("it is in DBHelper");
 
         return await Bin().read(id, instance);
@@ -348,6 +347,15 @@ class DatabaseHelper {
 //--------------------------------------------------------------
       case "Municipality_Admin":
         return await MunicipalityAdmin().readAll(instance);
+        break;
+
+              case "Driver":
+        return await Driver().readAll(instance);
+        break;
+        
+        //--------------------------------------------------------------
+      case "Driver_Status":
+        return await DriverStatus().readAll(instance);
         break;
 //--------------------------------------------------------------
       case "bin_table":
@@ -391,6 +399,17 @@ class DatabaseHelper {
         return await MunicipalityAdmin().update(id, instance, obj);
         break;
 //--------------------------------------------------------------
+
+
+              case "Driver":
+        return await Driver().update(id, instance, obj);
+        break;
+        
+        //--------------------------------------------------------------
+      case "Driver_Status":
+        return await DriverStatus().update(id, instance, obj);
+        break;
+
       case "bin_table":
         return await Bin().update(id, instance, obj);
         break;
@@ -422,6 +441,16 @@ class DatabaseHelper {
       case "Municipality_Admin":
         return await MunicipalityAdmin().delete(id, instance);
         break;
+
+                      case "Driver":
+        return await Driver().delete(id, instance);
+        break;
+        
+        //--------------------------------------------------------------
+      case "Driver_Status":
+        return await DriverStatus().delete(id, instance);
+        break;
+
 //--------------------------------------------------------------
       case "bin_table":
         return await Bin().delete(id, instance);
@@ -454,8 +483,6 @@ Future close() async {
   final db = await DatabaseHelper.instance.database;
   db.close();
 }
-
-
 
 /* Future<int> generalUpdate(String tablename) async {
     final db = await instance.database;

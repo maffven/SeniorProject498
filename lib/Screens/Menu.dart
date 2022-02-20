@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_application_1/Screens/AdminProfile.dart';
-import 'package:flutter_application_1/Screens/DriverSatus.dart';
 import 'package:flutter_application_1/Screens/Notification.dart';
 import 'package:flutter_application_1/Screens/Profile.dart';
-import 'package:flutter_application_1/screens/first.dart';
 import 'package:flutter_application_1/screens/map.dart';
 import 'package:flutter_application_1/screens/Complaint.dart';
-import 'package:flutter_application_1/screens/Notification.dart';
 import 'package:flutter_application_1/screens/Login.dart';
 import 'AdminDashboard.dart';
-import 'DriverDashboard.dart';
 
 void main() => runApp(MyApp());
 
@@ -65,7 +60,7 @@ class Main extends StatelessWidget {
             return map();
             break;
           case 2:
-            //return Notification();
+            return Notifications();
             break;
           case 3:
             return Complaint();

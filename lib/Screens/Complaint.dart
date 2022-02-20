@@ -145,7 +145,7 @@ class Complaint extends StatelessWidget {
                   child: FlatButton(
                     onPressed: () async {
                       //  print('hi');
-                      await createBinLevel();
+                    
 
                       BinLevel bin = BinLevel(
                           binID: 123,
@@ -180,9 +180,6 @@ class Complaint extends StatelessWidget {
     print("object inserted");
   }
 
-  Future createBinLevel() async {
-    DatabaseHelper dh = new DatabaseHelper();
-    dh.createTableBin();
-    //print("bin level table created");
-  }
+  
+  
 }

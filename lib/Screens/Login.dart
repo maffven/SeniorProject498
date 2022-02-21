@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
@@ -36,9 +37,30 @@ class _LoginDemoState extends State<LoginDemo> {
   List<Bin> bb;
   List<Driver> dd;
   List<District> disList;
+  int phone;
+  String password;
   //Take input from user or textview
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  void showDialog() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text("Warning"),
+          content: Text("please enter all the fields"),
+          actions: [
+            CupertinoDialogAction(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +116,7 @@ class _LoginDemoState extends State<LoginDemo> {
               ),
             ),
             FlatButton(
-              onPressed: () {
-                //TODO FORGOT PASSWORD SCREEN GOES HERE
-              },
+              onPressed: () {},
               child: Text(
                 'Forgot Password?',
                 style: TextStyle(
@@ -111,29 +131,40 @@ class _LoginDemoState extends State<LoginDemo> {
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
-                  // await createTAll();
+                  //frist, check if text fields are not empty
+                  if (phoneController.text == "" &&
+                      passwordController.text == "") {
+                        showDialog();
+                  } else {
+                    //get text field's input from the user
+                    phone = int.parse(phoneController.text);
+                    password = passwordController.text;
+                   //check login info from Database
+                   List<dynamic> d = await readObj(phone,tableDriver);
+                  dd = d.cast();
+                    
+                  }
+                  
 
                   /*  BinLevel binL = BinLevel(
                     level: int.parse(milesController.text),
                     , "", "", "", "");*/
-                  int phone = int.parse(phoneController.text);
-                  String password = passwordController.text;
-validate(BuildContext ctx) async {
-        if (phone != "" && password != "") {
-          DatabaseHelper dh = DatabaseHelper();
 
-          Driver test = await verifyLogin(password, phone);
-         if(test==null){
-           print("null");
-         }else{
-           print(test);
-         }
-          
-        }}
+                  validate(BuildContext ctx) async {
+                    if (phone != "" && password != "") {
+                      DatabaseHelper dh = DatabaseHelper();
+
+                      Driver test = await verifyLogin(password, phone);
+                      if (test == null) {
+                        print("null");
+                      } else {
+                        print(test);
+                      }
+                    }
+                  }
                   //call the query to check if the user exists
-            // var res= verifyLogin(password, phone);
-           
-      
+                  // var res= verifyLogin(password, phone);
+
                   //create a login
                   Driver driver = Driver(
                       driverID: 3,
@@ -167,9 +198,9 @@ validate(BuildContext ctx) async {
                   Bin bin = Bin(binID: 123, capacity: 10, districtId: 1);
                   Bin bin1 = Bin(binID: 144, capacity: 25, districtId: 2);
                   Bin bin2 = Bin(binID: 166, capacity: 40, districtId: 3);
-                
-              //     addObj(bin, tableBin);
-   
+
+                  //     addObj(bin, tableBin);
+
                   // Bin bin = Bin(binID: 123, capacity: 15, districtId: 49);
                   //addObj(bin, "bin_table");
 

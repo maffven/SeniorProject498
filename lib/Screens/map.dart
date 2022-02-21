@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 const double GMAP_DEFAULT_LATITUDE = 21.584873;
 const double GMAP_DEFAULT_LONGITUDE = 39.205959;
 const double GMAP_DEFAULT_ZOOM = 12;
@@ -20,21 +22,31 @@ void main() {
 List<Marker> markers = [
   Marker(
     markerId: MarkerId('Green'),
-    position: LatLng( 21.584873, 39.205959),
+    position: LatLng(21.584873, 39.205959),
     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+    onTap: () {
+   MapUtils.openMap(21.584873, 39.205959);
+  }
   ),
 Marker(
     markerId: MarkerId('Red'),
     position: LatLng(21.543333, 39.172779),
     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+    onTap: () {
+   MapUtils.openMap(21.543333, 39.172779);
+  }
   ),
   Marker(
     markerId: MarkerId('Orange'),
-    position: LatLng( 21.285407, 39.237551),
+    position: LatLng(21.285407, 39.237551),
     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+    onTap: () {
+  MapUtils.openMap(21.285407, 39.237551);
+  }
   ),
 
 ];
+
 class map extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -60,9 +72,26 @@ return Scaffold(
       GoogleMap(
         initialCameraPosition: INITIAL_CAMERA_POSITION,
         markers: Set<Marker>.of(markers),
-
+        
+//MapUtils.openMap(-3.823216,-38.481700);,
       ),
+
+      
 
     );
 }
+
+}
+class MapUtils {
+
+  MapUtils._();
+
+  static Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
+  }
 }

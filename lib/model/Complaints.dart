@@ -7,7 +7,7 @@ final String tableComplaints = 'complaints';
 class ComplaintsFields {
   static final List<String> values = [
     //add all fields
-    id, complaintMessage, status, subject, date, binID, driverID
+    id, complaintMessage, status, subject, date, binID, driverID, districtName
   ];
   static final String id = '_complaintID';
   static final String complaintMessage = 'complaintMessage';
@@ -16,6 +16,7 @@ class ComplaintsFields {
   static final String date = 'date';
   static final String binID = '_binID';
   static final String driverID = '_driverID';
+  static final String districtName = 'districtName';
 }
 
 class Complaints {
@@ -26,6 +27,7 @@ class Complaints {
   final DateTime date;
   final int binID;
   final int driverID;
+  final String districtName;
 
   const Complaints({
     @required this.complaintID,
@@ -35,6 +37,7 @@ class Complaints {
     @required this.date,
     @required this.binID,
     @required this.driverID,
+    @required this.districtName
   });
 
   Map<String, dynamic> toJson() => {
@@ -45,6 +48,7 @@ class Complaints {
         ComplaintsFields.date: date.toIso8601String(),
         ComplaintsFields.binID: binID,
         ComplaintsFields.driverID: driverID,
+        ComplaintsFields.districtName: districtName,
       };
 
   Complaints copy(
@@ -54,7 +58,8 @@ class Complaints {
           String subject,
           DateTime date,
           int binID,
-          int driverID}) =>
+          int driverID,
+          String districtName}) =>
       Complaints(
           complaintID: id ?? this.complaintID,
           complaintMessage: complaintMessage ?? this.complaintMessage,
@@ -62,7 +67,9 @@ class Complaints {
           subject: subject ?? this.subject,
           date: date ?? this.date,
           binID: binID ?? this.binID,
-          driverID: driverID ?? this.driverID);
+          driverID: driverID ?? this.driverID,
+          districtName: districtName?? this.districtName
+          );
 
   static Complaints fromJson(Map<String, Object> json) => Complaints(
       complaintID: json[ComplaintsFields.id] as int,
@@ -71,7 +78,9 @@ class Complaints {
       status: json[ComplaintsFields.status] == 1,
       subject: json[ComplaintsFields.subject] as String,
       date: DateTime.parse(json[ComplaintsFields.date] as String),
-      driverID: json[ComplaintsFields.driverID] as int);
+      driverID: json[ComplaintsFields.driverID] as int,
+      districtName: json[ComplaintsFields.districtName] as String)
+      ;
 
   Future<Complaints> read(int id, dynamic instance) async {
     final db = await instance.database;

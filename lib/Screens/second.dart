@@ -1,9 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/first.dart';
+import 'package:flutter_application_1/screens/Login.dart';
 
 void main(){
-runApp(MyApp());//function written by flutter 
+runApp(second());//function written by flutter 
 }
 
 /*class MyApp extends StatelessWidget{
@@ -16,22 +17,8 @@ runApp(MyApp());//function written by flutter
   }
 
 }*/
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeDemo(),
-    );
-  }
-}
-class HomeDemo extends StatefulWidget {
-  @override
-  _LoginDemoState createState() => _LoginDemoState();
-}
+class second extends StatelessWidget {
 
-class _LoginDemoState extends State<HomeDemo> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +37,7 @@ class _LoginDemoState extends State<HomeDemo> {
               child: Center(
                 child: Container(
                   decoration: new BoxDecoration(
-            image: new DecorationImage(image: AssetImage("/Users/mac/Desktop/flutter_application_1/assets/images/first.png"), fit: BoxFit.cover,),
+            image: new DecorationImage(image: AssetImage("/Users/mac/Desktop/flutter_application_1/assets/images/second.png"), fit: BoxFit.cover,),
           ),
                     width: 207,
                     height: 170,
@@ -62,7 +49,7 @@ class _LoginDemoState extends State<HomeDemo> {
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 20, bottom: 30),
-              child: Text('Better manage the waste \n and be notofied when bins are full',  style: TextStyle(fontSize: 24),
+              child: Text('Better manage the waste and \n be notified when bins are full',  style: TextStyle(fontSize: 24),
               ),
                    
             ),
@@ -73,7 +60,7 @@ class _LoginDemoState extends State<HomeDemo> {
               },
              
             ),*/
-            ListTile(
+           /* ListTile(
           title: Row(
              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -127,7 +114,7 @@ class _LoginDemoState extends State<HomeDemo> {
                 ),*/
             ],
           ),
-            ),
+            ),*/
         
       
             /*Container(
@@ -172,7 +159,10 @@ class _LoginDemoState extends State<HomeDemo> {
                   
               child: FlatButton(
                 onPressed: () {
-                 
+                   Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) =>  Login()),
+  );
                 },
                 child: Text(
                   'Login',

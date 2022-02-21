@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screens/second.dart';
 import 'package:flutter_application_1/screens/first.dart';
 
 void main() {
@@ -32,7 +33,15 @@ class _LoginDemoState extends State<HomeDemo> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(
+            GestureDetector(
+    onTap: () { 
+       Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) =>  second()),
+  );
+    },
+            child: Container(
+  
               margin: const EdgeInsets.only(top: 240.0, right: 10),
               child: Center(
                 child: Container(
@@ -41,14 +50,17 @@ class _LoginDemoState extends State<HomeDemo> {
                       image: AssetImage(
                           "/Users/mac/Desktop/flutter_application_1/assets/images/ourLogo.png"),
                       fit: BoxFit.cover,
+                     
                     ),
                   ),
                   width: 207,
                   height: 170,
+              
                   // child: Image.asset('/Users/mac/Desktop/flutter_application_1/assets/images/first.png')),
                 ),
               ),
             ),
+            )
           ],
         ),
       ),

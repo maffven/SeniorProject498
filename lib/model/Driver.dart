@@ -117,4 +117,16 @@ class Driver {
     return db
         .delete(tableDriver, where: '${DriverFields.id} = ?', whereArgs: [id]);
   }
+
+  Future<Driver> checkLogin(String password, int phone, dynamic instance) async{
+  final dbClient = await instance.database;
+    var res = await dbClient.rawQuery(
+        "SELECT * FROM $tableDriver WHERE password = '$password' and phone = '$phone'");
+
+    if (res.length > 0) {
+      return res;
+    }
+
+    return null;
+  }
 }

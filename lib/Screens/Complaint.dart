@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/BinLevel.dart';
+import 'package:flutter_application_1/model/Complaints.dart';
+import 'package:flutter_application_1/model/District.dart';
 import 'package:sqflite/sqflite.dart';
 
 void main() {
@@ -8,22 +10,29 @@ void main() {
 }
 
 class Complaint extends StatelessWidget {
-  static Database _database;
-  Future<Database> get database async {
-    if (_database != null) return _database;
-    // lazily instantiate the db the first time it is accessed
-    _database = await initDatabase();
-    return _database;
+  List<District> disList;
+ 
+var items;
+  Future<List<District>> read() async {
+    List<dynamic> dis = await readAll(tableDistrict);
+    disList = dis.cast();
+    for (int i = 0; i < disList.length; i++) {
+   items = disList[i].name;
+   print(disList[i].name);
+    }
+    return disList;
   }
 
   final dbHelper = DatabaseHelper.instance;
+
 
   //function written by flutter
   final TextEditingController binId = new TextEditingController();
   final TextEditingController district = new TextEditingController();
   final TextEditingController summary = new TextEditingController();
   final TextEditingController description = new TextEditingController();
-  var items = ['1', '2', '3', '4']; //from database
+  //from database
+
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Drop List Example',
@@ -145,15 +154,25 @@ class Complaint extends StatelessWidget {
                   child: FlatButton(
                     onPressed: () async {
                       //  print('hi');
-                    
-
-                      BinLevel bin = BinLevel(
+                      DateTime now = new DateTime.now();
+                      DateTime date =
+                          new DateTime(now.year, now.month, now.day);
+//added the district name column to the complaint table
+//addCol("DistrictName", tableComplaints);
+                      Complaints c = Complaints(
+                          binID: int.parse(binId.text),
+                          complaintMessage: description.text,
+                          subject: summary.text,
+                          status: false,
+                          driverID: 2,
+                          date: date);
+                      /* BinLevel bin = BinLevel(
                           binID: 123,
                           half_full: true,
                           full: false,
                           empty: false,
                           level: 1);
-                      addObj(bin, tableBinLevel);
+                      addObj(bin, tableBinLevel);*/
                     },
                     child: Text(
                       'Submit',
@@ -169,17 +188,21 @@ class Complaint extends StatelessWidget {
     );
   }
 
-// this opens the database (and creates it if it doesn't exist)
-  initDatabase() async {
-    DatabaseHelper dh = new DatabaseHelper();
-    dh.createDB(_database, 1);
-  }
+
 
   Future addObj(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalCreate(obj, tableName);
     print("object inserted");
   }
 
-  
-  
+  Future addCol(dynamic obj, String tableName) async {
+    await DatabaseHelper.instance.alterTable(tableName, obj);
+    print("object inserted");
+  }
+
+  Future<List<dynamic>> readAll(String tableName) async {
+    //We have to define list here as dynamci *******
+    return await DatabaseHelper.instance.generalReadAll(tableName);
+    // print("mun object: ${munList[0].firatName}");
+  }
 }

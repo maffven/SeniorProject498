@@ -292,6 +292,27 @@ class DatabaseHelper {
     return table.copy(id: id);
   }
 
+Future<dynamic> alterTable(String TableName, String ColumneName) async {
+  var dbClient = await await DatabaseHelper.instance.database;
+  var count = await dbClient.execute("ALTER TABLE $TableName ADD "
+      "COLUMN $ColumneName TEXT;");
+  print(await dbClient.query(tableComplaints));
+  return count;
+}
+Future<Driver> checkLogin (String password, int phone) async{
+   //return await Driver().checkLogin(password, phone, instance);
+/*final dbClient = await instance.database;
+    var res = await dbClient.rawQuery(
+        "SELECT * FROM $tableDriver WHERE password = '$password' and phone = '$phone'");
+
+    if (res.length > 0) {
+      return new Driver;
+    }
+
+    return null;
+  */
+   
+}
   // read a row
 
   Future<dynamic> generalRead(String tableName, int id) async {
@@ -331,7 +352,7 @@ class DatabaseHelper {
         return await Complaints().read(id, instance);
         break;
 //--------------------------------------------------------------
-      case "District":
+      case "district":
         return await District().read(id, instance);
         break;
 //--------------------------------------------------------------
@@ -374,7 +395,7 @@ class DatabaseHelper {
         return await Complaints().readAll(instance);
         break;
 //--------------------------------------------------------------
-      case "District":
+      case "district":
         return await District().readAll(instance);
         break;
 //--------------------------------------------------------------
@@ -383,13 +404,6 @@ class DatabaseHelper {
 //--------------------------------------------------------------
     }
   }
-
-  /*Future<List<dynamic>> generalReadAll(
-      String tableName, dynamic className) async {
-    final db = await instance.database;
-    final result = await db.query(tableName);
-    return result.map((json) => className.fromJson(json)).toList();
-  }*/
 
   //update row
 
@@ -468,7 +482,7 @@ class DatabaseHelper {
         return await Complaints().delete(id, instance);
         break;
 //--------------------------------------------------------------
-      case "District":
+      case "district":
         return await District().delete(id, instance);
         break;
 //--------------------------------------------------------------

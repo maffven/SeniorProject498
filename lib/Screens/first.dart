@@ -51,7 +51,7 @@ class first extends StatelessWidget{
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
     
-                  ElevatedButton(
+                 ElevatedButton(
                     onPressed: _incrementCounter,
                     style: ButtonStyle(
                       backgroundColor:

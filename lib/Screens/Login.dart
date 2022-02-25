@@ -132,7 +132,7 @@ class _LoginDemoState extends State<LoginDemo> {
               child: FlatButton(
                 onPressed: () async {
                   //frist, check if text fields are not empty
-                  if (phoneController.text == "" &&
+                /*  if (phoneController.text == "" &&
                       passwordController.text == "") {
                         showDialog();
                   } else {
@@ -210,12 +210,12 @@ class _LoginDemoState extends State<LoginDemo> {
                   //   Bin(name,miles,7);
                   // _insert(name, miles);
                   // _queryAll();
-
-                  /*List<dynamic> d = await readAll(tableMunicipalityAdmin);
-                  munList = d.cast();
-                  for (int i = 0; i < munList.length; i++) {
-                    print("${munList[i].municpalityID}");
-                  }*/
+*/
+                  List<dynamic> d = await readAll(tableDriver);
+                  dd = d.cast();
+                  for (int i = 0; i < dd.length; i++) {
+                    print("${dd[i].driverID}");
+                  }
                   //addObj(mun, tableMunicipalityAdmin);
 
                   //deleteObj(1243, tableMunicipalityAdmin);

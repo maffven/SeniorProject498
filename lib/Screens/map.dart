@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/model/firebase_config.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:firebase_analytics/firebase_analytics.dart';
+//import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_application_1/model/tabs_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_core/firebase_core.dart';
 const double GMAP_DEFAULT_LATITUDE = 21.584873;
 const double GMAP_DEFAULT_LONGITUDE = 39.205959;
 const double GMAP_DEFAULT_ZOOM = 12;
@@ -22,7 +22,7 @@ const CameraPosition INITIAL_CAMERA_POSITION = CameraPosition(
 );
 void main() async {
 WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseConfig.platformOptions);
+ // await Firebase.initializeApp(options: DefaultFirebaseConfig.platformOptions);
   runApp(map()); //function written by flutter
 }
 //list of markers on the map
@@ -56,10 +56,10 @@ Marker(
 
 class map extends StatelessWidget {
 
-  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  /*static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
-
+*/
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

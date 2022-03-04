@@ -358,14 +358,14 @@ class MapScreenState extends State<Profile> {
                               margin:
                                   EdgeInsets.only(top: 40, left: 40, right: 40),
                               decoration: new BoxDecoration(
-                                color: Colors.green,
-                                border:
-                                    Border.all(color: Colors.black, width: 0.0),
+                                color: Color.fromARGB(255, 162, 255, 229),
+                                border: Border.all(
+                                    color: Color(0xff28CC9E), width: 0.0),
                                 borderRadius: new BorderRadius.all(
                                     Radius.elliptical(100, 50)),
                               ),
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 35.0),
+                                  vertical: 10.0, horizontal: 35.0),
                               child: Text("22"),
                             ),
                           ),
@@ -375,14 +375,14 @@ class MapScreenState extends State<Profile> {
                             margin:
                                 EdgeInsets.only(top: 40, left: 300, right: 0),
                             decoration: new BoxDecoration(
-                              color: Colors.green,
-                              border:
-                                  Border.all(color: Colors.black, width: 0.0),
+                              color: Color.fromARGB(255, 162, 255, 229),
+                              border: Border.all(
+                                  color: Color(0xff28CC9E), width: 0.0),
                               borderRadius: new BorderRadius.all(
                                   Radius.elliptical(100, 50)),
                             ),
                             padding: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 35.0),
+                                vertical: 10.0, horizontal: 35.0),
                             child: Text("60%"),
                           ),
                         ],
@@ -430,14 +430,14 @@ class MapScreenState extends State<Profile> {
                               margin:
                                   EdgeInsets.only(top: 40, left: 40, right: 40),
                               decoration: new BoxDecoration(
-                                color: Colors.green,
-                                border:
-                                    Border.all(color: Colors.black, width: 0.0),
+                                color: Color.fromARGB(255, 162, 255, 229),
+                                border: Border.all(
+                                    color: Color(0xff28CC9E), width: 0.0),
                                 borderRadius: new BorderRadius.all(
                                     Radius.elliptical(100, 50)),
                               ),
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 35.0),
+                                  vertical: 10.0, horizontal: 35.0),
                               child: Text("12"),
                             ),
                           ),
@@ -447,14 +447,14 @@ class MapScreenState extends State<Profile> {
                             margin:
                                 EdgeInsets.only(top: 40, left: 300, right: 0),
                             decoration: new BoxDecoration(
-                              color: Colors.green,
-                              border:
-                                  Border.all(color: Colors.black, width: 0.0),
+                              color: Color.fromARGB(255, 162, 255, 229),
+                              border: Border.all(
+                                  color: Color(0xff28CC9E), width: 0.0),
                               borderRadius: new BorderRadius.all(
                                   Radius.elliptical(100, 50)),
                             ),
                             padding: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 35.0),
+                                vertical: 10.0, horizontal: 35.0),
                             child: Text("10"),
                           ),
                         ],

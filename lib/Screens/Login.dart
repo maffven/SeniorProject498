@@ -131,8 +131,41 @@ class _LoginDemoState extends State<LoginDemo> {
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
+                  //create object
+                  /* District di =
+                      District(name: "Alnaseem", numberOfBins: 15, driverID: 5);
+                  District di2 =
+                      District(name: "AlJamea", numberOfBins: 12, driverID: 1);
+                  District di3 = District(
+                      name: "Alfaisaliah", numberOfBins: 13, driverID: 2);
+                  District di4 =
+                      District(name: "Alwaha", numberOfBins: 11, driverID: 3);
+                  District di5 = District(
+                      name: "Alsulaimania", numberOfBins: 15, driverID: 4);*/
+
+                  Bin bin = Bin(binID: 123, capacity: 10, districtId: 1);
+                  Bin bin1 = Bin(binID: 144, capacity: 25, districtId: 2);
+                  Bin bin2 = Bin(binID: 166, capacity: 40, districtId: 3);
+
+                  /* addObj(mun, tableMunicipalityAdmin);
+                  addObj(mn, tableMunicipalityAdmin);
+                  addObj(mu, tableMunicipalityAdmin);
+                  addObj(dr, tableDriver);
+                  addObj(dr2, tableDriver);
+                  addObj(dr3, tableDriver);
+                  addObj(dr4, tableDriver);
+                  addObj(dr5, tableDriver);*/
+                  /*addObj(di, tableDistrict);
+                  addObj(di2, tableDistrict);
+                  addObj(di3, tableDistrict);
+                  addObj(di4, tableDistrict);
+                  addObj(di5, tableDistrict);*/
+                  /*addObj(bin, "bin_table");
+                  addObj(bin1, "bin_table");
+                  addObj(bin2, "bin_table");*/
+
                   //frist, check if text fields are not empty
-                /*  if (phoneController.text == "" &&
+                  /*  if (phoneController.text == "" &&
                       passwordController.text == "") {
                         showDialog();
                   } else {
@@ -211,10 +244,11 @@ class _LoginDemoState extends State<LoginDemo> {
                   // _insert(name, miles);
                   // _queryAll();
 */
-                  List<dynamic> d = await readAll(tableDriver);
-                  dd = d.cast();
-                  for (int i = 0; i < dd.length; i++) {
-                    print("${dd[i].driverID}");
+                  List<dynamic> d = await readAll(tableDistrict);
+                  disList = d.cast();
+                  for (int i = 0; i < disList.length; i++) {
+                    print("${disList[i].districtID}");
+                    //deleteObj(disList[i].districtID, tableDistrict);
                   }
                   //addObj(mun, tableMunicipalityAdmin);
 
@@ -222,7 +256,17 @@ class _LoginDemoState extends State<LoginDemo> {
                   //MunicipalityAdmin obj = await readAll( tableMunicipalityAdmin);
                   //print("${obj.firstName} HIII");
 
-                  /* addObj(di, tableDistrict);
+                  /*District di =
+                      District(name: "Alnaseem", numberOfBins: 15, driverID: 5);
+                  District di2 =
+                      District(name: "AlJamea", numberOfBins: 12, driverID: 1);
+                  District di3 = District(
+                      name: "Alfaisaliah", numberOfBins: 13, driverID: 2);
+                  District di4 =
+                      District(name: "Alwaha", numberOfBins: 11, driverID: 3);
+                  District di5 = District(
+                      name: "Alsulaimania", numberOfBins: 15, driverID: 4);
+                  addObj(di, tableDistrict);
                   addObj(di2, tableDistrict);
                   addObj(di3, tableDistrict);
                   addObj(di4, tableDistrict);
@@ -369,11 +413,11 @@ class _LoginDemoState extends State<LoginDemo> {
 
   //Delete a row
   //gneralDelete(int id, String tablename)
-  /*Future deleteObj(int id, String tableName) async {
+  Future deleteObj(int id, String tableName) async {
     print("$id rawan");
     await DatabaseHelper.instance.gneralDelete(id, tableName);
     print("Object is deleted");
-  }*/
+  }
 
   //Close database  Method
   Future close() async {

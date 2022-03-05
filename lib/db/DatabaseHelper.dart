@@ -69,6 +69,7 @@ class DatabaseHelper {
           CREATE TABLE $tableBin (
             ${BinFields.id} $idType,
             ${BinFields.capacity} $doubleNum ,
+            ${BinFields.districtId} $number,
            FOREIGN KEY (${BinFields.districtId}) REFERENCES $tableDistrict(${DistrictFields.id})
           )
           ''');
@@ -292,15 +293,16 @@ class DatabaseHelper {
     return table.copy(id: id);
   }
 
-Future<dynamic> alterTable(String TableName, String ColumneName) async {
-  var dbClient = await await DatabaseHelper.instance.database;
-  var count = await dbClient.execute("ALTER TABLE $TableName ADD "
-      "COLUMN $ColumneName TEXT;");
-  print(await dbClient.query(tableComplaints));
-  return count;
-}
-Future<Driver> checkLogin (String password, int phone) async{
-   //return await Driver().checkLogin(password, phone, instance);
+  Future<dynamic> alterTable(String TableName, String ColumneName) async {
+    var dbClient = await await DatabaseHelper.instance.database;
+    var count = await dbClient.execute("ALTER TABLE $TableName ADD "
+        "COLUMN $ColumneName TEXT;");
+    print(await dbClient.query(tableComplaints));
+    return count;
+  }
+
+  Future<Driver> checkLogin(String password, int phone) async {
+    //return await Driver().checkLogin(password, phone, instance);
 /*final dbClient = await instance.database;
     var res = await dbClient.rawQuery(
         "SELECT * FROM $tableDriver WHERE password = '$password' and phone = '$phone'");
@@ -311,8 +313,7 @@ Future<Driver> checkLogin (String password, int phone) async{
 
     return null;
   */
-   
-}
+  }
   // read a row
 
   Future<dynamic> generalRead(String tableName, int id) async {
@@ -322,13 +323,13 @@ Future<Driver> checkLogin (String password, int phone) async{
         return await MunicipalityAdmin().read(id, instance);
         break;
 
-        //--------------------------------------------------------------
+      //--------------------------------------------------------------
 
       case "Driver":
         return await Driver().read(id, instance);
         break;
 
-        //--------------------------------------------------------------
+      //--------------------------------------------------------------
       case "DriverStatusFields":
         return await DriverStatus().read(id, instance);
         break;
@@ -370,11 +371,11 @@ Future<Driver> checkLogin (String password, int phone) async{
         return await MunicipalityAdmin().readAll(instance);
         break;
 
-              case "Driver":
+      case "Driver":
         return await Driver().readAll(instance);
         break;
-        
-        //--------------------------------------------------------------
+
+      //--------------------------------------------------------------
       case "Driver_Status":
         return await DriverStatus().readAll(instance);
         break;
@@ -414,12 +415,11 @@ Future<Driver> checkLogin (String password, int phone) async{
         break;
 //--------------------------------------------------------------
 
-
-              case "Driver":
+      case "Driver":
         return await Driver().update(id, instance, obj);
         break;
-        
-        //--------------------------------------------------------------
+
+      //--------------------------------------------------------------
       case "Driver_Status":
         return await DriverStatus().update(id, instance, obj);
         break;
@@ -456,11 +456,11 @@ Future<Driver> checkLogin (String password, int phone) async{
         return await MunicipalityAdmin().delete(id, instance);
         break;
 
-                      case "Driver":
+      case "Driver":
         return await Driver().delete(id, instance);
         break;
-        
-        //--------------------------------------------------------------
+
+      //--------------------------------------------------------------
       case "Driver_Status":
         return await DriverStatus().delete(id, instance);
         break;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_application_1/Screens/DriverDistrictList.dart';
 import 'package:flutter_application_1/Screens/Notification.dart';
 import 'package:flutter_application_1/Screens/Profile.dart';
 import 'package:flutter_application_1/screens/map.dart';
@@ -54,8 +55,9 @@ class Main extends StatelessWidget {
       tabBuilder: (BuildContext context, int index) {
         switch (index) {
           case 0:
-            return BarAndPieChartDashboard();
+            //return BarAndPieChartDashboard();
             //return PieChartDashboard();
+            return DriverDistrictList();
             break;
           case 1:
             return map();

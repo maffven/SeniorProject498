@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screens/AdminDashboard.dart';
 import 'package:flutter_application_1/Screens/DistrictListTab.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/District.dart';
@@ -77,42 +79,46 @@ class _DriverList extends State<DriverList>
           width: 160.0,
           height: 160.0,
           child: InkWell(
-              child: Card(
-                borderOnForeground: true,
-                color: Colors.white,
-                elevation: 2.0,
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Color(0xff28CC9E), width: 1),
-                    borderRadius: BorderRadius.circular(8.0)),
-                child: Center(
-                    child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Text(
-                        '${drivers[i].firstName} ${drivers[i].lastName}',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0),
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      /*  Text(
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) {
+              return PieChartDashboard(driver: drivers[i]);
+            })),
+            child: Card(
+              borderOnForeground: true,
+              color: Colors.white,
+              elevation: 2.0,
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Color(0xff28CC9E), width: 1),
+                  borderRadius: BorderRadius.circular(8.0)),
+              child: Center(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      '${drivers[i].firstName} ${drivers[i].lastName}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0),
+                    ),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    /*  Text(
                   "2 Items",
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w100),
                 )*/
-                    ],
-                  ),
-                )),
-              ),
-              onTap: () {})));
+                  ],
+                ),
+              )),
+            ),
+          )));
     }
     return boxWidgets;
   }

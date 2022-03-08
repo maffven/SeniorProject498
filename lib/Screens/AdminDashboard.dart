@@ -2,26 +2,41 @@
 
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter_application_1/db/DatabaseHelper.dart';
+import 'package:flutter_application_1/model/District.dart';
+import 'package:flutter_application_1/model/Driver.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_application_1/screens/DriverDashboard.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PieChartDashboard extends StatefulWidget {
   final Widget child;
+  final Driver driver;
+  PieChartDashboard({Key key, this.child, this.driver}) : super(key: key);
 
-  PieChartDashboard({Key key, this.child}) : super(key: key);
-
-  _PieChartDashboard createState() => _PieChartDashboard();
+  _PieChartDashboard createState() => _PieChartDashboard(driver: driver);
 }
 
 class _PieChartDashboard extends State<PieChartDashboard> {
+  final Driver driver;
+  List<District> districts;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _seriesPieData = List<charts.Series<PieChartData, String>>();
+    _generateData();
+    getDistricts();
+  }
+
+  _PieChartDashboard({this.driver});
   //List to store bar chart data
   List<charts.Series<PieChartData, String>> _seriesPieData;
   // items based on selected driver
-  final items = ['Alnaseem', 'Alwaha', 'Alrawda'];
+  //List of drivers' districts
+  //final items = [''];
   String value;
   // items for district list
-
 //to generate data
   _generateData() {
     //data about specific district
@@ -45,14 +60,33 @@ class _PieChartDashboard extends State<PieChartDashboard> {
   } //generateData
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _seriesPieData = List<charts.Series<PieChartData, String>>();
-    _generateData();
-  }
+  /*Widget build(BuildContext context) => Scaffold(
+        body: FutureBuilder<List<District>>(
+          future: getDistricts(),
+          builder: (context, snapshot) {
+            final district = snapshot.data;
+            final List items = List();
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Center(child: CircularProgressIndicator());
+              default:
+                if (snapshot.hasError) {
+                  return Center(child: Text("${snapshot.error}"));
+                } else {
+                  for (int i = 0; i < district.length; i++) {
+                    if (district[i].driverID == driver.driverID) {
+                      districts.add(district[i]);
+                      items.add(district[i].name);
+                      value = district[i].name;
+                    }
+                  }
+                  return buildPieChart(districts, items);
+                }
+            }
+          },
+        ),
+      );*/
 
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
@@ -81,7 +115,7 @@ class _PieChartDashboard extends State<PieChartDashboard> {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          child: Text("Driver is -----",
+                          child: Text('${driver.firstName} ${driver.lastName}',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'Arial',
@@ -144,14 +178,18 @@ class _PieChartDashboard extends State<PieChartDashboard> {
                             ),
                           ),
                           child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
+                            child: DropdownButton(
+                              hint: Text("Select district"),
                               iconSize: 36,
                               icon: Icon(
                                 Icons.arrow_drop_down_outlined,
                                 color: Color(0xff28CC9E),
                               ),
                               value: value,
-                              items: items.map(buildMenuItem).toList(),
+                              items: districts.map((item) {
+                                return DropdownMenuItem(
+                                    value: item.name, child: Text(item.name));
+                              }).toList(),
                               onChanged: (value) =>
                                   setState(() => this.value = value),
                             ),
@@ -206,4 +244,32 @@ class _PieChartDashboard extends State<PieChartDashboard> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
       );
+
+  //get Districts
+  Future<void> getDistricts() async {
+    //Get district from DB
+    List<District> district;
+    List<dynamic> districtDB = await readAll(tableDistrict);
+    district = districtDB.cast();
+    print("in get distric method");
+    print("district length ${districtDB.length}");
+    setState(() {
+      districts = district;
+    });
+
+    print(districts);
+  }
+
+  //read objects
+  //int id, String tableName, dynamic classFields, dynamic className
+  Future<dynamic> readObj(int id, String tableName) async {
+    return await DatabaseHelper.instance.generalRead(tableName, id);
+    //print("mun object: ${munObj.firatName}");
+  }
+
+  Future<List<dynamic>> readAll(String tableName) async {
+    //We have to define list here as dynamci *******
+    return await DatabaseHelper.instance.generalReadAll(tableName);
+    // print("mun object: ${munList[0].firatName}");
+  }
 }

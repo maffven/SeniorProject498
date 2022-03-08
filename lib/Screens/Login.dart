@@ -5,8 +5,13 @@ import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
 import 'package:flutter_application_1/model/Bin.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
-
-void main() {
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+void main() async {
+ WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp()
+      .then((value) => print("connected " + value.options.asMap.toString()))
+      .catchError((e) => print(e.toString()));
   runApp(Login()); //function written by flutter
 }
 
@@ -61,7 +66,35 @@ class _LoginDemoState extends State<LoginDemo> {
       },
     );
   }
-
+   Future<DocumentSnapshot> getData() async {
+    await Firebase.initializeApp();
+    return await FirebaseFirestore.instance
+        .collection("Arduino")
+        .doc("arduino-8abef-default-rtdb")
+        .get();
+  }
+  void showDialog1() async {
+     await Firebase.initializeApp();
+     //FirebaseFirestore db = FirebaseFirestore.instance;
+DocumentSnapshot variable = await FirebaseFirestore.instance.collection('Arduino').doc('arduino-8abef-default-rtdb').get();
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text("Distance Info"),
+          content: Text(variable['Distance']),
+          actions: [
+            CupertinoDialogAction(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,9 +198,9 @@ class _LoginDemoState extends State<LoginDemo> {
                   addObj(bin2, "bin_table");*/
 
                   //frist, check if text fields are not empty
-                  /*  if (phoneController.text == "" &&
+                   if (phoneController.text == "" &&
                       passwordController.text == "") {
-                        showDialog();
+                        showDialog1();
                   } else {
                     //get text field's input from the user
                     phone = int.parse(phoneController.text);
@@ -181,7 +214,7 @@ class _LoginDemoState extends State<LoginDemo> {
 
                   /*  BinLevel binL = BinLevel(
                     level: int.parse(milesController.text),
-                    , "", "", "", "");*/
+                    , "", "", "", "");
 
                   validate(BuildContext ctx) async {
                     if (phone != "" && password != "") {

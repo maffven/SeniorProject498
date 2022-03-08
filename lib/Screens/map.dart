@@ -1,6 +1,7 @@
 import 'dart:io';
-//import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_1/model/firebase_config.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+//import 'package:flutter_application_1/model/firebase_config.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 //import 'package:firebase_analytics/firebase_analytics.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_application_1/model/tabs_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 const double GMAP_DEFAULT_LATITUDE = 21.584873;
 const double GMAP_DEFAULT_LONGITUDE = 39.205959;
 const double GMAP_DEFAULT_ZOOM = 12;
@@ -20,10 +22,12 @@ const CameraPosition INITIAL_CAMERA_POSITION = CameraPosition(
   zoom: GMAP_DEFAULT_ZOOM,
 );
 void main() async {
-WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+/*WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();*/
   runApp(map()); //function written by flutter
 }
+
+
 //list of markers on the map
 List<Marker> markers = [
   Marker(
@@ -72,6 +76,8 @@ class HomeDemo extends StatefulWidget {
   _LoginDemoState createState() => _LoginDemoState();
 }
 class _LoginDemoState extends State<HomeDemo> {
+  
+
   @override
   Widget build(BuildContext context) { 
 return Scaffold(
@@ -101,9 +107,19 @@ class MapUtils {
   static Future<void> openMap(double latitude, double longitude) async {
     String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
-      await launch(googleUrl);
+     // await launch(googleUrl);
+      await Firebase.initializeApp();
+ DocumentSnapshot variable = await FirebaseFirestore.instance.collection('Arduino').doc('arduino-8abef-default-rtdb').get();
+ print(variable['Distance']);
     } else {
       throw 'Could not open the map.';
     }
   }
+
+getData() async {
+   await Firebase.initializeApp();
+ DocumentSnapshot variable = await FirebaseFirestore.instance.collection('Arduino').doc('arduino-8abef-default-rtdb').get();
+ print(variable['Distance']);
+}
+  
 }

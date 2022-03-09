@@ -107,10 +107,7 @@ class MapUtils {
   static Future<void> openMap(double latitude, double longitude) async {
     String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
-     // await launch(googleUrl);
-      await Firebase.initializeApp();
- DocumentSnapshot variable = await FirebaseFirestore.instance.collection('Arduino').doc('arduino-8abef-default-rtdb').get();
- print(variable['Distance']);
+      await launch(googleUrl);
     } else {
       throw 'Could not open the map.';
     }

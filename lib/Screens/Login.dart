@@ -7,6 +7,7 @@ import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 void main() async {
  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp()
@@ -35,6 +36,17 @@ class LoginDemo extends StatefulWidget {
 //Rawan work
 
 class _LoginDemoState extends State<LoginDemo> {
+   String distance ;
+  final fb = FirebaseDatabase.instance;
+  FirebaseDatabase database = FirebaseDatabase.instance;
+
+  //Create a database reference
+  final databaseReference = FirebaseDatabase.instance.reference();
+  @override
+  void initState(){
+    super.initState();
+    readData();
+  }
   List<Bin> bins = [];
   List<Bin> binsByCapacity = [];
   MunicipalityAdmin munObj = MunicipalityAdmin();
@@ -66,23 +78,49 @@ class _LoginDemoState extends State<LoginDemo> {
       },
     );
   }
-   Future<DocumentSnapshot> getData() async {
-    await Firebase.initializeApp();
-    return await FirebaseFirestore.instance
-        .collection("Arduino")
-        .doc("arduino-8abef-default-rtdb")
-        .get();
-  }
-  void showDialog1() async {
-     await Firebase.initializeApp();
-     //FirebaseFirestore db = FirebaseFirestore.instance;
-DocumentSnapshot variable = await FirebaseFirestore.instance.collection('Arduino').doc('arduino-8abef-default-rtdb').get();
+   void readData() async {
+     
+     //  await Firebase.initializeApp();
+ DatabaseReference ref = FirebaseDatabase.instance.ref("arduino-8abef-default-rtdb/Distance");
+
+
+DatabaseEvent event = await ref.once();
+print(event.snapshot.value); 
+
+ /*databaseReference.child('arduino-8abef-default-rtdb/Distance').
+  onValue.listen((event) { 
+    final String description = event.snapshot.value;
+   setState((){
+  distance = 'the distance is : $description';
+  print(distance);
+  });
+  });*/
+  
+   }
+  void showDialog1()  async{
+
+   //  final snapshot = await databaseReference.child('arduino-8abef-default-rtdb/Distance').get();
+ 
+ /*if(snapshot.exists){
+   print(snapshot.value);
+ }else{
+   print('no data ava');
+ }*/
+  /*onValue.listen((event) { 
+    final String description = event.snapshot.value;
+  distance = 'the distance is : $description';
+  print("the distance is : $distance");
+ 
+  });*/
+
+//FirebaseFirestore db = FirebaseFirestore.instance;
+//DocumentSnapshot variable = await FirebaseFirestore.instance.collection('Arduino').doc('arduino-8abef-default-rtdb').get();
     showCupertinoDialog(
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
           title: Text("Distance Info"),
-          content: Text(variable['Distance']),
+          content: Text(distance!=null?distance:'default value'),
           actions: [
             CupertinoDialogAction(
               child: Text("OK"),
@@ -200,7 +238,8 @@ DocumentSnapshot variable = await FirebaseFirestore.instance.collection('Arduino
                   //frist, check if text fields are not empty
                    if (phoneController.text == "" &&
                       passwordController.text == "") {
-                        showDialog1();
+                       // showDialog1();
+                          readData();
                   } else {
                     //get text field's input from the user
                     phone = int.parse(phoneController.text);

@@ -5,7 +5,6 @@ import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
 import 'package:flutter_application_1/model/Bin.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 void main() async {
@@ -19,9 +18,6 @@ void main() async {
 //if login is successfull go to Menu.dart
 
 class Login extends StatelessWidget {
-
- 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,9 +35,7 @@ class LoginDemo extends StatefulWidget {
 //Rawan work
 
 class _LoginDemoState extends State<LoginDemo> {
-   String distance ;
-  final fb = FirebaseDatabase.instance;
-  FirebaseDatabase database = FirebaseDatabase.instance;
+
 
   //Create a database reference
   final databaseReference = FirebaseDatabase.instance.reference();
@@ -82,9 +76,12 @@ class _LoginDemoState extends State<LoginDemo> {
     );
   }
 
-  void readD(){
-      databaseReference.once().then((DatabaseEvent event){
-       print(event.snapshot.value);
+     void readD(){
+    //this means the data is up to date
+      databaseReference.onValue.listen(( event){
+     final data = new Map<String, dynamic>.from(event.snapshot.value);
+       print(data);
+   
      });
   }
 

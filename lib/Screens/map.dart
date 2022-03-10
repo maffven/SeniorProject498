@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/cupertino.dart';
 //import 'package:flutter_application_1/model/firebase_config.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,7 @@ import 'package:flutter_application_1/model/tabs_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 const double GMAP_DEFAULT_LATITUDE = 21.584873;
 const double GMAP_DEFAULT_LONGITUDE = 39.205959;
@@ -22,12 +23,25 @@ const CameraPosition INITIAL_CAMERA_POSITION = CameraPosition(
   zoom: GMAP_DEFAULT_ZOOM,
 );
 void main() async {
-/*WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();*/
+ WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp()
+      .then((value) => print("connected " + value.options.asMap.toString()))
+      .catchError((e) => print(e.toString()));
   runApp(map()); //function written by flutter
 }
 
 
+  //Create a database reference
+  final databaseReference = FirebaseDatabase.instance.reference();
+  //to read the distance from the firebase
+   void readD(){
+    //this means the data is up to date
+      databaseReference.onValue.listen(( event){
+     final data = new Map<String, dynamic>.from(event.snapshot.value);
+       print(data);
+   
+     });
+  }
 //list of markers on the map
 List<Marker> markers = [
   Marker(
@@ -58,11 +72,7 @@ Marker(
 ];
 
 class map extends StatelessWidget {
-static final String title = 'Firebase Setup';
-  /*static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
-*/
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -76,7 +86,11 @@ class HomeDemo extends StatefulWidget {
   _LoginDemoState createState() => _LoginDemoState();
 }
 class _LoginDemoState extends State<HomeDemo> {
-  
+    @override
+  void initState(){
+    super.initState();
+    readD();
+  }
 
   @override
   Widget build(BuildContext context) { 
@@ -113,10 +127,6 @@ class MapUtils {
     }
   }
 
-getData() async {
-   await Firebase.initializeApp();
- DocumentSnapshot variable = await FirebaseFirestore.instance.collection('Arduino').doc('arduino-8abef-default-rtdb').get();
- print(variable['Distance']);
-}
+
   
 }

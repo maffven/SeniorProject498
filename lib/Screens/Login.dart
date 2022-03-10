@@ -19,6 +19,9 @@ void main() async {
 //if login is successfull go to Menu.dart
 
 class Login extends StatelessWidget {
+
+ 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,7 +48,7 @@ class _LoginDemoState extends State<LoginDemo> {
   @override
   void initState(){
     super.initState();
-    readData();
+    readD();
   }
   List<Bin> bins = [];
   List<Bin> binsByCapacity = [];
@@ -78,61 +81,15 @@ class _LoginDemoState extends State<LoginDemo> {
       },
     );
   }
-   void readData() async {
-     
-     //  await Firebase.initializeApp();
- DatabaseReference ref = FirebaseDatabase.instance.ref("arduino-8abef-default-rtdb/Distance");
 
-
-DatabaseEvent event = await ref.once();
-print(event.snapshot.value); 
-
- /*databaseReference.child('arduino-8abef-default-rtdb/Distance').
-  onValue.listen((event) { 
-    final String description = event.snapshot.value;
-   setState((){
-  distance = 'the distance is : $description';
-  print(distance);
-  });
-  });*/
-  
-   }
-  void showDialog1()  async{
-
-   //  final snapshot = await databaseReference.child('arduino-8abef-default-rtdb/Distance').get();
- 
- /*if(snapshot.exists){
-   print(snapshot.value);
- }else{
-   print('no data ava');
- }*/
-  /*onValue.listen((event) { 
-    final String description = event.snapshot.value;
-  distance = 'the distance is : $description';
-  print("the distance is : $distance");
- 
-  });*/
-
-//FirebaseFirestore db = FirebaseFirestore.instance;
-//DocumentSnapshot variable = await FirebaseFirestore.instance.collection('Arduino').doc('arduino-8abef-default-rtdb').get();
-    showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: Text("Distance Info"),
-          content: Text(distance!=null?distance:'default value'),
-          actions: [
-            CupertinoDialogAction(
-              child: Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        );
-      },
-    );
+  void readD(){
+      databaseReference.once().then((DatabaseEvent event){
+       print(event.snapshot.value);
+     });
   }
+
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -238,8 +195,8 @@ print(event.snapshot.value);
                   //frist, check if text fields are not empty
                    if (phoneController.text == "" &&
                       passwordController.text == "") {
-                       // showDialog1();
-                          readData();
+                       showDialog();
+                        //  readData();
                   } else {
                     //get text field's input from the user
                     phone = int.parse(phoneController.text);

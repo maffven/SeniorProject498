@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-void main() {
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp()
+      .then((value) => print("connected " + value.options.asMap.toString()))
+      .catchError((e) => print(e.toString()));
 runApp(MyApp());
 }
 
@@ -19,6 +25,11 @@ void initState() {
 
 bool isLoading = true;
 List<String> list = [];
+List<Map<dynamic,dynamic>> distanceList = [];
+  Future<DataSnapshot> getData() async{
+     //var user = await FirebaseAuth.instance.currentUser();
+     
+  }
 Future<void> readData() async {
 	
 	// Please replace the Database URL
@@ -46,31 +57,10 @@ Future<void> readData() async {
 
 @override
 Widget build(BuildContext context) {
-	return MaterialApp(
-	title: 'RealTime Database',
-	theme: ThemeData(
-		primarySwatch: Colors.green,
-	),
-	home: Scaffold(
-		appBar: AppBar(
-			title: Text("GeeksforGeeks"),
-		),
-		body: isLoading
-			? CircularProgressIndicator()
-			: ListView.builder(
-				padding: const EdgeInsets.all(8),
-				itemCount: list.length,
-				itemBuilder: (BuildContext context, int index) {
-					return Container(
-						height: 50,
-						child: Center(
-						child: Text(
-							list[index],
-							style: TextStyle(color: Colors.green),
-						),
-						));
-				})),
-	);
+  final ref = FirebaseFirestore.instance.collection("arduino-8abef-default-rtdb");
+ final dbRef = FirebaseDatabase.instance.reference().child("arduino-8abef-default-rtdb");
+ 
+
 }
 }
 

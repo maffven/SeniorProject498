@@ -5,28 +5,28 @@ import 'package:flutter_application_1/model/Complaints.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_application_1/model/Driver.dart';
+
 //import 'package:cloud_firestore/cloud_firestore.dart';
 void main() {
-  runApp(Complaint());
+  runApp(SendComplaint());
 }
 
-class Complaint extends StatelessWidget {
+class SendComplaint extends StatelessWidget {
   List<District> disList;
-   List<Driver> dd;
+  List<Driver> dd;
 
-var items;
+  var items;
   Future<List<District>> read() async {
     List<dynamic> dis = await readAll(tableDistrict);
     disList = dis.cast();
     for (int i = 0; i < disList.length; i++) {
-   items = disList[i].name;
-   print(disList[i].name);
+      items = disList[i].name;
+      print(disList[i].name);
     }
     return disList;
   }
 
   final dbHelper = DatabaseHelper.instance;
-
 
   //function written by flutter
   final TextEditingController binId = new TextEditingController();
@@ -34,7 +34,6 @@ var items;
   final TextEditingController summary = new TextEditingController();
   final TextEditingController description = new TextEditingController();
   //from database
-
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Drop List Example',
@@ -157,16 +156,17 @@ var items;
                     onPressed: () async {
                       //  print('hi');
 
-                        List<dynamic> d = await readAll(tableDriver);
-                  dd = d.cast();
-                  for (int i = 0; i < dd.length; i++) {
-                    print("${dd[i].driverID}");
-                  }
+                      List<dynamic> d = await readAll(tableDriver);
+                      dd = d.cast();
+                      for (int i = 0; i < dd.length; i++) {
+                        print("${dd[i].driverID}");
+                      }
                       DateTime now = new DateTime.now();
                       DateTime date =
                           new DateTime(now.year, now.month, now.day);
 //added the district name column to the complaint table
 //addCol("DistrictName", tableComplaints);
+
                       Complaints c = Complaints(
                           binID: int.parse(binId.text),
                           complaintMessage: description.text,
@@ -195,8 +195,6 @@ var items;
       ),
     );
   }
-
-
 
   Future addObj(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalCreate(obj, tableName);

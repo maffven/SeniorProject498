@@ -78,7 +78,7 @@ class _LoginDemoState extends State<LoginDemo> {
 
      void readD(){
     //this means the data is up to date
-      databaseReference.onValue.listen(( event){
+      databaseReference.onValue.listen((event){
      final data = new Map<String, dynamic>.from(event.snapshot.value);
        print(data);
    
@@ -193,14 +193,14 @@ class _LoginDemoState extends State<LoginDemo> {
                    if (phoneController.text == "" &&
                       passwordController.text == "") {
                        showDialog();
-                        //  readData();
+                      
                   } else {
                     //get text field's input from the user
                     phone = int.parse(phoneController.text);
                     password = passwordController.text;
                    //check login info from Database
                    List<dynamic> d = await readObj(phone,tableDriver);
-                  dd = d.cast();
+                   dd = d.cast();
                     
                   }
                   

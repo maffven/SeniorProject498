@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-//import 'package:flutter_application_1/model/firebase_config.dart';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
-//import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter_application_1/model/BinLevel.dart';
 import 'package:flutter_application_1/model/tabs_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,7 +14,8 @@ import 'package:firebase_database/firebase_database.dart';
 const double GMAP_DEFAULT_LATITUDE = 21.584873;
 const double GMAP_DEFAULT_LONGITUDE = 39.205959;
 const double GMAP_DEFAULT_ZOOM = 12;
-
+ var distance=0;
+  BinLevel level = BinLevel();
 const CameraPosition INITIAL_CAMERA_POSITION = CameraPosition(
   target: LatLng(
     GMAP_DEFAULT_LATITUDE,
@@ -27,32 +28,38 @@ void main() async {
   await Firebase.initializeApp()
       .then((value) => print("connected " + value.options.asMap.toString()))
       .catchError((e) => print(e.toString()));
-  runApp(map()); //function written by flutter
+       runApp(map()); //function written by flutter
 }
-
 
   //Create a database reference
   final databaseReference = FirebaseDatabase.instance.reference();
   //to read the distance from the firebase
-   void readD(){
+   void readDistance(){
     //this means the data is up to date
-      databaseReference.onValue.listen(( event){
-     final data = new Map<String, dynamic>.from(event.snapshot.value);
-       print(data);
-   
+      databaseReference.onValue.listen((event){
+      final distanceFirebase = new Map<String, dynamic>.from(event.snapshot.value);
+      print(distanceFirebase['Distance']);
+       distance = distanceFirebase['Distance'];
      });
+     
   }
+
 //list of markers on the map
 List<Marker> markers = [
   Marker(
+    infoWindow: InfoWindow(
+    title: "Empty Bin"),
     markerId: MarkerId('Green'),
     position: LatLng(21.584873, 39.205959),
     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
     onTap: () {
    MapUtils.openMap(21.584873, 39.205959);//to open google map app/direct 
   }
+
   ),
 Marker(
+  infoWindow: InfoWindow(
+    title: "Full Bin"),
     markerId: MarkerId('Red'),
     position: LatLng(21.543333, 39.172779),
     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
@@ -61,6 +68,8 @@ Marker(
   }
   ),
   Marker(
+    infoWindow: InfoWindow(
+    title: "Half-Full Bin"),
     markerId: MarkerId('Orange'),
     position: LatLng(21.285407, 39.237551),
     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
@@ -70,7 +79,13 @@ Marker(
   ),
 
 ];
-
+   final Marker marker = Marker( 
+     markerId: MarkerId('Green'),
+    position: LatLng(21.584873, 39.205959),
+    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+    onTap: () {
+   MapUtils.openMap(21.584873, 39.205959);//to open google map app/direct 
+  });
 class map extends StatelessWidget {
 
   @override
@@ -89,7 +104,7 @@ class _LoginDemoState extends State<HomeDemo> {
     @override
   void initState(){
     super.initState();
-    readD();
+    readDistance();
   }
 
   @override
@@ -103,12 +118,9 @@ return Scaffold(
       body: 
       GoogleMap(
         initialCameraPosition: INITIAL_CAMERA_POSITION,
-        markers: Set<Marker>.of(markers),
-        
+     //   markers: Set<Marker>.of(markers),
+          markers: Set<Marker>.of(markers),
       ),
-
-      
-
     );
 }
 

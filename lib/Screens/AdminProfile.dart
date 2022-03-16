@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
+import '../model/MunicipalityAdmin.dart';
+import '../db/DatabaseHelper.dart';
 
 class AdminProfile extends StatefulWidget {
   @override
@@ -11,7 +14,9 @@ class AdminProfile extends StatefulWidget {
 class MapScreenState extends State<AdminProfile> {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
-
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  MunicipalityAdmin mun;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -310,7 +315,9 @@ class MapScreenState extends State<AdminProfile> {
                 child: new Text("Save"),
                 textColor: Colors.white,
                 color: Colors.green,
-                onPressed: () {
+                onPressed: () async {
+                  //edit profile
+
                   setState(() {
                     _status = true;
                     FocusScope.of(context).requestFocus(new FocusNode());
@@ -364,5 +371,57 @@ class MapScreenState extends State<AdminProfile> {
         });
       },
     );
+  }
+
+  Future addObj(dynamic obj, String tableName) async {
+    await DatabaseHelper.instance.generalCreate(obj, tableName);
+    print("object inserted");
+  }
+
+  //generalUpdate(String tablename, int id, dynamic obj)
+  Future updateObj(int id, dynamic obj, String tableName) async {
+    await DatabaseHelper.instance.generalUpdate(tableName, id, obj);
+  }
+
+  //read objects
+  //int id, String tableName, dynamic classFields, dynamic className
+  Future<dynamic> readObj(int id, String tableName) async {
+    return await DatabaseHelper.instance.generalRead(tableName, id);
+    //print("mun object: ${munObj.firatName}");
+  }
+
+  Future<dynamic> verifyLogin(String password, int phone) async {
+    return await DatabaseHelper.instance.checkLogin(password, phone);
+    //print("mun object: ${munObj.firatName}");
+  }
+
+  Future<List<dynamic>> readAll(String tableName) async {
+    //We have to define list here as dynamci *******
+    return await DatabaseHelper.instance.generalReadAll(tableName);
+    // print("mun object: ${munList[0].firatName}");
+  }
+
+  //Delete a row
+  //gneralDelete(int id, String tablename)
+  Future deleteObj(int id, String tableName) async {
+    print("$id rawan");
+    await DatabaseHelper.instance.gneralDelete(id, tableName);
+    print("Object is deleted");
+  }
+
+  //Close database  Method
+  Future close() async {
+    final db = await DatabaseHelper.instance.database;
+    db.close();
+  }
+
+  Future<List<MunicipalityAdmin>> getDrivers() async {
+    //Get drivers from DB
+    List<MunicipalityAdmin> Mun;
+    List<dynamic> MunDB = await readAll(tableMunicipalityAdmin);
+    Mun = MunDB.cast();
+    //print("in get drivers method");
+    print("Admin length ${MunDB.length}");
+    return Mun;
   }
 }

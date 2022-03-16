@@ -5,8 +5,13 @@ import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
 import 'package:flutter_application_1/model/Bin.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
-
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+void main() async {
+ WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp()
+      .then((value) => print("connected " + value.options.asMap.toString()))
+      .catchError((e) => print(e.toString()));
   runApp(Login()); //function written by flutter
 }
 
@@ -30,6 +35,15 @@ class LoginDemo extends StatefulWidget {
 //Rawan work
 
 class _LoginDemoState extends State<LoginDemo> {
+
+
+  //Create a database reference
+  final databaseReference = FirebaseDatabase.instance.reference();
+  @override
+  void initState(){
+    super.initState();
+    readD();
+  }
   List<Bin> bins = [];
   List<Bin> binsByCapacity = [];
   MunicipalityAdmin munObj = MunicipalityAdmin();
@@ -62,6 +76,17 @@ class _LoginDemoState extends State<LoginDemo> {
     );
   }
 
+     void readD(){
+    //this means the data is up to date
+      databaseReference.onValue.listen((event){
+     final data = new Map<String, dynamic>.from(event.snapshot.value);
+       print(data);
+   
+     });
+  }
+
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,23 +190,24 @@ class _LoginDemoState extends State<LoginDemo> {
                   addObj(bin2, "bin_table");*/
 
                   //frist, check if text fields are not empty
-                  /*  if (phoneController.text == "" &&
+                   if (phoneController.text == "" &&
                       passwordController.text == "") {
-                        showDialog();
+                       showDialog();
+                      
                   } else {
                     //get text field's input from the user
                     phone = int.parse(phoneController.text);
                     password = passwordController.text;
                    //check login info from Database
                    List<dynamic> d = await readObj(phone,tableDriver);
-                  dd = d.cast();
+                   dd = d.cast();
                     
                   }
                   
 
                   /*  BinLevel binL = BinLevel(
                     level: int.parse(milesController.text),
-                    , "", "", "", "");*/
+                    , "", "", "", "");
 
                   validate(BuildContext ctx) async {
                     if (phone != "" && password != "") {

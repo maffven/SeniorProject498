@@ -15,7 +15,7 @@ class MapScreenState extends State<Profile> {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
   TextEditingController phoneController = TextEditingController();
-  TextEller EmailController = TextEditingController();
+  TextEditingController EmailController = TextEditingController();
   TextEditingController IDController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   Driver driver;

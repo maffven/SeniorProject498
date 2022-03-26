@@ -45,7 +45,7 @@ class Bin {
   //convert from json to MunicipalityAdmin
   static Bin fromJson(Map<String, Object> json) => Bin(
         binID: json[BinFields.id] as int,
-        capacity: json[BinFields.capacity],
+        capacity: double.parse(json[BinFields.capacity]),
         districtId: json[BinFields.districtId] as int,
       );
 
@@ -72,10 +72,10 @@ class Bin {
     return result.map((json) => Bin.fromJson(json)).toList();
   }
 
-  Future<int> update(int id, dynamic instance, Bin bin) async {
+  Future<int> update(int id, dynamic instance, Bin municipalityAdmin) async {
     final db = await instance.database;
     //we have to convert from object to json
-    return db.update(tableBin, bin.toJson(),
+    return db.update(tableBin, municipalityAdmin.toJson(),
         where: '${BinFields.id} = ?', whereArgs: [id]);
   }
 

@@ -380,7 +380,7 @@ class DatabaseHelper {
         return await DriverStatus().readAll(instance);
         break;
 //--------------------------------------------------------------
-      case "bin":
+      case "bin_table":
         return await Bin().readAll(instance);
         break;
 //--------------------------------------------------------------

@@ -44,11 +44,12 @@ class _LoginDemoState extends State<LoginDemo> {
     super.initState();
     readD();
   }
+  Bin bin = Bin ();
   List<Bin> bins = [];
   List<Bin> binsByCapacity = [];
   MunicipalityAdmin munObj = MunicipalityAdmin();
   List<MunicipalityAdmin> munList;
-  List<Bin> bb;
+  List<Bin> bb = [];
   List<Driver> dd;
   List<District> disList;
   int phone;
@@ -156,8 +157,9 @@ class _LoginDemoState extends State<LoginDemo> {
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
+
                   //create object
-                  /* District di =
+                   District di =
                       District(name: "Alnaseem", numberOfBins: 15, driverID: 5);
                   District di2 =
                       District(name: "AlJamea", numberOfBins: 12, driverID: 1);
@@ -166,16 +168,101 @@ class _LoginDemoState extends State<LoginDemo> {
                   District di4 =
                       District(name: "Alwaha", numberOfBins: 11, driverID: 3);
                   District di5 = District(
-                      name: "Alsulaimania", numberOfBins: 15, driverID: 4);*/
+                      name: "Alsulaimania", numberOfBins: 15, driverID: 4);
 
-                  Bin bin = Bin(binID: 123, capacity: 10, districtId: 1);
-                  Bin bin1 = Bin(binID: 144, capacity: 25, districtId: 2);
-                  Bin bin2 = Bin(binID: 166, capacity: 40, districtId: 3);
+                  Bin bin = Bin(capacity: 10, districtId: 1);
+                  Bin bin1 = Bin(capacity: 25, districtId: 2);
+                  Bin bin2 = Bin( capacity: 40, districtId: 3);
 
-                  /* addObj(mun, tableMunicipalityAdmin);
+
+               
+                 //  addObj(bin, tableBin);
+
+  List<dynamic> binList = await readAll(tableBin);
+                  bins = binList.cast();
+                  print(bins.length);
+                  for (int i = 0; i < bins.length; i++) {
+                    print("${bins[i].binID}");
+                  }
+
+                     MunicipalityAdmin mun = MunicipalityAdmin(
+                      firstName: "Lina",
+                      lastName: "Almansour",
+                      phone: 0554362082,
+                      email: "lina@gmail.com",
+                      password: "Lina1234");
+
+                  MunicipalityAdmin mn = MunicipalityAdmin(
+                      firstName: "Manar",
+                      lastName: "Hennawi",
+                      phone: 0508672505,
+                      email: "manar@gmail.com",
+                      password: "Manar1234");
+
+                  MunicipalityAdmin mu = MunicipalityAdmin(
+                      firstName: "Rawan",
+                      lastName: "Alghamdi",
+                      phone: 05091450563,
+                      email: "rawan@gmail.com",
+                      password: "Rawan1234");
+                /*  addObj(mun, tableMunicipalityAdmin);
                   addObj(mn, tableMunicipalityAdmin);
-                  addObj(mu, tableMunicipalityAdmin);
-                  addObj(dr, tableDriver);
+                  addObj(mu, tableMunicipalityAdmin);*/
+  /*List<dynamic> muList = await readAll(tableMunicipalityAdmin);
+                  munList = muList.cast();
+                  print(munList.length);
+                  for (int i = 0; i < munList.length; i++) {
+                    print("${munList[i].municpalityID}");
+                  }*/
+                    //inserting row inside muncipality table
+
+                  Driver dr = Driver(
+                      email: "yousef@gmail.com",
+                      password: "5123",
+                      phone: 06795435123,
+                      firstName: "Yousef",
+                      lastName: "Hamdi",
+                      workTime: "6-13",
+                      municpalityID: 1);
+
+                  Driver dr2 = Driver(
+                      email: "dawood@gmail.com",
+                      password: "6234",
+                      phone: 06795436234,
+                      firstName: "Dawood",
+                      lastName: "Alam",
+                      workTime: "7-14",
+                      municpalityID: 2);
+
+                  Driver dr3 = Driver(
+                      email: "jaweed@gmail.com",
+                      password: "7890",
+                      phone: 06795437890,
+                      firstName: "Jaweed",
+                      lastName: "Ahmed",
+                      workTime: "17-22",
+                      municpalityID: 3);
+
+                  Driver dr4 = Driver(
+                      email: "vinket@gmail.com",
+                      password: "7634",
+                      phone: 06795437634,
+                      firstName: "Vinket",
+                      lastName: "Mali",
+                      workTime: "16-20",
+                      municpalityID: 1);
+
+                  Driver dr5 = Driver(
+                      email: "muath@gmail.com",
+                      password: "1420",
+                      phone: 06795431420,
+                      firstName: "Muath",
+                      lastName: "Mohammad",
+                      workTime: "8-12",
+                      municpalityID: 3);
+  
+              
+                 /* addObj(dr, tableDriver);
                   addObj(dr2, tableDriver);
                   addObj(dr3, tableDriver);
                   addObj(dr4, tableDriver);
@@ -185,13 +272,26 @@ class _LoginDemoState extends State<LoginDemo> {
                   addObj(di3, tableDistrict);
                   addObj(di4, tableDistrict);
                   addObj(di5, tableDistrict);*/
-                  /*addObj(bin, "bin_table");
-                  addObj(bin1, "bin_table");
-                  addObj(bin2, "bin_table");*/
+                 /* addObj(bin, tableBin);
+                  addObj(bin1, tableBin);
+                  addObj(bin2, tableBin);*/
+   /* List<dynamic> b = await readAll(tableBin);
+                  bb = b.cast();
+                  print(bb.length);
+                  for (int i = 0; i < bb.length; i++) {
+                    print("from list:  ${bb[i].binID}");
+                  }
 
+                  List<dynamic> drListd = await readAll(tableDriver);
+                  dd = drListd.cast();
+                  print(dd.length);
+                  for (int i = 0; i < dd.length; i++) {
+                    print("${dd[i].driverID}");
+                  }*/
                   //frist, check if text fields are not empty
                    if (phoneController.text == "" &&
                       passwordController.text == "") {
+             
                        showDialog();
                       
                   } else {
@@ -251,14 +351,7 @@ class _LoginDemoState extends State<LoginDemo> {
 //print(driver1.firstName);
 //await db.execute("DROP TABLE IF EXISTS tableName");
 
-                  //Bin bin = Bin(binID: 123, capacity: 15, districtId: 49);
-                  //  addObj(bin, tableBin);
-
-                  Bin bin = Bin(binID: 123, capacity: 10, districtId: 1);
-                  Bin bin1 = Bin(binID: 144, capacity: 25, districtId: 2);
-                  Bin bin2 = Bin(binID: 166, capacity: 40, districtId: 3);
-
-                  //     addObj(bin, tableBin);
+                
 
                   // Bin bin = Bin(binID: 123, capacity: 15, districtId: 49);
                   //addObj(bin, "bin_table");
@@ -270,12 +363,12 @@ class _LoginDemoState extends State<LoginDemo> {
                   // _insert(name, miles);
                   // _queryAll();
 */
-                  List<dynamic> d = await readAll(tableDistrict);
+               /*   List<dynamic> d = await readAll(tableDistrict);
                   disList = d.cast();
                   for (int i = 0; i < disList.length; i++) {
                     print("${disList[i].districtID}");
                     //deleteObj(disList[i].districtID, tableDistrict);
-                  }
+                  }*/
                   //addObj(mun, tableMunicipalityAdmin);
 
                   //deleteObj(1243, tableMunicipalityAdmin);
@@ -320,13 +413,8 @@ class _LoginDemoState extends State<LoginDemo> {
                   // List<dynamic> b = await readAll("bin_table");
                   // List<dynamic> b = await readAll("bin_table");
 
-                  /* List<dynamic> b = await readAll("bin_table");
-
-                  bb = b.cast();
-                  for (int i = 0; i < bb.length; i++) {
-                    print("from list:  ${bb[i].capacity}");
-                  }
-                 */
+             
+                 
                   //close();
                   // addObj(mun, tableMunicipalityAdmin);
                   //initDatabase();*/

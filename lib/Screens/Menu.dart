@@ -47,7 +47,7 @@ class Main extends StatelessWidget {
             return DriverDistrictList();
             break;
           case 1:
-            return map();
+            return MapScreen();
             break;
           case 2:
             return Notifications();

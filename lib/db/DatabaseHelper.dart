@@ -91,8 +91,8 @@ class DatabaseHelper {
     await db.execute('''
           CREATE TABLE $BinLocation (
              ${BinLocationFields.id} $idType,
-             ${BinLocationFields.coordinateX} $number,
-             ${BinLocationFields.coordinateY} $number,
+             ${BinLocationFields.coordinateX} $doubleNum,
+             ${BinLocationFields.coordinateY} $doubleNum,
            FOREIGN KEY (${BinLocationFields.binID}) REFERENCES $tableBin(${BinFields.id})
           )
           ''');

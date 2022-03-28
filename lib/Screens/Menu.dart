@@ -3,24 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_application_1/Screens/DriverDistrictList.dart';
 import 'package:flutter_application_1/Screens/Notification.dart';
 import 'package:flutter_application_1/Screens/Profile.dart';
-import 'package:flutter_application_1/screens/map.dart';
 import 'package:flutter_application_1/screens/SendComplaint.dart';
 import 'package:flutter_application_1/screens/Login.dart';
 import 'AdminDashboard.dart';
 import 'package:flutter_application_1/Screens/DriverDashboard.dart';
-
-void main() => runApp(MyApp());
-
-/// This Widget is the main application widget.
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Training',
-      home: Main(),
-    );
-  }
-}
+import 'map.dart';
 
 class Main extends StatelessWidget {
   const Main({Key key}) : super(key: key);

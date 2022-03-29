@@ -24,26 +24,24 @@ class _DriverList extends State<DriverList>
   List<Widget> boxWidgets = [];
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder<List<Widget>>(
-        future: getWidgets("Driver"),
-        builder: (context, snapshot) {
-          final drivers = snapshot.data;
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return Center(child: CircularProgressIndicator());
-            default:
-              if (snapshot.hasError) {
-                return Center(child: Text("${snapshot.error}"));
-              } else {
-                return buildDrivers(drivers);
-              }
-          }
-        },
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Scaffold(
+        body: FutureBuilder<List<Widget>>(
+          future: getWidgets("Driver"),
+          builder: (context, snapshot) {
+            final drivers = snapshot.data;
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Center(child: CircularProgressIndicator());
+              default:
+                if (snapshot.hasError) {
+                  return Center(child: Text("${snapshot.error}"));
+                } else {
+                  return buildDrivers(drivers);
+                }
+            }
+          },
+        ),
+      );
 
   Widget buildDrivers(List<Widget> drivers) {
     return MaterialApp(

@@ -26,22 +26,26 @@ class ProfileState extends State<Profile> {
   //List<DriverStatus> status;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-      body: FutureBuilder<List<Driver>>(
-          future: getDrivers(),
-          builder: (context, snapshot) {
-            final drivers = snapshot.data;
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return Center(child: CircularProgressIndicator());
-              default:
-                if (snapshot.hasError) {
-                  return Center(child: Text("${snapshot.error}"));
-                } else {
-                  return buildProfile(drivers);
-                }
-            }
-          }));
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: FutureBuilder<List<Driver>>(
+        future: getDrivers(),
+        builder: (context, snapshot) {
+          final drivers = snapshot.data;
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator());
+            default:
+              if (snapshot.hasError) {
+                return Center(child: Text("${snapshot.error}"));
+              } else {
+                return buildProfile(drivers);
+              }
+          }
+        },
+      ),
+    );
+  }
 
   Widget buildProfile(List<Driver> drivers) {
     // drivers = await getDrivers();
@@ -172,7 +176,7 @@ class ProfileState extends State<Profile> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: <Widget>[
                                           Text("${drivers[0].driverID}"),
-                                          // new Flexible(
+                                          //new Flexible(
                                           //  child: new TextField(controller: IDController),
                                           //    decoration: const InputDecoration(
                                           //     hintText: "Enter Your ID",
@@ -182,7 +186,7 @@ class ProfileState extends State<Profile> {
                                           //   enabled: !_status,
                                           //    autofocus: !_status,
                                           //  ),
-                                          //),
+                                          // ),
                                         ],
                                       )),
                                   Padding(
@@ -213,21 +217,21 @@ class ProfileState extends State<Profile> {
                                       child: new Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: <Widget>[
-                                          new Flexible(
-                                            child: new Text(
-                                                "${drivers[0].firstName} ${drivers[0].lastName}"),
+                                          // new Flexible(
+                                          //   child: new Text(
+                                          //       "${drivers[0].firstName} ${drivers[0].lastName}"),
 
-                                            //controller: nameController,
-                                            //child: new TextField(
-                                            //  decoration: const InputDecoration(
-                                            //      hintText:
-                                            //          "Enter your full name"),
-                                            // "${drivers[i].firstName} ${drivers[i].lastName}"
-                                            //  mun = await readObj(mun, "municipality_admin");
-                                            // driver= await readObj(driver.firstName, Driver)
-                                            // enabled: !_status,
-                                            // ),
-                                          ),
+                                          //   //controller: nameController,
+                                          //   //child: new TextField(
+                                          //   //  decoration: const InputDecoration(
+                                          //   //      hintText:
+                                          //   //          "Enter your full name"),
+                                          //   // "${drivers[i].firstName} ${drivers[i].lastName}"
+                                          //   //  mun = await readObj(mun, "municipality_admin");
+                                          //   // driver= await readObj(driver.firstName, Driver)
+                                          //   // enabled: !_status,
+                                          //   // ),
+                                          // ),
                                         ],
                                       )),
                                   Padding(
@@ -259,16 +263,16 @@ class ProfileState extends State<Profile> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: <Widget>[
                                           Text("${drivers[0].email}"),
-                                          new Flexible(
-                                              // key:new TextField(controller: EmailController),
-                                              // child: new TextField(
-                                              //  decoration: const InputDecoration(
-                                              //      hintText: "Enter your Email"),
-                                              //mun = await readObj(mun.email, "municipality_admin");
-                                              // driver= await readObj(driver.email, Driver)
-                                              //  enabled: !_status,
-                                              // ),
-                                              ),
+                                          //new Flexible(
+                                          // key:new TxtField(controller: EmailController),
+                                          // child: new TextField(
+                                          //  decoration: const InputDecoration(
+                                          //      hintText: "Enter your Email"),
+                                          //mun = await readObj(mun.email, "municipality_admin");
+                                          // driver= await readObj(driver.email, Driver)
+                                          //  enabled: !_status,
+                                          // ),
+                                          // ),
                                         ],
                                       )),
                                   Padding(
@@ -302,22 +306,22 @@ class ProfileState extends State<Profile> {
                                             MainAxisAlignment.start,
                                         children: <Widget>[
                                           Text("${drivers[0].phone}"),
-                                          Flexible(
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(right: 10.0),
-                                              //  child: new TextField(controller: phoneController),
+                                          // Flexible(
+                                          //   child: Padding(
+                                          //     padding:
+                                          //         EdgeInsets.only(right: 10.0),
+                                          //     //  child: new TextField(controller: phoneController),
 
-                                              //   decoration: const InputDecoration(
-                                              //     hintText:
-                                              //          "Enter your phone number"),
-                                              //  mun = await readObj(mun.phone, "municipality_admin");
-                                              // driver= await readObj(driver.phone, Driver)
-                                              //  enabled: !_status,
-                                              //  ),
-                                            ),
-                                            flex: 2,
-                                          ),
+                                          //     //   decoration: const InputDecoration(
+                                          //     //     hintText:
+                                          //     //          "Enter your phone number"),
+                                          //     //  mun = await readObj(mun.phone, "municipality_admin");
+                                          //     // driver= await readObj(driver.phone, Driver)
+                                          //     //  enabled: !_status,
+                                          //     //  ),
+                                          //   ),
+                                          //   flex: 2,
+                                          // ),
                                         ],
                                       )),
                                   !_status
@@ -387,7 +391,7 @@ class ProfileState extends State<Profile> {
                                     fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
-                                width: 350,
+                                width: 50,
                               ),
                               new Text(
                                 'Performance',
@@ -410,7 +414,7 @@ class ProfileState extends State<Profile> {
                               height: 50,
                               width: 100,
                               margin:
-                                  EdgeInsets.only(top: 40, left: 40, right: 40),
+                                  EdgeInsets.only(top: 20, left: 40, right: 25),
                               decoration: new BoxDecoration(
                                 color: Color.fromARGB(255, 162, 255, 229),
                                 border: Border.all(
@@ -428,7 +432,7 @@ class ProfileState extends State<Profile> {
                             height: 50,
                             width: 100,
                             margin:
-                                EdgeInsets.only(top: 40, left: 300, right: 0),
+                                EdgeInsets.only(top: 20, left: 50, right: 0),
                             decoration: new BoxDecoration(
                               color: Color.fromARGB(255, 162, 255, 229),
                               border: Border.all(
@@ -460,7 +464,7 @@ class ProfileState extends State<Profile> {
                                     fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
-                                width: 350,
+                                width: 50,
                               ),
                               new Text(
                                 'Bins not collected',
@@ -483,7 +487,7 @@ class ProfileState extends State<Profile> {
                               height: 50,
                               width: 100,
                               margin:
-                                  EdgeInsets.only(top: 40, left: 40, right: 40),
+                                  EdgeInsets.only(top: 20, left: 40, right: 25),
                               decoration: new BoxDecoration(
                                 color: Color.fromARGB(255, 162, 255, 229),
                                 border: Border.all(
@@ -501,7 +505,7 @@ class ProfileState extends State<Profile> {
                             height: 50,
                             width: 100,
                             margin:
-                                EdgeInsets.only(top: 40, left: 300, right: 0),
+                                EdgeInsets.only(top: 20, left: 50, right: 0),
                             decoration: new BoxDecoration(
                               color: Color.fromARGB(255, 162, 255, 229),
                               border: Border.all(

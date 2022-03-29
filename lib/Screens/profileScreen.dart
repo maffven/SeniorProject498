@@ -23,7 +23,6 @@ class ProfileState extends State<Profile> {
   Driver driver;
   // DriverStatus status;
   District district;
-  List<Driver> drivers;
   List<District> districts;
   List<DriverStatus> status;
 

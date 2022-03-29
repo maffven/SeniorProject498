@@ -18,8 +18,8 @@ class BinLocationFields {
 class BinLocation {
   final int binID;
   final int location;
-  final int coordinateX;
-  final int coordinateY;
+  final double coordinateX;
+  final double coordinateY;
 
   const BinLocation(
       {@required this.binID,
@@ -50,8 +50,8 @@ class BinLocation {
   //convert from json to MunicipalityAdmin
   static BinLocation fromJson(Map<String, Object> json) => BinLocation(
       binID: json[BinLocationFields.binID] as int,
-      coordinateX: json[BinLocationFields.coordinateX] as int,
-      coordinateY: json[BinLocationFields.coordinateY] as int,
+      coordinateX: double.parse(json[BinLocationFields.coordinateX]),
+      coordinateY: double.parse(json[BinLocationFields.coordinateY]),
       location: json[BinLocationFields.id] as int);
 
   Future<BinLocation> read(int id, dynamic instance) async {

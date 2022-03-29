@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
 import 'package:flutter_application_1/model/Bin.dart';
+import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+
 void main() async {
- WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp()
       .then((value) => print("connected " + value.options.asMap.toString()))
       .catchError((e) => print(e.toString()));
@@ -35,15 +38,16 @@ class LoginDemo extends StatefulWidget {
 //Rawan work
 
 class _LoginDemoState extends State<LoginDemo> {
-
-
   //Create a database reference
   final databaseReference = FirebaseDatabase.instance.reference();
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     readD();
   }
+
+  List<BinLocation> locList;
   List<Bin> bins = [];
   List<Bin> binsByCapacity = [];
   MunicipalityAdmin munObj = MunicipalityAdmin();
@@ -76,17 +80,14 @@ class _LoginDemoState extends State<LoginDemo> {
     );
   }
 
-     void readD(){
+  void readD() {
     //this means the data is up to date
-      databaseReference.onValue.listen((event){
-     final data = new Map<String, dynamic>.from(event.snapshot.value);
-       print(data);
-   
-     });
+    databaseReference.onValue.listen((event) {
+      final data = new Map<String, dynamic>.from(event.snapshot.value);
+      print(data);
+    });
   }
 
-
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,20 +191,29 @@ class _LoginDemoState extends State<LoginDemo> {
                   addObj(bin2, "bin_table");*/
 
                   //frist, check if text fields are not empty
-                   if (phoneController.text == "" &&
+                  if (phoneController.text == "" &&
                       passwordController.text == "") {
-                       showDialog();
-                      
+                    showDialog();
                   } else {
                     //get text field's input from the user
                     phone = int.parse(phoneController.text);
                     password = passwordController.text;
-                   //check login info from Database
-                   List<dynamic> d = await readObj(phone,tableDriver);
-                   dd = d.cast();
-                    
+                    //check login info from Database
+                    List<dynamic> d = await readObj(phone, tableDriver);
+                    dd = d.cast();
                   }
-                  
+
+                  BinLocation loc = BinLocation(
+                      binID: 1,
+                      coordinateX: 21.4893852,
+                      coordinateY: 39.2462446);
+                  //addObj(loc, tableBinLocation);
+                  List<dynamic> loca = await readAll(tableBinLocation);
+                  locList = loca.cast();
+                  for (int i = 0; i < locList.length; i++) {
+                    print("${locList[i].coordinateX}");
+                    //deleteObj(disList[i].districtID, tableDistrict);
+                  }
 
                   /*  BinLevel binL = BinLevel(
                     level: int.parse(milesController.text),

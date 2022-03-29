@@ -7,7 +7,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 
 //import 'package:cloud_firestore/cloud_firestore.dart';
-void main() {
+void main()async {
+  
   runApp(SendComplaint());
 }
 
@@ -16,14 +17,14 @@ class SendComplaint extends StatelessWidget {
   List<Driver> dd;
 
   var items;
-  Future<List<District>> read() async {
+  Future<List<String>> read() async {
     List<dynamic> dis = await readAll(tableDistrict);
     disList = dis.cast();
     for (int i = 0; i < disList.length; i++) {
       items = disList[i].name;
       print(disList[i].name);
     }
-    return disList;
+    return items;
   }
 
   final dbHelper = DatabaseHelper.instance;

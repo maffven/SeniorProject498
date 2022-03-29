@@ -1,9 +1,9 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/District.dart';
-import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/model/DriverStatus.dart';
-
 class Profile extends StatefulWidget {
   @override
   final Widget child;

@@ -37,8 +37,8 @@ class BinLocation {
 
   BinLocation copy({
     int binID,
-    int coordinateX,
-    int coordinateY,
+    double coordinateX,
+    double coordinateY,
     int id,
   }) =>
       BinLocation(
@@ -66,7 +66,7 @@ class BinLocation {
     if (maps.isNotEmpty) {
       return BinLocation.fromJson(maps.first);
     } else {
-      throw Exception('ID $id not founs');
+      throw Exception('ID $id not found');
     }
   }
 

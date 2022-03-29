@@ -47,7 +47,7 @@ class _LoginDemoState extends State<LoginDemo> {
     readD();
   }
 
-  List<BinLocation> locList;
+  List<BinLocation> locList =[];
   List<Bin> bins = [];
   List<Bin> binsByCapacity = [];
   MunicipalityAdmin munObj = MunicipalityAdmin();
@@ -207,14 +207,14 @@ class _LoginDemoState extends State<LoginDemo> {
                       binID: 1,
                       coordinateX: 21.4893852,
                       coordinateY: 39.2462446);
-                  //addObj(loc, tableBinLocation);
-                  List<dynamic> loca = await readAll(tableBinLocation);
+                  
+                   //addObj(loc, tableBinLocation);
+                 List<dynamic> loca = await readAll(tableBinLocation);
                   locList = loca.cast();
                   for (int i = 0; i < locList.length; i++) {
                     print("${locList[i].coordinateX}");
                     //deleteObj(disList[i].districtID, tableDistrict);
                   }
-
                   /*  BinLevel binL = BinLevel(
                     level: int.parse(milesController.text),
                     , "", "", "", "");

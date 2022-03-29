@@ -24,6 +24,7 @@ class _PieChartDashboard extends State<PieChartDashboard> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    
     _seriesPieData = List<charts.Series<PieChartData, String>>();
     _generateData();
     getDistricts();
@@ -88,15 +89,15 @@ class _PieChartDashboard extends State<PieChartDashboard> {
       );*/
 
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
+    return Container(
+      child: DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xffffDD83),
             title: Text("Dashboard"),
             bottom: TabBar(
-              indicatorColor: Colors.white,
+              indicatorColor: Color.fromARGB(255, 248, 245, 245),
               tabs: [
                 Tab(text: "Driver"),
                 Tab(
@@ -110,8 +111,8 @@ class _PieChartDashboard extends State<PieChartDashboard> {
               Padding(
                 padding: EdgeInsets.only(
                     top: 8.0, bottom: 40.0, right: 8.0, left: 8.0),
-                child: Container(
-                  child: Center(
+                child: Center(
+                  child: Container(
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -119,7 +120,7 @@ class _PieChartDashboard extends State<PieChartDashboard> {
                               style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'Arial',
-                                  fontSize: 25)),
+                                  fontSize: 30)),
                           margin: EdgeInsets.only(top: 70.0),
                           padding:
                               EdgeInsets.symmetric(horizontal: 12, vertical: 1),
@@ -132,6 +133,7 @@ class _PieChartDashboard extends State<PieChartDashboard> {
                               animate: true,
                               animationDuration: Duration(seconds: 1),
                               behaviors: [
+                                //full,half-full,empty
                                 new charts.DatumLegend(
                                   outsideJustification:
                                       charts.OutsideJustification.endDrawArea,
@@ -147,7 +149,8 @@ class _PieChartDashboard extends State<PieChartDashboard> {
                                 )
                               ],
                               defaultRenderer: new charts.ArcRendererConfig(
-                                  arcWidth: 90,
+                                  arcWidth: 80,
+                                  strokeWidthPx: 5,
                                   arcRendererDecorators: [
                                     new charts.ArcLabelDecorator(
                                         labelPosition:

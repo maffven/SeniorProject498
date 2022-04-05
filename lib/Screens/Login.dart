@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screens/Menu.dart';
 import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +49,7 @@ class _LoginDemoState extends State<LoginDemo> {
     readD();
   }
 
-  List<BinLocation> locList =[];
+  List<BinLocation> locList = [];
   List<Bin> bins = [];
   List<Bin> binsByCapacity = [];
   MunicipalityAdmin munObj = MunicipalityAdmin();
@@ -56,7 +58,10 @@ class _LoginDemoState extends State<LoginDemo> {
   List<Driver> dd;
   List<District> disList;
   int phone;
+  bool passCheck = false;
+  bool phoneCheck = false;
   String password;
+  int loggedInId;
   //Take input from user or textview
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -67,6 +72,26 @@ class _LoginDemoState extends State<LoginDemo> {
         return CupertinoAlertDialog(
           title: Text("Warning"),
           content: Text("please enter all the fields"),
+          actions: [
+            CupertinoDialogAction(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void showDialogError() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text("Warning"),
+          content: Text("Password or phone are incorrect"),
           actions: [
             CupertinoDialogAction(
               child: Text("OK"),
@@ -198,23 +223,49 @@ class _LoginDemoState extends State<LoginDemo> {
                     //get text field's input from the user
                     phone = int.parse(phoneController.text);
                     password = passwordController.text;
-                    //check login info from Database
-                    List<dynamic> d = await readObj(phone, tableDriver);
-                    dd = d.cast();
+//check login info from the database driver's list
+                    List<dynamic> drListd = await readAll(tableDriver);
+                    dd = drListd.cast();
+                    for (int i = 0; i < dd.length; i++) {
+                      print("${dd[i].driverID}");
+                      print("${dd[i].phone}");
+                      print("${dd[i].password}");
+                      if (dd[i].phone == phone) {
+                        phoneCheck = true;
+                        loggedInId = dd[i].driverID;
+                      }
+
+                      if (dd[i].password == password) {
+                        passCheck = true;
+                      }
+                    }
+                    if (phoneCheck != true && passCheck != true) {
+                      showDialogError();
+                    } else {
+                      //naviagte to the menu screen
+                      //store the loggedin id
+                      SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                      await prefs.setInt('id', loggedInId);
+                      print(loggedInId);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Main()));
+                      print("logged in successfully");
+                    }
                   }
 
                   BinLocation loc = BinLocation(
                       binID: 1,
                       coordinateX: 21.4893852,
                       coordinateY: 39.2462446);
-                  
-                   //addObj(loc, tableBinLocation);
-                 List<dynamic> loca = await readAll(tableBinLocation);
+
+                  //addObj(loc, tableBinLocation);
+                  /*   List<dynamic> loca = await readAll(tableBinLocation);
                   locList = loca.cast();
                   for (int i = 0; i < locList.length; i++) {
                     print("${locList[i].coordinateX}");
                     //deleteObj(disList[i].districtID, tableDistrict);
-                  }
+                  }*/
                   /*  BinLevel binL = BinLevel(
                     level: int.parse(milesController.text),
                     , "", "", "", "");
@@ -280,12 +331,12 @@ class _LoginDemoState extends State<LoginDemo> {
                   // _insert(name, miles);
                   // _queryAll();
 */
-                  List<dynamic> d = await readAll(tableDistrict);
+                  /*  List<dynamic> d = await readAll(tableDistrict);
                   disList = d.cast();
                   for (int i = 0; i < disList.length; i++) {
                     print("${disList[i].districtID}");
                     //deleteObj(disList[i].districtID, tableDistrict);
-                  }
+                  }*/
                   //addObj(mun, tableMunicipalityAdmin);
 
                   //deleteObj(1243, tableMunicipalityAdmin);
@@ -356,68 +407,12 @@ class _LoginDemoState extends State<LoginDemo> {
     );
   }
 
-  // this opens the database (and creates it if it doesn't exist)
-  /*initDatabase() async {
-    DatabaseHelper dh = new DatabaseHelper();
-    //dh.deleteTable(_database);
-   dh.createDB(_database, 2);
+  /*void _navigateToNextScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Menu()));
   }*/
-
-  //Future deleteTAll() async {
-  //  await DatabaseHelper.instance.deleteTable(_database);
-  //  print("tables deleted");
-  //}
-  //Future createTAll() async {
-  //  await DatabaseHelper.instance.createTable(_database);
-  //  print("tables created");
-  //}
-
-  /* void _insert(name, miles) async {
-    // row to insert
-    Map<String, dynamic> row = {
-      DatabaseHelper.columnId: miles,
-      DatabaseHelper.columnCapacity: name,
-      DatabaseHelper.columnDistrict: 9
-    };
-    Bin car = Bin.fromMap(row);
-   
-    // final id = await car.toMap();
-    //_showMessageInScaffold('inserted row id: $id');
-  }*/
-
-  /*void _queryAll() async {
-    final allRows = await dbHelper.queryAllRows();
-    bins.clear();
-    List<Map<String, dynamic>> queryRows =
-        await DatabaseHelper.instance.queryAllRows();
-    allRows.forEach((row) => bins.add(Bin.fromMap(row)));
-    print(queryRows);
-    //_showMessageInScaffold('Query done.');
-    setState(() {});
-  }*/
-
-  /*void _query(name) async {
-    final allRows = await dbHelper.queryRows(name);
-    binsByCapacity.clear();
-    allRows.forEach((row) => binsByCapacity.add(Bin.fromMap(row)));
-  }*/
-
-  /* void _update(id, name, miles) async {
-    // row to update
-    Bin car = Bin(id, name, miles);
-    final rowsAffected = await dbHelper.update(car);
-    //_showMessageInScaffold('updated $rowsAffected row(s)');
-  }*/
-
-  /*void _delete(id) async {
-    // Assuming that the number of rows is the id for the last row.
-    final rowsDeleted = await dbHelper.delete(id);
-    // _showMessageInScaffold('deleted $rowsDeleted row(s): row $id');
-  }*/
-  /*Future deleteTAll() async {
-    await DatabaseHelper.instance.deleteTable(_database);
-    print("tables deleted");
-  }*/
+  Future<Driver> getLoginId(int phone) async {
+    return await DatabaseHelper.instance.getLoginId(phone);
+  }
 
   Future addObj(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalCreate(obj, tableName);

@@ -94,10 +94,24 @@ class Driver {
     if (maps.isNotEmpty) {
       return Driver.fromJson(maps.first);
     } else {
-      throw Exception('ID $id not founs');
+      throw Exception('ID $id not found');
     }
   }
+  Future<Driver> readLogin(int phone, dynamic instance) async {
+    final db = await instance.database;
+    final maps = await db.query(
+      Driver,
+      columns: DriverFields.values,
+      where: '${DriverFields.phone} = ?',
+      whereArgs: [phone],
+    );
 
+    if (maps.isNotEmpty) {
+      return Driver.fromJson(maps.first);
+    } else {
+      throw Exception('phone $phone not found');
+    }
+  }
   Future<List<dynamic>> readAll(dynamic instance) async {
     final db = await instance.database;
     final result = await db.query(tableDriver);

@@ -280,7 +280,11 @@ class DatabaseHelper {
           ''');
     print('Complaints table created');
   }
-
+Future <Driver> getLoginId (int phone) async{
+  Driver dd = new Driver();
+ Future<Driver> d = dd.readLogin(phone,instance);
+ return d;
+}
   // create a row
   Future<dynamic> generalCreate(
     dynamic table,

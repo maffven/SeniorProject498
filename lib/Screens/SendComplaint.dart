@@ -7,15 +7,26 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 
 //import 'package:cloud_firestore/cloud_firestore.dart';
-void main()async {
-  
+void main() async {
   runApp(SendComplaint());
 }
 
 class SendComplaint extends StatelessWidget {
   List<District> disList;
   List<Driver> dd;
+  List<DropdownMenuItem<String>> get dropdownItems async {
 
+ List<dynamic> dis = await readAll(tableDistrict);
+    disList = dis.cast();
+    for (int i = 0; i < disList.length; i++) {
+      items = disList[i].name;
+  List<DropdownMenuItem<String>> menuItems = [
+    DropdownMenuItem(child: Text("District"),value: items),
+
+  ];
+    }
+  return menuItems;
+}
   var items;
   Future<List<String>> read() async {
     List<dynamic> dis = await readAll(tableDistrict);

@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/District.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/model/DriverStatus.dart';
+
+
 class Profile extends StatefulWidget {
   @override
   final Widget child;
@@ -13,6 +16,7 @@ class Profile extends StatefulWidget {
 
 class ProfileState extends State<Profile> {
   bool _status = true;
+  
   final FocusNode myFocusNode = FocusNode();
   TextEditingController phoneController = TextEditingController();
   TextEditingController EmailController = TextEditingController();
@@ -175,7 +179,8 @@ class ProfileState extends State<Profile> {
                                       child: new Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: <Widget>[
-                                          Text("${drivers[0].driverID}"),
+                                          Text("$getId()"),
+                                         // Text("${drivers[0].driverID}"),
                                           //new Flexible(
                                           //  child: new TextField(controller: IDController),
                                           //    decoration: const InputDecoration(
@@ -622,7 +627,10 @@ class ProfileState extends State<Profile> {
     // print("drivers length ${driversDB.length}");
     return driv;
   }
-
+Future<int> getId() async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getInt('id');
+}
   Future<List<dynamic>> readAll(String tableName) async {
     //We have to define list here as dynamci *******
     return await DatabaseHelper.instance.generalReadAll(tableName);

@@ -35,7 +35,7 @@ const CameraPosition INITIAL_CAMERA_POSITION = CameraPosition(
 List<Marker> displayMarker(double colorBin) {
   print(colorBin);
   print(color);
-  List<Marker> marker = [
+markerss = [
     Marker(
         infoWindow: InfoWindow(title: titlee),
         markerId: MarkerId(color),
@@ -47,7 +47,7 @@ List<Marker> displayMarker(double colorBin) {
         })
   ];
 
-  return marker;
+  return markerss;
 //list of markers on the map
   /*markers = [
     Marker(

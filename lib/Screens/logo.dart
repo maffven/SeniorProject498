@@ -3,25 +3,25 @@ import 'package:flutter_application_1/Screens/second.dart';
 import 'package:flutter_application_1/screens/first.dart';
 
 void main() {
-  runApp(MyApp()); //function written by flutter
+  runApp(Logo()); //function written by flutter
 }
 
-class MyApp extends StatelessWidget {
+class Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeDemo(),
+      home: LogoDemo(),
     );
   }
 }
 
-class HomeDemo extends StatefulWidget {
+class LogoDemo extends StatefulWidget {
   @override
-  _LoginDemoState createState() => _LoginDemoState();
+  _LogoDemoState createState() => _LogoDemoState();
 }
 
-class _LoginDemoState extends State<HomeDemo> {
+class _LogoDemoState extends State<LogoDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -147,7 +147,11 @@ class _MapScreenState extends State<MapScreen> {
 //Create a database reference
   final databaseReference = FirebaseDatabase.instance.reference();
   @override
-  void initState() {
+  void initState() async {
+    WidgetsFlutterBinding.ensureInitialized();
+   await Firebase.initializeApp()
+       .then((value) => print("connected " + value.options.asMap.toString()))
+      .catchError((e) => print(e.toString()));
     super.initState();
     readDistance();
   }

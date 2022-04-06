@@ -1,36 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Screens/Login.dart';
+import 'package:flutter_application_1/Screens/SendComplaint.dart';
 import 'package:flutter_application_1/screens/first.dart';
+import 'Menu.dart';
 
 void main() {
-  runApp(first());
+  runApp(CompResult());
   
  }
-class first extends StatelessWidget {
+class CompResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FirstDemo(),
+      home: CompResultDemo(),
     );
   }
 }
 
-class FirstDemo extends StatefulWidget {
+class CompResultDemo extends StatefulWidget {
   @override
-  _FirstDemo createState() => _FirstDemo();
+  _CompResultDemo createState() => _CompResultDemo();
 }
 
-class _FirstDemo extends State<FirstDemo> {
+class _CompResultDemo extends State<CompResultDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color(0xffffDD83),
-        title: Text("Start"),
+        title: Text("Send a complaint"),
       ),
       body: SingleChildScrollView(
+        
         child: Column(
           children: <Widget>[
             Padding(
@@ -39,12 +42,12 @@ class _FirstDemo extends State<FirstDemo> {
                 child: Container(
                   decoration: new BoxDecoration(
                     image: new DecorationImage(
-                      image: AssetImage("/Applications/XAMPP/xamppfiles/htdocs/Untitled/SeniorProject498/assets/images/second.png"),
+                      image: AssetImage("/Applications/XAMPP/xamppfiles/htdocs/Untitled/SeniorProject498/assets/images/confirm1.png"),
                       fit: BoxFit.cover,
                     ),
                   ),
-                  width: 207,
-                  height: 170,
+                  width: 250,
+                  height: 250,
                   // child: Image.asset('/Users/mac/Desktop/flutter_application_1/assets/images/first.png')),
                 ),
               ),
@@ -54,8 +57,8 @@ class _FirstDemo extends State<FirstDemo> {
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 20, bottom: 30),
               child: Text(
-                '\n Track your bins effectively \n   for a better enviroment',
-                style: TextStyle(fontSize: 24),
+                '\n Your complaint was sent \n           successfully',
+                style: TextStyle(fontSize: 21),
               ),
             ),
 
@@ -96,11 +99,11 @@ class _FirstDemo extends State<FirstDemo> {
               child: FlatButton(
                 onPressed: () {
                    Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
+                   MaterialPageRoute(builder: (context) => Main()));
                      
                 },
                 child: Text(
-                  'Login',
+                  'Home',
                   style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
               ),

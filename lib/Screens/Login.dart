@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screens/ForgotPass.dart';
 import 'package:flutter_application_1/Screens/Menu.dart';
 import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/model/District.dart';
@@ -9,14 +10,13 @@ import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  /*WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp()
       .then((value) => print("connected " + value.options.asMap.toString()))
-      .catchError((e) => print(e.toString()));
+      .catchError((e) => print(e.toString()));*/
   runApp(Login()); //function written by flutter
 }
 
@@ -40,13 +40,11 @@ class LoginDemo extends StatefulWidget {
 //Rawan work
 
 class _LoginDemoState extends State<LoginDemo> {
-  //Create a database reference
-  final databaseReference = FirebaseDatabase.instance.reference();
 
   @override
   void initState() {
     super.initState();
-    readD();
+   // readD();
   }
 
   List<BinLocation> locList = [];
@@ -105,13 +103,7 @@ class _LoginDemoState extends State<LoginDemo> {
     );
   }
 
-  void readD() {
-    //this means the data is up to date
-    databaseReference.onValue.listen((event) {
-      final data = new Map<String, dynamic>.from(event.snapshot.value);
-      print(data);
-    });
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -167,9 +159,15 @@ class _LoginDemoState extends State<LoginDemo> {
               ),
             ),
             FlatButton(
-              onPressed: () {},
+              onPressed: () {
+  Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ForgotPass()));
+                     
+
+              },
+              
               child: Text(
-                'Forgot Password?',
+                'Forgot Password?', 
                 style: TextStyle(
                     fontSize: 15, decoration: TextDecoration.underline),
               ),
@@ -180,7 +178,8 @@ class _LoginDemoState extends State<LoginDemo> {
               decoration: BoxDecoration(
                   color: Color(0xff28CC9E),
                   borderRadius: BorderRadius.circular(20)),
-              child: FlatButton(
+              child: 
+              FlatButton(
                 onPressed: () async {
                   //create object
                   /* District di =
@@ -227,9 +226,7 @@ class _LoginDemoState extends State<LoginDemo> {
                     List<dynamic> drListd = await readAll(tableDriver);
                     dd = drListd.cast();
                     for (int i = 0; i < dd.length; i++) {
-                      print("${dd[i].driverID}");
-                      print("${dd[i].phone}");
-                      print("${dd[i].password}");
+                  
                       if (dd[i].phone == phone) {
                         phoneCheck = true;
                         loggedInId = dd[i].driverID;
@@ -247,10 +244,12 @@ class _LoginDemoState extends State<LoginDemo> {
                       SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                       await prefs.setInt('id', loggedInId);
+                      await prefs.setInt('phone', phone);
+                      print(prefs.getInt('phone'));
                       print(loggedInId);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Main()));
-                      print("logged in successfully");
+                     
                     }
                   }
 

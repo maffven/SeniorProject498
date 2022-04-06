@@ -3,21 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/first.dart';
 import 'package:flutter_application_1/screens/Login.dart';
 
-void main(){
-runApp(second());//function written by flutter 
-}
 
-/*class MyApp extends StatelessWidget{
-
+void main() {
+  runApp(second());
+  
+ }
+class second extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-   return MaterialApp( title: 'Welcome to Flutter',
-   home: Text('Manar Hennawi'),);
-   //create this App
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: secondDemo(),
+    );
   }
+}
 
-}*/
-class second extends StatelessWidget {
+class secondDemo extends StatefulWidget {
+  @override
+  _secondDemo createState() => _secondDemo();
+}
+
+class _secondDemo extends State<secondDemo> {
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +55,7 @@ class second extends StatelessWidget {
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 20, bottom: 30),
-              child: Text('Better manage the waste and \n be notified when bins are full',  style: TextStyle(fontSize: 24),
+              child: Text('\n Better manage the waste and \n be notified when bins are full',  style: TextStyle(fontSize: 24),
               ),
                    
             ),

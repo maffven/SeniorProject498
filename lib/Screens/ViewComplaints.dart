@@ -1,74 +1,36 @@
-//for admin
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter_application_1/Screens/AdminDashboard.dart';
+import 'package:flutter_application_1/Screens/DistrictListTab.dart';
+import 'package:flutter_application_1/Screens/EditComplaints.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/District.dart';
+import 'package:flutter_application_1/model/Complaints.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_application_1/screens/DriverDashboard.dart';
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-void main() async {
- 
-       runApp(ViewComplaints()); //function written by flutter
-}
+
+void main() => runApp(MaterialApp(home: ViewComplaints()));
+
 class ViewComplaints extends StatefulWidget {
-  final Widget child;
-  final Driver driver;
-  ViewComplaints({Key key, this.child, this.driver}) : super(key: key);
-
-  _PieChartDashboard createState() => _PieChartDashboard(driver: driver);
+  @override
+  _ViewComplaints createState() => _ViewComplaints();
 }
 
-class _PieChartDashboard extends State<ViewComplaints> {
-  final Driver driver;
-  List<District> districts;
+class _ViewComplaints extends State<ViewComplaints>
+    with AutomaticKeepAliveClientMixin<ViewComplaints> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _seriesPieData = List<charts.Series<PieChartData, String>>();
-    _generateData();
-    getDistricts();
-  }
-
-  _PieChartDashboard({this.driver});
-  //List to store bar chart data
-  List<charts.Series<PieChartData, String>> _seriesPieData;
-  // items based on selected driver
-  //List of drivers' districts
-  //final items = [''];
-  String value;
-  // items for district list
-//to generate data
-  _generateData() {
-    //data about specific district
-    var pieData = [
-      new PieChartData(50.0, 'Full', Color(0xfff05e5e)),
-      new PieChartData(30.0, 'Half-full', Color(0xfff19840)),
-      new PieChartData(20.0, 'Empty', Color(0xffa6ed8e)),
-    ];
-
-    _seriesPieData.add(
-      charts.Series(
-        domainFn: (PieChartData data, _) => data.state,
-        measureFn: (PieChartData data, _) => data.percent,
-        colorFn: (PieChartData data, _) =>
-            charts.ColorUtil.fromDartColor(data.colorval),
-        id: 'Bins state',
-        data: pieData,
-        labelAccessorFn: (PieChartData row, _) => '${row.percent}',
-      ),
-    );
-  } //generateData
+  bool get wantKeepAlive => true;
+  //Define variables
+  List<Complaints> complaints;
+  List<District> district;
+  List<Widget> boxWidgets = [];
 
   @override
-  /*Widget build(BuildContext context) => Scaffold(
-        body: FutureBuilder<List<District>>(
-          future: getDistricts(),
+  Widget build(BuildContext context) => Scaffold(
+        body: FutureBuilder<List<Widget>>(
+          future: getWidgets("Driver"),
           builder: (context, snapshot) {
-            final district = snapshot.data;
-            final List items = List();
+            final comps = snapshot.data;
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 return Center(child: CircularProgressIndicator());
@@ -76,191 +38,93 @@ class _PieChartDashboard extends State<ViewComplaints> {
                 if (snapshot.hasError) {
                   return Center(child: Text("${snapshot.error}"));
                 } else {
-                  for (int i = 0; i < district.length; i++) {
-                    if (district[i].driverID == driver.driverID) {
-                      districts.add(district[i]);
-                      items.add(district[i].name);
-                      value = district[i].name;
-                    }
-                  }
-                  return buildPieChart(districts, items);
+                  return buildDrivers(comps);
                 }
             }
           },
         ),
-      );*/
-
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Color(0xffffDD83),
-            title: Text("Dashboard"),
-            bottom: TabBar(
-              indicatorColor: Colors.white,
-              tabs: [
-                Tab(text: "Driver"),
-                Tab(
-                  text: "District",
-                ),
-              ],
-            ),
-          ),
-          body: TabBarView(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    top: 8.0, bottom: 40.0, right: 8.0, left: 8.0),
-                child: Container(
-                  child: Center(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          child: Text('',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Arial',
-                                  fontSize: 25)),
-                          margin: EdgeInsets.only(top: 70.0),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 1),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Expanded(
-                          child: charts.PieChart(_seriesPieData,
-                              animate: true,
-                              animationDuration: Duration(seconds: 1),
-                              behaviors: [
-                                new charts.DatumLegend(
-                                  outsideJustification:
-                                      charts.OutsideJustification.endDrawArea,
-                                  horizontalFirst: false,
-                                  desiredMaxRows: 1,
-                                  cellPadding: new EdgeInsets.only(
-                                      top: 30.0, right: 35.0, bottom: 0.0),
-                                  entryTextStyle: charts.TextStyleSpec(
-                                      color:
-                                          charts.MaterialPalette.black.darker,
-                                      fontFamily: 'Arial',
-                                      fontSize: 15),
-                                )
-                              ],
-                              defaultRenderer: new charts.ArcRendererConfig(
-                                  arcWidth: 90,
-                                  arcRendererDecorators: [
-                                    new charts.ArcLabelDecorator(
-                                        labelPosition:
-                                            charts.ArcLabelPosition.inside)
-                                  ])),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                    top: 8.0, bottom: 40.0, right: 8.0, left: 8.0),
-                child: Container(
-                  child: Center(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(top: 70.0),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 1),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: Color(0xff28CC9E),
-                              width: 1,
-                            ),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              hint: Text("Select district"),
-                              iconSize: 36,
-                              icon: Icon(
-                                Icons.arrow_drop_down_outlined,
-                                color: Color(0xff28CC9E),
-                              ),
-                              value: value,
-                              items: districts.map((item) {
-                                return DropdownMenuItem(
-                                    value: item.name, child: Text(item.name));
-                              }).toList(),
-                              onChanged: (value) =>
-                                  setState(() => this.value = value),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Expanded(
-                          child: charts.PieChart(_seriesPieData,
-                              animate: true,
-                              animationDuration: Duration(seconds: 1),
-                              behaviors: [
-                                new charts.DatumLegend(
-                                  outsideJustification:
-                                      charts.OutsideJustification.endDrawArea,
-                                  horizontalFirst: false,
-                                  desiredMaxRows: 1,
-                                  cellPadding: new EdgeInsets.only(
-                                      top: 30.0, right: 35.0, bottom: 0.0),
-                                  entryTextStyle: charts.TextStyleSpec(
-                                      color:
-                                          charts.MaterialPalette.black.darker,
-                                      fontFamily: 'Arial',
-                                      fontSize: 15),
-                                )
-                              ],
-                              defaultRenderer: new charts.ArcRendererConfig(
-                                  arcWidth: 90,
-                                  arcRendererDecorators: [
-                                    new charts.ArcLabelDecorator(
-                                        labelPosition:
-                                            charts.ArcLabelPosition.inside)
-                                  ])),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
-        value: item,
-        child: Text(
-          item,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-        ),
       );
 
-  //get Districts
-  Future<void> getDistricts() async {
-    //Get district from DB
-    List<District> district;
-    List<dynamic> districtDB = await readAll(tableDistrict);
-    district = districtDB.cast();
-    print("in get distric method");
-    print("district length ${districtDB.length}");
-    setState(() {
-      districts = district;
-    });
+  Widget buildDrivers(List<Widget> drivers) {
+    return MaterialApp(
+        home: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: SingleChildScrollView(
+              child: Padding(
+                // to add search button you have to add padding
+                padding: const EdgeInsets.all(12.0),
+                child: Center(
+                  child: Wrap(spacing: 20, runSpacing: 20.0, children: drivers),
+                ),
+              ),
+            )));
+  }
 
-    print(districts);
+//Class methods
+
+  //get all drivers from database
+  Future<List<Complaints>> getComplaints() async {
+    //Get drivers from DB
+    List<Complaints> comp;
+    List<dynamic> compDB = await readAll(tableComplaints);
+    comp = compDB.cast();
+    print("in get complaints method");
+    print("complaints length ${compDB.length}");
+    return comp;
+  }
+
+  //get box widgets
+  Future<List<Widget>> getWidgets(String tab) async {
+    complaints = await getComplaints();
+    for (int i = 0; i < complaints.length; i++) {
+      boxWidgets.add(SizedBox(
+          width: 250.0,
+          height: 160.0,
+          child: InkWell(
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (BuildContext context) {
+              return EditComplaints(complaint: complaints[i]);
+            })),
+            child: Card(
+              borderOnForeground: true,
+              color: Colors.white,
+              elevation: 2.0,
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Color(0xff28CC9E), width: 1),
+                  borderRadius: BorderRadius.circular(8.0)),
+              child: Center(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      '${complaints[i].subject}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 21.0),
+                    ),
+                    Text('Date: ' '${complaints[i].date} Status: ${'complaints[i].status'}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0),),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                  
+                  ],
+                ),
+              )),
+            ),
+          )));
+    }
+    return boxWidgets;
   }
 
   //read objects

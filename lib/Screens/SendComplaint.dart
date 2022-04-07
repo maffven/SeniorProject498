@@ -5,43 +5,31 @@ import 'package:flutter_application_1/model/Complaints.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_application_1/model/Driver.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_application_1/Screens/complaintResult.dart';
 
-//import 'package:cloud_firestore/cloud_firestore.dart';
 void main() async {
   runApp(SendComplaint());
 }
 
 class SendComplaint extends StatelessWidget {
   List<District> disList;
+  List<Complaints> complaints = [];
   List<Driver> dd;
- /* List<DropdownMenuItem<String>> get dropdownItems async {
-
- List<dynamic> dis = await readAll(tableDistrict);
-    disList = dis.cast();
-    for (int i = 0; i < disList.length; i++) {
-      items = disList[i].name;
-  List<DropdownMenuItem<String>> menuItems = [
-    DropdownMenuItem(child: Text("District"),value: items),
-
+  var itemsDis = [
+    "Alnaseem",
+    "AlJamea",
+    "Alfaisaliah",
+    "Alwaha",
+    "Alsulaimania"
   ];
-    }
-  return menuItems;
-}*/
-  var items;
-  Future<List<String>> read() async {
-    List<dynamic> dis = await readAll(tableDistrict);
-    disList = dis.cast();
-    for (int i = 0; i < disList.length; i++) {
-      items = disList[i].name;
-      print(disList[i].name);
-    }
-    return items;
-  }
-
+  var itemsBin = ["1", "2", "3", "4"];
   final dbHelper = DatabaseHelper.instance;
 
   //function written by flutter
   final TextEditingController binId = new TextEditingController();
+  var selectedBinId;
+  var selectedDist;
   final TextEditingController district = new TextEditingController();
   final TextEditingController summary = new TextEditingController();
   final TextEditingController description = new TextEditingController();
@@ -77,9 +65,11 @@ class SendComplaint extends StatelessWidget {
                         icon: const Icon(Icons.arrow_drop_down),
                         onSelected: (String value) {
                           binId.text = value;
+                          selectedBinId = value;
+                          print(selectedBinId);
                         },
                         itemBuilder: (BuildContext context) {
-                          return items
+                          return itemsBin
                               .map<PopupMenuItem<String>>((String value) {
                             return new PopupMenuItem(
                                 child: new Text(value), value: value);
@@ -108,9 +98,11 @@ class SendComplaint extends StatelessWidget {
                         icon: const Icon(Icons.arrow_drop_down),
                         onSelected: (String value) {
                           district.text = value;
+                          selectedDist = value;
+                          print(selectedDist);
                         },
                         itemBuilder: (BuildContext context) {
-                          return items
+                          return itemsDis
                               .map<PopupMenuItem<String>>((String value) {
                             return new PopupMenuItem(
                                 child: new Text(value), value: value);
@@ -166,26 +158,41 @@ class SendComplaint extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20)),
                   child: FlatButton(
                     onPressed: () async {
-                      //  print('hi');
-
-                      List<dynamic> d = await readAll(tableDriver);
-                      dd = d.cast();
-                      for (int i = 0; i < dd.length; i++) {
-                        print("${dd[i].driverID}");
-                      }
                       DateTime now = new DateTime.now();
                       DateTime date =
                           new DateTime(now.year, now.month, now.day);
 //added the district name column to the complaint table
 //addCol("DistrictName", tableComplaints);
-
+//delCol("DistrictName", tableComplaints);
+                     /* SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      print(prefs.getInt('id'));
+                      print(date);
                       Complaints c = Complaints(
-                          binID: int.parse(binId.text),
+                          binID: int.parse(selectedBinId),
                           complaintMessage: description.text,
                           subject: summary.text,
                           status: false,
-                          driverID: 2,
-                          date: date);
+                          driverID: prefs.getInt('id'),
+                          districtName: selectedDist,
+                          date: date);*/
+                    //  addObj(c, tableComplaints);
+                    /*  Complaints cc = await readObj(1, tableComplaints);
+                      print(cc.complaintID);*/
+
+                      List<dynamic> compList = await readAll(tableComplaints);
+                      complaints = compList.cast();
+                      for (int i = 0; i < complaints.length; i++) {
+                        print("${complaints[i].binID}");
+                        print("${complaints[i].complaintID}");
+                        print("${complaints[i].districtName}");
+                        print("${complaints[i].subject}");
+                      }
+
+                      /* Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CompResult()));*/
                       /* BinLevel bin = BinLevel(
                           binID: 123,
                           half_full: true,
@@ -210,17 +217,27 @@ class SendComplaint extends StatelessWidget {
 
   Future addObj(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalCreate(obj, tableName);
-    print("object inserted");
+    //print("object inserted");
   }
 
   Future addCol(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.alterTable(tableName, obj);
-    print("object inserted");
+    print("column inserted");
+  }
+
+  Future delCol(dynamic obj, String tableName) async {
+    await DatabaseHelper.instance.alterTable1(tableName, obj);
+    print("column deleted");
   }
 
   Future<List<dynamic>> readAll(String tableName) async {
     //We have to define list here as dynamci *******
     return await DatabaseHelper.instance.generalReadAll(tableName);
     // print("mun object: ${munList[0].firatName}");
+  }
+
+  Future<dynamic> readObj(int id, String tableName) async {
+    return await DatabaseHelper.instance.generalRead(tableName, id);
+    //print("mun object: ${munObj.firatName}");
   }
 }

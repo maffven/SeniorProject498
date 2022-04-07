@@ -5,12 +5,14 @@ import 'package:flutter_application_1/Screens/Notification.dart';
 import 'package:flutter_application_1/Screens/profileScreen.dart';
 import 'package:flutter_application_1/screens/SendComplaint.dart';
 import 'package:flutter_application_1/screens/Login.dart';
+import 'package:flutter_application_1/screens/AdminProfile.dart';
 import 'AdminDashboard.dart';
+import 'package:flutter_application_1/screens/ViewComplaints.dart';
 import 'package:flutter_application_1/Screens/DriverDashboard.dart';
 import 'map.dart';
 
-class DriverMenu extends StatelessWidget {
-  const DriverMenu({Key key}) : super(key: key);
+class AdminMenu extends StatelessWidget {
+  const AdminMenu({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +55,10 @@ class DriverMenu extends StatelessWidget {
             return Notifications();
             break;
           case 3:
-            return SendComplaint();
+            return ViewComplaints();
             break;
           case 4:
-            return Profile();
+            return AdminProfile();
             // return Notification();
             //return AdminProfile();
             // return DriverSatus();

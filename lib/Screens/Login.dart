@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Screens/ForgotPass.dart';
 import 'package:flutter_application_1/Screens/Menu.dart';
+import 'package:flutter_application_1/Screens/AdminMenu.dart';
+import 'package:flutter_application_1/Screens/map.dart';
+import 'package:flutter_application_1/model/Complaints.dart';
 import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
@@ -13,10 +16,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-  /*WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp()
       .then((value) => print("connected " + value.options.asMap.toString()))
-      .catchError((e) => print(e.toString()));*/
+      .catchError((e) => print(e.toString()));
   runApp(Login()); //function written by flutter
 }
 
@@ -40,13 +43,13 @@ class LoginDemo extends StatefulWidget {
 //Rawan work
 
 class _LoginDemoState extends State<LoginDemo> {
-
   @override
   void initState() {
     super.initState();
-   // readD();
+    // readD();
   }
 
+  bool userType = false;
   List<BinLocation> locList = [];
   List<Bin> bins = [];
   List<Bin> binsByCapacity = [];
@@ -55,6 +58,7 @@ class _LoginDemoState extends State<LoginDemo> {
   List<Bin> bb;
   List<Driver> dd;
   List<District> disList;
+  List<Complaints> complaints;
   int phone;
   bool passCheck = false;
   bool phoneCheck = false;
@@ -103,8 +107,6 @@ class _LoginDemoState extends State<LoginDemo> {
     );
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,6 +146,7 @@ class _LoginDemoState extends State<LoginDemo> {
                     labelText: 'Phone number',
                   )),
             ),
+
             Padding(
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 15, bottom: 0),
@@ -158,28 +161,47 @@ class _LoginDemoState extends State<LoginDemo> {
                         'For new users, please enter last 6 digits\n of your registered mobile'),
               ),
             ),
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 20,
+                ), //SizedBox
+                Text(
+                  'Are You An Admin? ',
+                  style: TextStyle(fontSize: 15.0),
+                ), //Text
+                Checkbox(
+                  checkColor: Colors.white ,
+                  focusColor: Color(0xff28CC9E),
+                  value: userType,
+                  onChanged: (bool value) {
+                    setState(() {
+                       userType = value;
+                    });
+                   
+                  },
+                ),
+              ], //<Widget>[]
+            ), //Row
             FlatButton(
               onPressed: () {
-  Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ForgotPass()));
-                     
-
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ForgotPass()));
               },
-              
               child: Text(
-                'Forgot Password?', 
+                'Forgot Password?',
                 style: TextStyle(
                     fontSize: 15, decoration: TextDecoration.underline),
               ),
             ),
+
             Container(
               height: 50,
               width: 250,
               decoration: BoxDecoration(
                   color: Color(0xff28CC9E),
                   borderRadius: BorderRadius.circular(20)),
-              child: 
-              FlatButton(
+              child: FlatButton(
                 onPressed: () async {
                   //create object
                   /* District di =
@@ -216,40 +238,77 @@ class _LoginDemoState extends State<LoginDemo> {
 
                   //frist, check if text fields are not empty
                   if (phoneController.text == "" &&
-                      passwordController.text == "") {
+                      passwordController.text == "" ) {
                     showDialog();
+                    
                   } else {
                     //get text field's input from the user
                     phone = int.parse(phoneController.text);
                     password = passwordController.text;
+                    //first check if its an admin or user
+                    if (userType != true) {
+                      //driver
+                      print("driver");
 //check login info from the database driver's list
-                    List<dynamic> drListd = await readAll(tableDriver);
-                    dd = drListd.cast();
-                    for (int i = 0; i < dd.length; i++) {
-                  
-                      if (dd[i].phone == phone) {
-                        phoneCheck = true;
-                        loggedInId = dd[i].driverID;
-                      }
+                      List<dynamic> drListd = await readAll(tableDriver);
+                      dd = drListd.cast();
+                      for (int i = 0; i < dd.length; i++) {
+                        if (dd[i].phone == phone) {
+                          phoneCheck = true;
+                          loggedInId = dd[i].driverID;
+                        }
 
-                      if (dd[i].password == password) {
-                        passCheck = true;
+                        if (dd[i].password == password) {
+                          passCheck = true;
+                        }
                       }
-                    }
-                    if (phoneCheck != true && passCheck != true) {
-                      showDialogError();
+                      if (phoneCheck != true && passCheck != true) {
+                        showDialogError();
+                      } else {
+                        //naviagte to the menu screen
+                        //store the loggedin id
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        await prefs.setInt('id', loggedInId);
+                        await prefs.setInt('phone', phone);
+                        print(prefs.getInt('phone'));
+                        print(loggedInId);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DriverMenu()));
+                      }
                     } else {
-                      //naviagte to the menu screen
-                      //store the loggedin id
-                      SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                      await prefs.setInt('id', loggedInId);
-                      await prefs.setInt('phone', phone);
-                      print(prefs.getInt('phone'));
-                      print(loggedInId);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Main()));
-                     
+                       print("admin");
+                      //admin
+                      List<dynamic> muniList = await readAll(tableMunicipalityAdmin);
+                      munList = muniList.cast();
+                      for (int i = 0; i < munList.length; i++) {
+                        if (munList[i].phone == phone) {
+                          phoneCheck = true;
+                          loggedInId = munList[i].municpalityID;
+                        }
+
+                        if (dd[i].password == password) {
+                          passCheck = true;
+                        }
+                      }
+                      if (phoneCheck != true && passCheck != true) {
+                        showDialogError();
+                      } else {
+                        //naviagte to the menu screen
+                        //store the loggedin id
+                        SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                        await prefs.setInt('id', loggedInId);
+                        await prefs.setInt('phone', phone);
+                        print(prefs.getInt('phone'));
+                        print(loggedInId);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AdminMenu()));
+                      }
                     }
                   }
 

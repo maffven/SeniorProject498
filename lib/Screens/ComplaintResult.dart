@@ -99,7 +99,7 @@ class _CompResultDemo extends State<CompResultDemo> {
               child: FlatButton(
                 onPressed: () {
                    Navigator.push(context,
-                   MaterialPageRoute(builder: (context) => Main()));
+                   MaterialPageRoute(builder: (context) => DriverMenu()));
                      
                 },
                 child: Text(

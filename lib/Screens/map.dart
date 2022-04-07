@@ -80,54 +80,27 @@ markerss = [
   ];*/
 }
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp()
-//       .then((value) => print("connected " + value.options.asMap.toString()))
-//       .catchError((e) => print(e.toString()));
-//   readDistance();
-//   runApp(map()); //function written by flutter
-// }
+ void main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+   await Firebase.initializeApp()
+    .then((value) => print("connected " + value.options.asMap.toString()))
+    .catchError((e) => print(e.toString()));
+  runApp(MaterialApp(home:MapScreen())); //function written by flutter
+ }
 
-/*List<Marker> markers = [
-  Marker(
-      infoWindow: InfoWindow(title: title),
-      markerId: MarkerId(color),
-      position: LatLng(21.584873, 39.205959),
-      icon: BitmapDescriptor.defaultMarkerWithHue(colorBin),
-      onTap: () {
-        MapUtils.openMap(21.584873, 39.205959); //to open google map app/direct
-      }),
-  Marker(
-      infoWindow: InfoWindow(title: title),
-      markerId: MarkerId(color),
-      position: LatLng(21.543333, 39.172779),
-      icon: BitmapDescriptor.defaultMarkerWithHue(colorBin),
-      onTap: () {
-        MapUtils.openMap(21.543333, 39.172779); //to open google map app/direct
-      }),
-  Marker(
-      infoWindow: InfoWindow(title: title),
-      markerId: MarkerId(color),
-      position: LatLng(21.285407, 39.237551),
-      icon: BitmapDescriptor.defaultMarkerWithHue(colorBin),
-      onTap: () {
-        MapUtils.openMap(21.285407, 39.237551); //to open google map app/direct
-      }),
-];*/
-/*final Marker marker = Marker(
-    markerId: MarkerId('Green'),
-    position: LatLng(21.584873, 39.205959),
-    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-    onTap: () {
-      MapUtils.openMap(21.584873, 39.205959); //to open google map app/direct
-    });*/
+
 
 class MapScreen extends StatefulWidget {
   @override
   State<MapScreen> createState() => _MapScreenState();
 }
-
+/*void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp()
+      .then((value) => print("connected " + value.options.asMap.toString()))
+      .catchError((e) => print(e.toString()));
+  runApp(MaterialApp(home:MapScreen())); //function written by flutter
+}*/
 class _MapScreenState extends State<MapScreen> {
   var distance = 0.0;
   String color = "";
@@ -146,12 +119,9 @@ class _MapScreenState extends State<MapScreen> {
 
 //Create a database reference
   final databaseReference = FirebaseDatabase.instance.reference();
+  
   @override
-  void initState() async {
-    WidgetsFlutterBinding.ensureInitialized();
-   await Firebase.initializeApp()
-       .then((value) => print("connected " + value.options.asMap.toString()))
-      .catchError((e) => print(e.toString()));
+  void initState()  {
     super.initState();
     readDistance();
   }
@@ -222,36 +192,7 @@ class _MapScreenState extends State<MapScreen> {
                   21.4893852, 39.2462446); //to open google map app/direct
             })
       ];
-//list of markers on the map
-      /* markers = [
-      Marker(
-          infoWindow: InfoWindow(title: title),
-          markerId: MarkerId(color),
-          position: LatLng(21.584873, 39.205959),
-          icon: BitmapDescriptor.defaultMarkerWithHue(colorBin),
-          onTap: () {
-            MapUtils.openMap(
-                21.584873, 39.205959); //to open google map app/direct
-          }),
-      Marker(
-          infoWindow: InfoWindow(title: title),
-          markerId: MarkerId(color),
-          position: LatLng(21.543333, 39.172779),
-          icon: BitmapDescriptor.defaultMarkerWithHue(colorBin),
-          onTap: () {
-            MapUtils.openMap(
-                21.543333, 39.172779); //to open google map app/direct
-          }),
-      Marker(
-          infoWindow: InfoWindow(title: title),
-          markerId: MarkerId(color),
-          position: LatLng(21.285407, 39.237551),
-          icon: BitmapDescriptor.defaultMarkerWithHue(colorBin),
-          onTap: () {
-            MapUtils.openMap(
-                21.285407, 39.237551); //to open google map app/direct
-          }),
-    ];*/
+
     });
   }
 
@@ -260,42 +201,10 @@ class _MapScreenState extends State<MapScreen> {
     print("object inserted");
   }
 
-//list of markers on the map
 
-//       markers.addAll([
-//         Marker(
-//             infoWindow: InfoWindow(title: title),
-//             markerId: MarkerId(color),
-//             position: LatLng(21.584873, 39.205959),
-//             icon: BitmapDescriptor.defaultMarkerWithHue(colorBin),
-//             onTap: () {
-//               MapUtils.openMap(
-//                   21.584873, 39.205959); //to open google map app/direct
-//             }),
-//         Marker(
-//             infoWindow: InfoWindow(title: title),
-//             markerId: MarkerId(color),
-//             position: LatLng(21.543333, 39.172779),
-//             icon: BitmapDescriptor.defaultMarkerWithHue(colorBin),
-//             onTap: () {
-//               MapUtils.openMap(
-//                   21.543333, 39.172779); //to open google map app/direct
-//             }),
-//         Marker(
-//             infoWindow: InfoWindow(title: title),
-//             markerId: MarkerId(color),
-//             position: LatLng(21.285407, 39.237551),
-//             icon: BitmapDescriptor.defaultMarkerWithHue(colorBin),
-//             onTap: () {
-//               MapUtils.openMap(
-//                   21.285407, 39.237551); //to open google map app/direct
-//             }),
-//       ]);
-//     });
-//   }
-// }
+ }
 
-}
+
 
 class MapUtils {
   MapUtils._();

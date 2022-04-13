@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Screens/AdminDashboard.dart';
+import 'package:flutter_application_1/Screens/AdminDriverDashboard.dart';
 import 'package:flutter_application_1/Screens/DistrictListTab.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/District.dart';
@@ -81,7 +82,8 @@ class _DriverList extends State<DriverList>
           child: InkWell(
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
-              return PieChartDashboard(driver: drivers[i]);
+              return AdminDriverDashboard(
+                  driver: drivers[i]); //PieChartDashboard(driver: drivers[i]);
             })),
             child: Card(
               borderOnForeground: true,

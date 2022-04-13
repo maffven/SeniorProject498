@@ -35,7 +35,7 @@ const CameraPosition INITIAL_CAMERA_POSITION = CameraPosition(
 List<Marker> displayMarker(double colorBin) {
   print(colorBin);
   print(color);
-markerss = [
+  markerss = [
     Marker(
         infoWindow: InfoWindow(title: titlee),
         markerId: MarkerId(color),
@@ -149,9 +149,9 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() async {
     WidgetsFlutterBinding.ensureInitialized();
-   await Firebase.initializeApp()
-       .then((value) => print("connected " + value.options.asMap.toString()))
-      .catchError((e) => print(e.toString()));
+    await Firebase.initializeApp()
+        .then((value) => print("connected " + value.options.asMap.toString()))
+        .catchError((e) => print(e.toString()));
     super.initState();
     readDistance();
   }

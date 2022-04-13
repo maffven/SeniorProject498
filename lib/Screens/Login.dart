@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Screens/ForgotPass.dart';
 import 'package:flutter_application_1/Screens/Menu.dart';
+import 'package:flutter_application_1/model/BinLevel.dart';
 import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
@@ -40,11 +41,10 @@ class LoginDemo extends StatefulWidget {
 //Rawan work
 
 class _LoginDemoState extends State<LoginDemo> {
-
   @override
   void initState() {
     super.initState();
-   // readD();
+    // readD();
   }
 
   List<BinLocation> locList = [];
@@ -103,8 +103,6 @@ class _LoginDemoState extends State<LoginDemo> {
     );
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,14 +158,11 @@ class _LoginDemoState extends State<LoginDemo> {
             ),
             FlatButton(
               onPressed: () {
-  Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ForgotPass()));
-                     
-
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ForgotPass()));
               },
-              
               child: Text(
-                'Forgot Password?', 
+                'Forgot Password?',
                 style: TextStyle(
                     fontSize: 15, decoration: TextDecoration.underline),
               ),
@@ -178,8 +173,7 @@ class _LoginDemoState extends State<LoginDemo> {
               decoration: BoxDecoration(
                   color: Color(0xff28CC9E),
                   borderRadius: BorderRadius.circular(20)),
-              child: 
-              FlatButton(
+              child: FlatButton(
                 onPressed: () async {
                   //create object
                   /* District di =
@@ -192,7 +186,13 @@ class _LoginDemoState extends State<LoginDemo> {
                       District(name: "Alwaha", numberOfBins: 11, driverID: 3);
                   District di5 = District(
                       name: "Alsulaimania", numberOfBins: 15, driverID: 4);*/
-
+                  BinLevel level = BinLevel(
+                      binID: 144,
+                      level: 0,
+                      full: false,
+                      half_full: false,
+                      empty: true);
+                  //addObj(level, tableBinLevel);
                   Bin bin = Bin(binID: 123, capacity: 10, districtId: 1);
                   Bin bin1 = Bin(binID: 144, capacity: 25, districtId: 2);
                   Bin bin2 = Bin(binID: 166, capacity: 40, districtId: 3);
@@ -210,9 +210,9 @@ class _LoginDemoState extends State<LoginDemo> {
                   addObj(di3, tableDistrict);
                   addObj(di4, tableDistrict);
                   addObj(di5, tableDistrict);*/
-                  /*addObj(bin, "bin_table");
-                  addObj(bin1, "bin_table");
-                  addObj(bin2, "bin_table");*/
+                  // addObj(bin, "bin");
+                  // addObj(bin1, "bin");
+                  // addObj(bin2, "bin");
 
                   //frist, check if text fields are not empty
                   if (phoneController.text == "" &&
@@ -226,7 +226,6 @@ class _LoginDemoState extends State<LoginDemo> {
                     List<dynamic> drListd = await readAll(tableDriver);
                     dd = drListd.cast();
                     for (int i = 0; i < dd.length; i++) {
-                  
                       if (dd[i].phone == phone) {
                         phoneCheck = true;
                         loggedInId = dd[i].driverID;
@@ -242,14 +241,13 @@ class _LoginDemoState extends State<LoginDemo> {
                       //naviagte to the menu screen
                       //store the loggedin id
                       SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
+                          await SharedPreferences.getInstance();
                       await prefs.setInt('id', loggedInId);
                       await prefs.setInt('phone', phone);
                       print(prefs.getInt('phone'));
                       print(loggedInId);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Main()));
-                     
                     }
                   }
 
@@ -331,6 +329,8 @@ class _LoginDemoState extends State<LoginDemo> {
                   // _queryAll();
 */
                   /*  List<dynamic> d = await readAll(tableDistrict);
+
+                  List<dynamic> d = await readAll(tableDistrict);
                   disList = d.cast();
                   for (int i = 0; i < disList.length; i++) {
                     print("${disList[i].districtID}");
@@ -342,21 +342,21 @@ class _LoginDemoState extends State<LoginDemo> {
                   //MunicipalityAdmin obj = await readAll( tableMunicipalityAdmin);
                   //print("${obj.firstName} HIII");
 
-                  /*District di =
-                      District(name: "Alnaseem", numberOfBins: 15, driverID: 5);
-                  District di2 =
-                      District(name: "AlJamea", numberOfBins: 12, driverID: 1);
-                  District di3 = District(
-                      name: "Alfaisaliah", numberOfBins: 13, driverID: 2);
-                  District di4 =
-                      District(name: "Alwaha", numberOfBins: 11, driverID: 3);
-                  District di5 = District(
-                      name: "Alsulaimania", numberOfBins: 15, driverID: 4);
-                  addObj(di, tableDistrict);
-                  addObj(di2, tableDistrict);
-                  addObj(di3, tableDistrict);
-                  addObj(di4, tableDistrict);
-                  addObj(di5, tableDistrict);*/
+                  // District di =
+                  //     District(name: "Alfayhaa", numberOfBins: 15, driverID: 5);
+                  // District di2 =
+                  //     District(name: "Alazezia", numberOfBins: 12, driverID: 1);
+                  // District di3 =
+                  //     District(name: "Obhor", numberOfBins: 13, driverID: 2);
+                  // District di4 =
+                  //     District(name: "Alsalama", numberOfBins: 11, driverID: 3);
+                  // District di5 = District(
+                  //     name: "Alsulaimania", numberOfBins: 15, driverID: 4);
+                  // addObj(di, tableDistrict);
+                  // addObj(di2, tableDistrict);
+                  // addObj(di3, tableDistrict);
+                  // addObj(di4, tableDistrict);
+                  // addObj(di5, tableDistrict);
 
                   //ensure the object exists
                   /*  munObj =

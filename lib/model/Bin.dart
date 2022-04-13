@@ -45,7 +45,7 @@ class Bin {
   //convert from json to MunicipalityAdmin
   static Bin fromJson(Map<String, Object> json) => Bin(
         binID: json[BinFields.id] as int,
-        capacity: double.parse(json[BinFields.capacity]),
+        capacity: double.parse(json[BinFields.capacity].toString()),
         districtId: json[BinFields.districtId] as int,
       );
 

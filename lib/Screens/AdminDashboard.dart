@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
+import 'package:flutter_application_1/model/Bin.dart';
+import 'package:flutter_application_1/model/BinLevel.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,41 +15,154 @@ class PieChartDashboard extends StatefulWidget {
   final Widget child;
   final Driver driver;
   PieChartDashboard({Key key, this.child, this.driver}) : super(key: key);
-
   _PieChartDashboard createState() => _PieChartDashboard(driver: driver);
 }
 
 class _PieChartDashboard extends State<PieChartDashboard> {
+  List<District> districts = [];
+  List<Bin> bins;
+  List<BinLevel> binsLevel;
+  List<BinLevel> binsLevelForDistrict;
+  String value;
+  List<charts.Series<PieChartData, String>> _seriesPieDataForDriver;
+  List<charts.Series<PieChartData, String>> _seriesPieDataForDistrict;
+  District district;
   final Driver driver;
-  List<District> districts;
+
+  //constructor
+  _PieChartDashboard({this.driver});
+
+  //data fields
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    
-    _seriesPieData = List<charts.Series<PieChartData, String>>();
-    _generateData();
-    getDistricts();
+    getLists();
+    _seriesPieDataForDriver = List<charts.Series<PieChartData, String>>();
+    _seriesPieDataForDistrict = List<charts.Series<PieChartData, String>>();
   }
 
-  _PieChartDashboard({this.driver});
   //List to store bar chart data
-  List<charts.Series<PieChartData, String>> _seriesPieData;
+
   // items based on selected driver
   //List of drivers' districts
   //final items = [''];
-  String value;
+
   // items for district list
 //to generate data
-  _generateData() {
+
+  _fillBinsLevelForDistrict() {
     //data about specific district
+
+    for (int i = 0; i < districts.length; i++) {
+      if (value != null && value == districts[i].name) {
+        print("val: $value");
+        district = districts[i];
+        break;
+      }
+    }
+  }
+
+  _generateDataForDistrict() {
+    _fillBinsLevelForDistrict();
+    print("district name: ${district.name}");
+
+    //get bins level based on a specific district
+    for (int i = 0; i < bins.length; i++) {
+      print("inside bins loop");
+      if (bins[i].districtId == district.districtID) {
+        print("inside if $i");
+        for (int j = 0; j < binsLevel.length; j++) {
+          print("inside binsLevel $i");
+          if (bins[i].binID == binsLevel[j].binID) {
+            print("inside second if");
+            binsLevelForDistrict.add(binsLevel[j]);
+          }
+        }
+      }
+    }
+    //print("binsLevelForDistrict length ${binsLevelForDistrict.length}");
+
+    double numberOfFull = 0, numberOfHalfFull = 0, numberOfEmpty = 0;
+    for (int i = 0; i < binsLevel.length; i++) {
+      if (binsLevel[i].full == true)
+        numberOfFull++;
+      else if (binsLevel[i].half_full == true)
+        numberOfHalfFull++;
+      else
+        numberOfEmpty++;
+    }
+
     var pieData = [
-      new PieChartData(50.0, 'Full', Color(0xfff05e5e)),
-      new PieChartData(30.0, 'Half-full', Color(0xfff19840)),
-      new PieChartData(20.0, 'Empty', Color(0xffa6ed8e)),
+      new PieChartData(numberOfFull, 'Full', Color(0xfff05e5e)),
+      new PieChartData(numberOfHalfFull, 'Half-full', Color(0xfff19840)),
+      new PieChartData(numberOfEmpty, 'Empty', Color(0xffa6ed8e)),
     ];
 
-    _seriesPieData.add(
+    _seriesPieDataForDistrict = [];
+
+    _seriesPieDataForDistrict.add(
+      charts.Series(
+        domainFn: (PieChartData data, _) => data.state,
+        measureFn: (PieChartData data, _) => data.percent,
+        colorFn: (PieChartData data, _) =>
+            charts.ColorUtil.fromDartColor(data.colorval),
+        id: 'Bins state',
+        data: pieData,
+        labelAccessorFn: (PieChartData row, _) => '${row.percent}',
+      ),
+    );
+  }
+
+  _generateDataForDriver() {
+    //data about specific district
+    // await getDistricts();
+    // await getBinLevel();
+    // await getBins();
+
+    //get bins level based on a specific district
+    // for (int i = 0; i < bins.length; i++) {
+    //   if (bins[i].districtId == district.districtID) {
+    //     for (int j = 0; j < binsLevel.length; j++) {
+    //       if (bins[i].binID == binsLevel[j].binID) {
+    //         binsLevelForDistrict.add(binsLevel[j]);
+    //       }
+    //     }
+    //   }
+    // }
+
+    // print("inside generate ${binsLevelForDistrict.length}");
+    // double numberOfFull, numberOfHalfFull, numberOfEmpty;
+    // for (int i = 0; i < binsLevelForDistrict.length; i++) {
+    //   if (binsLevelForDistrict[i].full == true)
+    //     numberOfFull++;
+    //   else if (binsLevelForDistrict[i].half_full == true)
+    //     numberOfHalfFull++;
+    //   else
+    //     numberOfEmpty++;
+    // }
+
+    //print("inside generate ${binsLevelForDistrict.length}");
+    double numberOfFull = 0, numberOfHalfFull = 0, numberOfEmpty = 0;
+    for (int i = 0; i < binsLevel.length; i++) {
+      if (binsLevel[i].full == true)
+        numberOfFull++;
+      else if (binsLevel[i].half_full == true)
+        numberOfHalfFull++;
+      else
+        numberOfEmpty++;
+    }
+
+    var pieData = [
+      new PieChartData(numberOfFull, 'Full', Color(0xfff05e5e)),
+      new PieChartData(numberOfHalfFull, 'Half-full', Color(0xfff19840)),
+      new PieChartData(numberOfEmpty, 'Empty', Color(0xffa6ed8e)),
+    ];
+
+    _seriesPieDataForDriver = [];
+
+    _seriesPieDataForDriver.add(
       charts.Series(
         domainFn: (PieChartData data, _) => data.state,
         measureFn: (PieChartData data, _) => data.percent,
@@ -60,7 +175,25 @@ class _PieChartDashboard extends State<PieChartDashboard> {
     );
   } //generateData
 
-  @override
+  //futureBuilder
+  // @override
+  // Widget build(BuildContext context) {
+  //   print("inside build");
+  //   return Scaffold(
+  //     body: FutureBuilder<void>(
+  //       future: getLists(),
+  //       builder: (context, snapshot) {
+  //         if (snapshot.hasError) {
+  //           return Center(child: Text("${snapshot.error}"));
+  //         } else {
+  //           print("inside else state");
+  //           return buildDAdminDashboard();
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
+
   /*Widget build(BuildContext context) => Scaffold(
         body: FutureBuilder<List<District>>(
           future: getDistricts(),
@@ -88,16 +221,20 @@ class _PieChartDashboard extends State<PieChartDashboard> {
         ),
       );*/
 
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      child: DefaultTabController(
+    print("bject inside build admin");
+    _generateDataForDriver();
+    //_generateDataForDistrict();
+    return MaterialApp(
+      home: DefaultTabController(
         length: 2,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xffffDD83),
             title: Text("Dashboard"),
             bottom: TabBar(
-              indicatorColor: Color.fromARGB(255, 248, 245, 245),
+              indicatorColor: Colors.white,
               tabs: [
                 Tab(text: "Driver"),
                 Tab(
@@ -111,8 +248,8 @@ class _PieChartDashboard extends State<PieChartDashboard> {
               Padding(
                 padding: EdgeInsets.only(
                     top: 8.0, bottom: 40.0, right: 8.0, left: 8.0),
-                child: Center(
-                  child: Container(
+                child: Container(
+                  child: Center(
                     child: Column(
                       children: <Widget>[
                         Container(
@@ -120,7 +257,7 @@ class _PieChartDashboard extends State<PieChartDashboard> {
                               style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'Arial',
-                                  fontSize: 30)),
+                                  fontSize: 25)),
                           margin: EdgeInsets.only(top: 70.0),
                           padding:
                               EdgeInsets.symmetric(horizontal: 12, vertical: 1),
@@ -129,11 +266,10 @@ class _PieChartDashboard extends State<PieChartDashboard> {
                           height: 10.0,
                         ),
                         Expanded(
-                          child: charts.PieChart(_seriesPieData,
+                          child: charts.PieChart(_seriesPieDataForDriver,
                               animate: true,
                               animationDuration: Duration(seconds: 1),
                               behaviors: [
-                                //full,half-full,empty
                                 new charts.DatumLegend(
                                   outsideJustification:
                                       charts.OutsideJustification.endDrawArea,
@@ -149,8 +285,7 @@ class _PieChartDashboard extends State<PieChartDashboard> {
                                 )
                               ],
                               defaultRenderer: new charts.ArcRendererConfig(
-                                  arcWidth: 80,
-                                  strokeWidthPx: 5,
+                                  arcWidth: 90,
                                   arcRendererDecorators: [
                                     new charts.ArcLabelDecorator(
                                         labelPosition:
@@ -193,8 +328,9 @@ class _PieChartDashboard extends State<PieChartDashboard> {
                                 return DropdownMenuItem(
                                     value: item.name, child: Text(item.name));
                               }).toList(),
-                              onChanged: (value) =>
-                                  setState(() => this.value = value),
+                              onChanged: (value) => setState(() {
+                                this.value = value;
+                              }),
                             ),
                           ),
                         ),
@@ -202,7 +338,7 @@ class _PieChartDashboard extends State<PieChartDashboard> {
                           height: 10.0,
                         ),
                         Expanded(
-                          child: charts.PieChart(_seriesPieData,
+                          child: charts.PieChart(_seriesPieDataForDistrict,
                               animate: true,
                               animationDuration: Duration(seconds: 1),
                               behaviors: [
@@ -221,7 +357,7 @@ class _PieChartDashboard extends State<PieChartDashboard> {
                                 )
                               ],
                               defaultRenderer: new charts.ArcRendererConfig(
-                                  arcWidth: 90,
+                                  arcWidth: 80,
                                   arcRendererDecorators: [
                                     new charts.ArcLabelDecorator(
                                         labelPosition:
@@ -240,17 +376,16 @@ class _PieChartDashboard extends State<PieChartDashboard> {
     );
   }
 
-  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
-        value: item,
-        child: Text(
-          item,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-        ),
-      );
+  // DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+  //       value: item,
+  //       child: Text(
+  //         item,
+  //         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+  //       ),
+  //     );
 
-  //get Districts
-  Future<void> getDistricts() async {
-    //Get district from DB
+  //to get district lists, bins list, and bins level list
+  Future<void> getLists() async {
     List<District> district;
     List<dynamic> districtDB = await readAll(tableDistrict);
     district = districtDB.cast();
@@ -261,7 +396,65 @@ class _PieChartDashboard extends State<PieChartDashboard> {
     });
 
     print(districts);
+
+    List<BinLevel> bin;
+    List<dynamic> binStatus = await readAll(tableBinLevel);
+    bin = binStatus.cast();
+    print("in get binsLevel method");
+    print("binsLevel length ${binStatus.length}");
+    binsLevel = bin;
+
+    print("here inside getBins");
+    List<Bin> binsInfo;
+    List<dynamic> binDB = await readAll("bin_table");
+    binsInfo = binDB.cast();
+    print("in get bins method");
+    print("bins length ${binDB.length}");
+    setState(() {
+      bins = binsInfo;
+    });
+    print(bins);
   }
+  //get Districts
+  // Future<void> getDistricts() async {
+  //   //Get district from DB
+  //   List<District> district;
+  //   List<dynamic> districtDB = await readAll(tableDistrict);
+  //   district = districtDB.cast();
+  //   print("in get distric method");
+  //   print("district length ${districtDB.length}");
+  //   setState(() {
+  //     districts = district;
+  //   });
+
+  //   print(districts);
+  // }
+
+  //get all drivers from database
+  // Future<void> getBinLevel() async {
+  //   //Get drivers from DB
+  //   List<BinLevel> bin;
+  //   List<dynamic> binStatus = await readAll(tableBinLevel);
+  //   bin = binStatus.cast();
+  //   print("in get binsLevel method");
+  //   print("binsLevel length ${binStatus.length}");
+  //   binsLevel = bin;
+  // }
+
+  // Future<void> getBins() async {
+  //   //Get district from DB
+  //   print("here inside getBins");
+  //   List<Bin> binsInfo;
+  //   List<dynamic> binDB = await readAll("bin_table");
+  //   binsInfo = binDB.cast();
+  //   print("in get bins method");
+  //   print("bins length ${binDB.length}");
+  //   setState(() {
+  //     bins = binsInfo;
+  //   });
+
+  //   print(bins);
+  // }
 
   //read objects
   //int id, String tableName, dynamic classFields, dynamic className

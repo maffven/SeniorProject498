@@ -171,14 +171,13 @@ class _LoginDemoState extends State<LoginDemo> {
                   style: TextStyle(fontSize: 15.0),
                 ), //Text
                 Checkbox(
-                  checkColor: Colors.white ,
+                  checkColor: Colors.white,
                   focusColor: Color(0xff28CC9E),
                   value: userType,
                   onChanged: (bool value) {
                     setState(() {
-                       userType = value;
+                      userType = value;
                     });
-                   
                   },
                 ),
               ], //<Widget>[]
@@ -238,9 +237,8 @@ class _LoginDemoState extends State<LoginDemo> {
 
                   //frist, check if text fields are not empty
                   if (phoneController.text == "" &&
-                      passwordController.text == "" ) {
+                      passwordController.text == "") {
                     showDialog();
-                    
                   } else {
                     //get text field's input from the user
                     phone = int.parse(phoneController.text);
@@ -249,7 +247,7 @@ class _LoginDemoState extends State<LoginDemo> {
                     if (userType != true) {
                       //driver
                       print("driver");
-//check login info from the database driver's list
+                     //check login info from the database driver's list
                       List<dynamic> drListd = await readAll(tableDriver);
                       dd = drListd.cast();
                       for (int i = 0; i < dd.length; i++) {
@@ -279,9 +277,10 @@ class _LoginDemoState extends State<LoginDemo> {
                                 builder: (context) => DriverMenu()));
                       }
                     } else {
-                       print("admin");
+                      print("admin");
                       //admin
-                      List<dynamic> muniList = await readAll(tableMunicipalityAdmin);
+                      List<dynamic> muniList =
+                          await readAll(tableMunicipalityAdmin);
                       munList = muniList.cast();
                       for (int i = 0; i < munList.length; i++) {
                         if (munList[i].phone == phone) {
@@ -299,7 +298,7 @@ class _LoginDemoState extends State<LoginDemo> {
                         //naviagte to the menu screen
                         //store the loggedin id
                         SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
+                            await SharedPreferences.getInstance();
                         await prefs.setInt('id', loggedInId);
                         await prefs.setInt('phone', phone);
                         print(prefs.getInt('phone'));

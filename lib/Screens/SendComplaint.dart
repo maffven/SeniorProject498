@@ -129,6 +129,8 @@ class SendComplaint extends StatelessWidget {
                             suffixStyle: const TextStyle(color: Colors.green)),
                       ),
                     )),
+
+                    
                 Container(
                     height: 150,
                     width: 350,
@@ -137,17 +139,19 @@ class SendComplaint extends StatelessWidget {
                         primaryColor: Colors.greenAccent,
                         primaryColorDark: Colors.green,
                       ),
+                      child: SizedBox(
+          height: 200,
                       child: new TextField(
                         keyboardType: TextInputType.multiline,
                         minLines: 1, //Normal textInputField will be displayed
-                        maxLines: 10, //
+                        maxLines: 20, //
                         decoration: new InputDecoration(
                             border: new OutlineInputBorder(
                                 borderSide:
                                     new BorderSide(color: Colors.greenAccent)),
                             labelText: 'Description',
                             suffixStyle: const TextStyle(color: Colors.green)),
-                      ),
+                      ),),
                     )),
                 Container(
                   height: 50,
@@ -164,7 +168,7 @@ class SendComplaint extends StatelessWidget {
 //added the district name column to the complaint table
 //addCol("DistrictName", tableComplaints);
 //delCol("DistrictName", tableComplaints);
-                     /* SharedPreferences prefs =
+                      SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       print(prefs.getInt('id'));
                       print(date);
@@ -175,8 +179,8 @@ class SendComplaint extends StatelessWidget {
                           status: false,
                           driverID: prefs.getInt('id'),
                           districtName: selectedDist,
-                          date: date);*/
-                    //  addObj(c, tableComplaints);
+                          date: date);
+                      addObj(c, tableComplaints);
                     /*  Complaints cc = await readObj(1, tableComplaints);
                       print(cc.complaintID);*/
 

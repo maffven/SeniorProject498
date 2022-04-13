@@ -101,25 +101,27 @@ class _EditComplaints extends State<EditComplaints> {
                       )),
                 ),
                 
-                  Container(
-                    height: 100,
-                    width: 350,
-                    child: new Theme(
-                      data: new ThemeData(
-                        primaryColor: Colors.greenAccent,
-                        primaryColorDark: Colors.green,
-                      ),
-                          child: new Text("Solved:"
-                      )
-                      ),    
-                ), 
-                /*Checkbox(
-                          value: status,
-                          onChanged: (bool value) {
-                          status = value;
-                            
-                          },
-                        ),*/ //Checkbox
+                   Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 20,
+                ), //SizedBox
+                Text(
+                  'Solved? ',
+                  style: TextStyle(fontSize: 15.0),
+                ), //Text
+                Checkbox(
+                  checkColor: Colors.white,
+                  focusColor: Color(0xff28CC9E),
+                  value: status,
+                  onChanged: (bool value) {
+                    setState(() {
+                      status = value;
+                    });
+                  },
+                ),
+              ], //<Widget>[]
+            ), //Row
                         Container(
                   height: 50,
                   width: 250,

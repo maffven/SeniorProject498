@@ -28,7 +28,7 @@ class _ViewComplaints extends State<ViewComplaints>
   @override
   Widget build(BuildContext context) => Scaffold(
         body: FutureBuilder<List<Widget>>(
-          future: getWidgets("Driver"),
+          future: getWidgets(),
           builder: (context, snapshot) {
             final comps = snapshot.data;
             switch (snapshot.connectionState) {
@@ -45,7 +45,7 @@ class _ViewComplaints extends State<ViewComplaints>
         ),
       );
 
-  Widget buildDrivers(List<Widget> drivers) {
+  Widget buildDrivers(List<Widget> complaints) {
     return MaterialApp(
         home: Scaffold(
             resizeToAvoidBottomInset: false,
@@ -54,7 +54,7 @@ class _ViewComplaints extends State<ViewComplaints>
                 // to add search button you have to add padding
                 padding: const EdgeInsets.all(12.0),
                 child: Center(
-                  child: Wrap(spacing: 20, runSpacing: 20.0, children: drivers),
+                  child: Wrap(spacing: 20, runSpacing: 20.0, children: complaints),
                 ),
               ),
             )));
@@ -74,7 +74,7 @@ class _ViewComplaints extends State<ViewComplaints>
   }
 
   //get box widgets
-  Future<List<Widget>> getWidgets(String tab) async {
+  Future<List<Widget>> getWidgets() async {
     complaints = await getComplaints();
     for (int i = 0; i < complaints.length; i++) {
       boxWidgets.add(SizedBox(

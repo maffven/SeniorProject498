@@ -361,7 +361,7 @@ Future <Driver> getLoginId (int phone) async{
         return await BinLocation().read(id, instance);
         break;
 //--------------------------------------------------------------
-      case "Complaints":
+      case "complaints":
         return await Complaints().read(id, instance);
         break;
 //--------------------------------------------------------------
@@ -404,7 +404,7 @@ Future <Driver> getLoginId (int phone) async{
         return await BinLocation().readAll(instance);
         break;
 //--------------------------------------------------------------
-      case "Complaints":
+      case "complaints":
         return await Complaints().readAll(instance);
         break;
 //--------------------------------------------------------------
@@ -448,7 +448,7 @@ Future <Driver> getLoginId (int phone) async{
         return await BinLocation().update(id, instance, obj);
         break;
 //--------------------------------------------------------------
-      case "Complaints":
+      case "complaints":
         return await Complaints().update(id, instance, obj);
         break;
 //--------------------------------------------------------------
@@ -490,7 +490,7 @@ Future <Driver> getLoginId (int phone) async{
         return await BinLocation().delete(id, instance);
         break;
 //------------------------------------------------------------
-      case "Complaints":
+      case "complaints":
         return await Complaints().delete(id, instance);
         break;
 //--------------------------------------------------------------

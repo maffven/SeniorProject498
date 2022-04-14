@@ -9,8 +9,8 @@ import 'AdminDashboard.dart';
 import 'package:flutter_application_1/Screens/DriverDashboard.dart';
 import 'map.dart';
 
-class Main extends StatelessWidget {
-  const Main({Key key}) : super(key: key);
+class DriverMenu extends StatelessWidget {
+  const DriverMenu({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

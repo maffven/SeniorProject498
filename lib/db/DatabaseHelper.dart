@@ -294,6 +294,7 @@ Future <Driver> getLoginId (int phone) async{
     //inset to database
 
     final id = await db.insert(tableName, table.toJson());
+      print("object inserted");
     return table.copy(id: id);
   }
 
@@ -301,6 +302,13 @@ Future <Driver> getLoginId (int phone) async{
     var dbClient = await await DatabaseHelper.instance.database;
     var count = await dbClient.execute("ALTER TABLE $TableName ADD "
         "COLUMN $ColumneName TEXT;");
+    print(await dbClient.query(tableComplaints));
+    return count;
+  }
+ Future<dynamic> alterTable1(String TableName, String ColumneName) async {
+    var dbClient = await await DatabaseHelper.instance.database;
+    var count = await dbClient.execute("ALTER TABLE $TableName DELETE "
+        "COLUMN $ColumneName;");
     print(await dbClient.query(tableComplaints));
     return count;
   }
@@ -353,7 +361,7 @@ Future <Driver> getLoginId (int phone) async{
         return await BinLocation().read(id, instance);
         break;
 //--------------------------------------------------------------
-      case "Complaints":
+      case "complaints":
         return await Complaints().read(id, instance);
         break;
 //--------------------------------------------------------------
@@ -396,7 +404,7 @@ Future <Driver> getLoginId (int phone) async{
         return await BinLocation().readAll(instance);
         break;
 //--------------------------------------------------------------
-      case "Complaints":
+      case "complaints":
         return await Complaints().readAll(instance);
         break;
 //--------------------------------------------------------------
@@ -440,7 +448,7 @@ Future <Driver> getLoginId (int phone) async{
         return await BinLocation().update(id, instance, obj);
         break;
 //--------------------------------------------------------------
-      case "Complaints":
+      case "complaints":
         return await Complaints().update(id, instance, obj);
         break;
 //--------------------------------------------------------------
@@ -482,7 +490,7 @@ Future <Driver> getLoginId (int phone) async{
         return await BinLocation().delete(id, instance);
         break;
 //------------------------------------------------------------
-      case "Complaints":
+      case "complaints":
         return await Complaints().delete(id, instance);
         break;
 //--------------------------------------------------------------

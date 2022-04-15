@@ -9,7 +9,7 @@ import 'package:flutter_application_1/screens/AdminProfile.dart';
 import 'AdminDashboard.dart';
 import 'package:flutter_application_1/screens/ViewComplaints.dart';
 import 'package:flutter_application_1/Screens/DriverDashboard.dart';
-import 'map.dart';
+import 'mapSC.dart';
 
 class AdminMenu extends StatelessWidget {
   const AdminMenu({Key key}) : super(key: key);

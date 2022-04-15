@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screens/ViewComplaints.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/BinLevel.dart';
 import 'package:flutter_application_1/model/Complaints.dart';
@@ -13,17 +14,28 @@ class EditComplaints extends StatefulWidget {
   final Complaints complaint;
   EditComplaints({Key key, this.child, this.complaint}) : super(key: key);
 
-  _EditComplaints createState() => _EditComplaints();
+  _EditComplaints createState() => _EditComplaints(complaint: complaint);
 }
 
 class _EditComplaints extends State<EditComplaints> {
   List<District> disList;
-  //final Complaints complaint;  
+  //final Complaints complaint;
   List<Complaints> complaints = [];
   List<Driver> dd;
+  final Complaints complaint;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+  bool status = false;
+  _EditComplaints({this.complaint});
+
   final dbHelper = DatabaseHelper.instance;
-  bool status;
-  
+
   //function written by flutter
   final TextEditingController binId = new TextEditingController();
   var selectedBinId;
@@ -36,8 +48,11 @@ class _EditComplaints extends State<EditComplaints> {
     return MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () => Navigator.of(context).pop()),
           backgroundColor: Color(0xffffDD83),
-          title: Text("View Complaint"),
+          title: Text("Edit Complaint"),
         ),
         body: new Center(
           child: new Container(
@@ -48,10 +63,14 @@ class _EditComplaints extends State<EditComplaints> {
                       left: 24.0, right: 24.0, top: 57, bottom: 24),
                   child: new Row(
                     children: <Widget>[
-                       new Expanded(
-                          child: new Text("Bin Id:" 
-                      )),
-                     
+                      Text("Bin Id: ",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17.0)),
+                      Text("${complaint.binID}",
+                          style:
+                              TextStyle(color: Colors.black, fontSize: 16.0)),
                     ],
                   ),
                 ),
@@ -60,114 +79,130 @@ class _EditComplaints extends State<EditComplaints> {
                       left: 24.0, right: 24.0, top: 24, bottom: 55),
                   child: new Row(
                     children: <Widget>[
-                      new Expanded(
-                          child: new Text("Driver Id: "
-                      )),
-                   
+                      Text("Driver Id: ",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17.0)),
+                      Text("${complaint.driverID} ",
+                          style:
+                              TextStyle(color: Colors.black, fontSize: 16.0)),
                     ],
                   ),
                 ),
+                new Padding(
+                  padding: const EdgeInsets.only(
+                      left: 24.0, right: 24.0, top: 24, bottom: 55),
+                  child: new Row(
+                    children: <Widget>[
+                      Text("Subject: ",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17.0)),
+                      Text("${complaint.subject} ",
+                          style:
+                              TextStyle(color: Colors.black, fontSize: 16.0)),
+                    ],
+                  ),
+                ),
+                new Padding(
+                  padding:
+                      const EdgeInsets.only(left: 24.0, top: 24, bottom: 10),
+                  child: new Column(
+                    children: <Widget>[
+                      Text("Description: ",  textAlign:  TextAlign.left,
+                          style: TextStyle(
+                              color: Colors.black,
+                          
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17.0)),
+                      Text("\n ${complaint.complaintMessage} ",
+                          maxLines: 10,
+                        
+                          style:
+                              TextStyle(color: Colors.black, fontSize: 16.0)),
+                    ],
+                  ),
+                ),
+
+                new Padding(
+                  padding: const EdgeInsets.only(
+                      left: 24.0, right: 24.0, top: 24, bottom: 30),
+                  child: new Row(
+                    children: <Widget>[
+                      Text("Date: ",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17.0)),
+                      Text("${complaint.date} ",
+                          style:
+                              TextStyle(color: Colors.black, fontSize: 16.0)),
+                    ],
+                  ),
+                ),
+
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 20,
+                    ), //SizedBox
+                    Text(
+                      'Solved ',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0),
+                    ), //Text
+                    Checkbox(
+                      checkColor: Colors.white,
+                      focusColor: Color(0xff28CC9E),
+                      value: status,
+                      onChanged: (bool value) {
+                        setState(() {
+                          status = value;
+                        });
+                      },
+                    ),
+                  ], //<Widget>[]
+                ), //Row
                 Container(
-                    height: 100,
-                    width: 350,
-                    child: new Theme(
-                      data: new ThemeData(
-                        primaryColor: Colors.greenAccent,
-                        primaryColorDark: Colors.green,
-                      ),
-                      child: new Text("Subject: "
-                      )),
-                ),
-                Container(
-                    height: 100,
-                    width: 350,
-                    child: new Theme(
-                      data: new ThemeData(
-                        primaryColor: Colors.greenAccent,
-                        primaryColorDark: Colors.green,
-                      ),
-                          child: new Text("Description: "
-                      )),
-                ),
-                  Container(
-                    height: 100,
-                    width: 350,
-                    child: new Theme(
-                      data: new ThemeData(
-                        primaryColor: Colors.greenAccent,
-                        primaryColorDark: Colors.green,
-                      ),
-                          child: new Text("Date:"
-                      )),
-                ),
-                
-                   Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 20,
-                ), //SizedBox
-                Text(
-                  'Solved? ',
-                  style: TextStyle(fontSize: 15.0),
-                ), //Text
-                Checkbox(
-                  checkColor: Colors.white,
-                  focusColor: Color(0xff28CC9E),
-                  value: status,
-                  onChanged: (bool value) {
-                    setState(() {
-                      status = value;
-                    });
-                  },
-                ),
-              ], //<Widget>[]
-            ), //Row
-                        Container(
                   height: 50,
                   width: 250,
-                  margin: const EdgeInsets.only(top: 20.0),
+                  margin: const EdgeInsets.only(top: 80.0, bottom: 50.0),
                   decoration: BoxDecoration(
                       color: Color(0xff28CC9E),
                       borderRadius: BorderRadius.circular(20)),
                   child: FlatButton(
                     onPressed: () async {
-              
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       print(prefs.getInt('id'));
-                   
-                      Complaints c = Complaints(
-                          binID: int.parse(selectedBinId),
-                          complaintMessage: description.text,
-                          subject: summary.text,
-                          status: status,
-                          driverID: prefs.getInt('id'),
-                          districtName: selectedDist,
-                          );
-                    //  addObj(c, tableComplaints);
-                    /*  Complaints cc = await readObj(1, tableComplaints);
-                      print(cc.complaintID);*/
-
-                      List<dynamic> compList = await readAll(tableComplaints);
-                      complaints = compList.cast();
-                      for (int i = 0; i < complaints.length; i++) {
-                        print("${complaints[i].binID}");
-                        print("${complaints[i].complaintID}");
-                        print("${complaints[i].districtName}");
-                        print("${complaints[i].subject}");
+                      if (status == true) {
+                        print("it is true");
+                        print("${complaint.status}");
+                        print(complaint.complaintID);
+                        print(complaint.subject);
+                        print(complaint.complaintMessage);
+                        Complaints c = Complaints(
+                          complaintID: complaint.complaintID,
+                          binID: complaint.binID,
+                          complaintMessage: complaint.complaintMessage,
+                          status: true,
+                          subject: complaint.subject,
+                          date: complaint.date,
+                          driverID: complaint.driverID,
+                          districtName: complaint.districtName,
+                        );
+                      //to update teh states from false (Not solved) to true (solved)
+                        updateObj(complaint.complaintID, c, tableComplaints);
                       }
 
                       /* Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => CompResult()));*/
-                      /* BinLevel bin = BinLevel(
-                          binID: 123,
-                          half_full: true,
-                          full: false,
-                          empty: false,
-                          level: 1);
-                      addObj(bin, tableBinLevel);*/
                     },
                     child: Text(
                       'Submit',
@@ -178,8 +213,6 @@ class _EditComplaints extends State<EditComplaints> {
               ],
             ),
           ),
-
-
         ),
       ),
     );
@@ -210,6 +243,7 @@ class _EditComplaints extends State<EditComplaints> {
     return await DatabaseHelper.instance.generalRead(tableName, id);
     //print("mun object: ${munObj.firatName}");
   }
+
   Future updateObj(int id, dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalUpdate(tableName, id, obj);
   }

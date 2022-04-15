@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Screens/ForgotPass.dart';
-import 'package:flutter_application_1/Screens/Menu.dart';
-import 'package:flutter_application_1/model/BinLevel.dart';
+import 'package:flutter_application_1/Screens/DriverMenu.dart';
 import 'package:flutter_application_1/Screens/AdminMenu.dart';
-import 'package:flutter_application_1/Screens/map.dart';
+import 'package:flutter_application_1/Screens/mapSc.dart';
 import 'package:flutter_application_1/model/Complaints.dart';
 import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/model/District.dart';
@@ -68,6 +67,7 @@ class _LoginDemoState extends State<LoginDemo> {
   //Take input from user or textview
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  //display warning when fields are empty
   void showDialog() {
     showCupertinoDialog(
       context: context,
@@ -87,7 +87,7 @@ class _LoginDemoState extends State<LoginDemo> {
       },
     );
   }
-
+//show warning when text fields (password & username) don't match the database
   void showDialogError() {
     showCupertinoDialog(
       context: context,
@@ -214,13 +214,7 @@ class _LoginDemoState extends State<LoginDemo> {
                       District(name: "Alwaha", numberOfBins: 11, driverID: 3);
                   District di5 = District(
                       name: "Alsulaimania", numberOfBins: 15, driverID: 4);*/
-                  BinLevel level = BinLevel(
-                      binID: 144,
-                      level: 0,
-                      full: false,
-                      half_full: false,
-                      empty: true);
-                  //addObj(level, tableBinLevel);
+
                   Bin bin = Bin(binID: 123, capacity: 10, districtId: 1);
                   Bin bin1 = Bin(binID: 144, capacity: 25, districtId: 2);
                   Bin bin2 = Bin(binID: 166, capacity: 40, districtId: 3);
@@ -238,9 +232,9 @@ class _LoginDemoState extends State<LoginDemo> {
                   addObj(di3, tableDistrict);
                   addObj(di4, tableDistrict);
                   addObj(di5, tableDistrict);*/
-                  // addObj(bin, "bin");
-                  // addObj(bin1, "bin");
-                  // addObj(bin2, "bin");
+                  /*addObj(bin, "bin_table");
+                  addObj(bin1, "bin_table");
+                  addObj(bin2, "bin_table");*/
 
                   //frist, check if text fields are not empty
                   if (phoneController.text == "" &&
@@ -250,11 +244,11 @@ class _LoginDemoState extends State<LoginDemo> {
                     //get text field's input from the user
                     phone = int.parse(phoneController.text);
                     password = passwordController.text;
-                    //first check if its an admin or user
+                    //first check if its an admin or a driver
                     if (userType != true) {
                       //driver
                       print("driver");
-                      //check login info from the database driver's list
+                     //check login info from the database driver's list
                       List<dynamic> drListd = await readAll(tableDriver);
                       dd = drListd.cast();
                       for (int i = 0; i < dd.length; i++) {
@@ -295,7 +289,7 @@ class _LoginDemoState extends State<LoginDemo> {
                           loggedInId = munList[i].municpalityID;
                         }
 
-                        if (dd[i].password == password) {
+                        if (munList[i].password == password) {
                           passCheck = true;
                         }
                       }
@@ -396,8 +390,6 @@ class _LoginDemoState extends State<LoginDemo> {
                   // _queryAll();
 */
                   /*  List<dynamic> d = await readAll(tableDistrict);
-
-                  List<dynamic> d = await readAll(tableDistrict);
                   disList = d.cast();
                   for (int i = 0; i < disList.length; i++) {
                     print("${disList[i].districtID}");
@@ -409,21 +401,21 @@ class _LoginDemoState extends State<LoginDemo> {
                   //MunicipalityAdmin obj = await readAll( tableMunicipalityAdmin);
                   //print("${obj.firstName} HIII");
 
-                  // District di =
-                  //     District(name: "Alfayhaa", numberOfBins: 15, driverID: 5);
-                  // District di2 =
-                  //     District(name: "Alazezia", numberOfBins: 12, driverID: 1);
-                  // District di3 =
-                  //     District(name: "Obhor", numberOfBins: 13, driverID: 2);
-                  // District di4 =
-                  //     District(name: "Alsalama", numberOfBins: 11, driverID: 3);
-                  // District di5 = District(
-                  //     name: "Alsulaimania", numberOfBins: 15, driverID: 4);
-                  // addObj(di, tableDistrict);
-                  // addObj(di2, tableDistrict);
-                  // addObj(di3, tableDistrict);
-                  // addObj(di4, tableDistrict);
-                  // addObj(di5, tableDistrict);
+                  /*District di =
+                      District(name: "Alnaseem", numberOfBins: 15, driverID: 5);
+                  District di2 =
+                      District(name: "AlJamea", numberOfBins: 12, driverID: 1);
+                  District di3 = District(
+                      name: "Alfaisaliah", numberOfBins: 13, driverID: 2);
+                  District di4 =
+                      District(name: "Alwaha", numberOfBins: 11, driverID: 3);
+                  District di5 = District(
+                      name: "Alsulaimania", numberOfBins: 15, driverID: 4);
+                  addObj(di, tableDistrict);
+                  addObj(di2, tableDistrict);
+                  addObj(di3, tableDistrict);
+                  addObj(di4, tableDistrict);
+                  addObj(di5, tableDistrict);*/
 
                   //ensure the object exists
                   /*  munObj =

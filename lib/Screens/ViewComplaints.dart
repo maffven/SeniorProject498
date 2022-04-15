@@ -8,7 +8,8 @@ import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/Complaints.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 void main() => runApp(MaterialApp(home: ViewComplaints()));
 
 class ViewComplaints extends StatefulWidget {
@@ -17,14 +18,16 @@ class ViewComplaints extends StatefulWidget {
 }
 
 class _ViewComplaints extends State<ViewComplaints>
+
     with AutomaticKeepAliveClientMixin<ViewComplaints> {
+ 
   @override
   bool get wantKeepAlive => true;
   //Define variables
   List<Complaints> complaints;
   List<District> district;
   List<Widget> boxWidgets = [];
-
+  var status;
   @override
   Widget build(BuildContext context) => Scaffold(
         body: FutureBuilder<List<Widget>>(
@@ -49,6 +52,10 @@ class _ViewComplaints extends State<ViewComplaints>
     return MaterialApp(
         home: Scaffold(
             resizeToAvoidBottomInset: false,
+             appBar: AppBar(
+        backgroundColor: Color(0xffffDD83),
+        title: Text("View Complaints"),
+      ),
             body: SingleChildScrollView(
               child: Padding(
                 // to add search button you have to add padding
@@ -59,27 +66,48 @@ class _ViewComplaints extends State<ViewComplaints>
               ),
             )));
   }
-
+    Future<String> getStatus() async{
+//Get complaints from DB
+    List<Complaints> comp;
+    List<dynamic> compDB = await readAll(tableComplaints);
+    comp = compDB.cast();
+   for (int i=0;i<comp.length;i++){
+     if(complaints[i].status==false){
+       status="In Progress";
+     }else{
+       status="Completed";
+     }
+   }
+   return status;
+  }
+   
 //Class methods
 
   //get all drivers from database
   Future<List<Complaints>> getComplaints() async {
-    //Get drivers from DB
+    //Get complaints from DB
     List<Complaints> comp;
     List<dynamic> compDB = await readAll(tableComplaints);
     comp = compDB.cast();
-    print("in get complaints method");
+    for (int i=0;i<comp.length;i++){
+     if(comp[i].status==false){
+       status="In Progress";
+     }else{
+       status="Completed";
+     }
+   }
     print("complaints length ${compDB.length}");
     return comp;
   }
+
 
   //get box widgets
   Future<List<Widget>> getWidgets() async {
     complaints = await getComplaints();
     for (int i = 0; i < complaints.length; i++) {
       boxWidgets.add(SizedBox(
-          width: 250.0,
-          height: 160.0,
+          width: 370.0,
+          height: 140.0,
           child: InkWell(
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
@@ -91,7 +119,7 @@ class _ViewComplaints extends State<ViewComplaints>
               elevation: 2.0,
               shape: RoundedRectangleBorder(
                   side: BorderSide(color: Color(0xff28CC9E), width: 1),
-                  borderRadius: BorderRadius.circular(8.0)),
+                  borderRadius: BorderRadius.circular(5.0)),
               child: Center(
                   child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -102,18 +130,17 @@ class _ViewComplaints extends State<ViewComplaints>
                     ),
                     Text(
                       '${complaints[i].subject}',
-                      textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 21.0),
                     ),
-                    Text('Date: ' '${complaints[i].date} Status: ${'complaints[i].status'}',
-                      textAlign: TextAlign.center,
+                    Text('\nDate: ' +  DateFormat('yyyy-MM-dd').format(complaints[i].date) + " \nTime: " +  DateFormat('HH:mm').format(complaints[i].date) +'\n'+'Status: ' + status,
+              
                       style: TextStyle(
                           color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17.0),),
+                        
+                          fontSize: 15.0),),
                     SizedBox(
                       height: 5.0,
                     ),

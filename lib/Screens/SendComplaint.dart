@@ -7,6 +7,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/Screens/complaintResult.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 void main() async {
   runApp(SendComplaint());
@@ -19,11 +21,11 @@ class SendComplaint extends StatelessWidget {
   var itemsDis = [
     "Alnaseem",
     "AlJamea",
-    "Alfaisaliah",
+    "Alfaisaliyah",
     "Alwaha",
     "Alsulaimania"
   ];
-  var itemsBin = ["1", "2", "3", "4"];
+  var itemsBin = ["144", "2", "3", "4"];
   final dbHelper = DatabaseHelper.instance;
 
   //function written by flutter
@@ -86,14 +88,14 @@ class SendComplaint extends StatelessWidget {
                     children: <Widget>[
                       new Expanded(
                           child: new TextField(
-                              decoration: new InputDecoration(
-                                  border: new OutlineInputBorder(
-                                      borderSide: new BorderSide(
-                                          color: Colors.greenAccent)),
-                                  labelText: 'District',
-                                  suffixStyle:
-                                      const TextStyle(color: Colors.green)),
-                              controller: district)),
+                        controller: district,
+                        decoration: new InputDecoration(
+                            border: new OutlineInputBorder(
+                                borderSide:
+                                    new BorderSide(color: Colors.greenAccent)),
+                            labelText: 'District',
+                            suffixStyle: const TextStyle(color: Colors.green)),
+                      )),
                       new PopupMenuButton<String>(
                         icon: const Icon(Icons.arrow_drop_down),
                         onSelected: (String value) {
@@ -121,6 +123,7 @@ class SendComplaint extends StatelessWidget {
                         primaryColorDark: Colors.green,
                       ),
                       child: new TextField(
+                        controller: summary,
                         decoration: new InputDecoration(
                             border: new OutlineInputBorder(
                                 borderSide:
@@ -129,8 +132,6 @@ class SendComplaint extends StatelessWidget {
                             suffixStyle: const TextStyle(color: Colors.green)),
                       ),
                     )),
-
-                    
                 Container(
                     height: 150,
                     width: 350,
@@ -140,18 +141,21 @@ class SendComplaint extends StatelessWidget {
                         primaryColorDark: Colors.green,
                       ),
                       child: SizedBox(
-          height: 200,
-                      child: new TextField(
-                        keyboardType: TextInputType.multiline,
-                        minLines: 1, //Normal textInputField will be displayed
-                        maxLines: 20, //
-                        decoration: new InputDecoration(
-                            border: new OutlineInputBorder(
-                                borderSide:
-                                    new BorderSide(color: Colors.greenAccent)),
-                            labelText: 'Description',
-                            suffixStyle: const TextStyle(color: Colors.green)),
-                      ),),
+                        height: 200,
+                        child: new TextField(
+                          controller: description,
+                          keyboardType: TextInputType.multiline,
+                          minLines: 1, //Normal textInputField will be displayed
+                          maxLines: 20, //
+                          decoration: new InputDecoration(
+                              border: new OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Colors.greenAccent)),
+                              labelText: 'Description',
+                              suffixStyle:
+                                  const TextStyle(color: Colors.green)),
+                        ),
+                      ),
                     )),
                 Container(
                   height: 50,
@@ -163,6 +167,11 @@ class SendComplaint extends StatelessWidget {
                   child: FlatButton(
                     onPressed: () async {
                       DateTime now = new DateTime.now();
+                      print(now);
+//format the date
+                      var newFormat = DateFormat("yyyy-MM-dd");
+                      String updatedDt = newFormat.format(now);
+
                       DateTime date =
                           new DateTime(now.year, now.month, now.day);
 //added the district name column to the complaint table
@@ -171,32 +180,38 @@ class SendComplaint extends StatelessWidget {
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       print(prefs.getInt('id'));
-                      print(date);
+                      // print(date);
+                      print(district.text);
                       Complaints c = Complaints(
                           binID: int.parse(selectedBinId),
                           complaintMessage: description.text,
                           subject: summary.text,
                           status: false,
                           driverID: prefs.getInt('id'),
-                          districtName: selectedDist,
-                          date: date);
-                      addObj(c, tableComplaints);
-                    /*  Complaints cc = await readObj(1, tableComplaints);
+                          districtName: district.text,
+                          date: now);
+                    //  addObj(c, tableComplaints);
+                     /* for (int i = 16; i <= 18; i++) {
+                        deleteObj(i, tableComplaints);
+                      }*/
+                      //  deleteObj(14, tableComplaints);
+                      /*  Complaints cc = await readObj(1, tableComplaints);
                       print(cc.complaintID);*/
 
-                      List<dynamic> compList = await readAll(tableComplaints);
+                      /* List<dynamic> compList = await readAll(tableComplaints);
                       complaints = compList.cast();
                       for (int i = 0; i < complaints.length; i++) {
                         print("${complaints[i].binID}");
                         print("${complaints[i].complaintID}");
                         print("${complaints[i].districtName}");
                         print("${complaints[i].subject}");
-                      }
+                        print("${complaints[i].status}");
+                      }*/
 
-                      /* Navigator.push(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CompResult()));*/
+                              builder: (context) => CompResult()));
                       /* BinLevel bin = BinLevel(
                           binID: 123,
                           half_full: true,
@@ -232,6 +247,12 @@ class SendComplaint extends StatelessWidget {
   Future delCol(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.alterTable1(tableName, obj);
     print("column deleted");
+  }
+
+  Future deleteObj(int id, String tableName) async {
+    print("$id");
+    await DatabaseHelper.instance.gneralDelete(id, tableName);
+    print("Object is deleted");
   }
 
   Future<List<dynamic>> readAll(String tableName) async {

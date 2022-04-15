@@ -45,7 +45,7 @@ class _AdminDriverDashboard extends State<AdminDriverDashboard> {
   Widget build(BuildContext context) {
     _generateDataForDriver();
     return DefaultTabController(
-        length: 1,
+        length: 2,
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: Color(0xffffDD83),
@@ -113,6 +113,7 @@ class _AdminDriverDashboard extends State<AdminDriverDashboard> {
                   ),
                 ),
               ),
+              new AdminDistrictDashboard(driver: driver)
             ])));
   }
 

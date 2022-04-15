@@ -38,19 +38,16 @@ class _DistrictList extends State<DistrictList>
       );
 
   Widget buildDistricts(List<Widget> district) {
-    return DefaultTabController(
-        length: 1,
-        child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: SingleChildScrollView(
-              child: Padding(
-                // to add search button you have to add padding
-                padding: const EdgeInsets.all(12.0),
-                child: Center(
-                    child: Wrap(
-                        spacing: 20, runSpacing: 20.0, children: district)),
-              ),
-            )));
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+          child: Padding(
+            // to add search button you have to add padding
+            padding: const EdgeInsets.all(12.0),
+            child: Center(
+                child: Wrap(spacing: 20, runSpacing: 20.0, children: district)),
+          ),
+        ));
   }
 
 //Class methods

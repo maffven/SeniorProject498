@@ -119,7 +119,7 @@ class _ViewComplaints extends State<ViewComplaints>
               elevation: 2.0,
               shape: RoundedRectangleBorder(
                   side: BorderSide(color: Color(0xff28CC9E), width: 1),
-                  borderRadius: BorderRadius.circular(5.0)),
+                  borderRadius: BorderRadius.circular(20.0)),
               child: Center(
                   child: Padding(
                 padding: const EdgeInsets.all(8.0),

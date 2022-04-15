@@ -11,7 +11,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-
 const double GMAP_DEFAULT_LATITUDE = 21.584873;
 const double GMAP_DEFAULT_LONGITUDE = 39.205959;
 const double GMAP_DEFAULT_ZOOM = 12;
@@ -20,7 +19,7 @@ String color = "";
 String titlee = "";
 double colorBin = 0.0;
 
-List<Marker> markerss =[];
+List<Marker> markerss = [];
 BinLevel level = BinLevel();
 BinLocation location = BinLocation();
 const CameraPosition INITIAL_CAMERA_POSITION = CameraPosition(
@@ -30,23 +29,23 @@ const CameraPosition INITIAL_CAMERA_POSITION = CameraPosition(
   ),
   zoom: GMAP_DEFAULT_ZOOM,
 );
- 
+
 List<Marker> displayMarker(double colorBin) {
   print(colorBin);
   print(color);
-List<Marker> marker = [
-      Marker(
-          infoWindow: InfoWindow(title: titlee),
-          markerId: MarkerId(color),
-          position: LatLng(21.4893852, 39.2462446),
+  List<Marker> marker = [
+    Marker(
+        infoWindow: InfoWindow(title: titlee),
+        markerId: MarkerId(color),
+        position: LatLng(21.4893852, 39.2462446),
         icon: BitmapDescriptor.defaultMarkerWithHue(colorBin),
         onTap: () {
           MapUtils.openMap(
-       21.4893852, 39.2462446);  //to open google map app/direct
-          })
-    ];
+              21.4893852, 39.2462446); //to open google map app/direct
+        })
+  ];
 
-    return marker;
+  return marker;
 //list of markers on the map
   /*markers = [
     Marker(
@@ -93,38 +92,41 @@ void readDistance() {
       print('manar');
       color = 'Red';
       titlee = "Full";
-      level = BinLevel(binID: 1, level: 3, full: true, half_full: false , empty: false);
+      level = BinLevel(
+          binID: 144, level: 3, full: true, half_full: false, empty: false);
       colorBin = BitmapDescriptor.hueRed;
-      displayMarker(colorBin);
+       displayMarker(colorBin);
     } else if (distance > 0.0 && distance < 900.0) {
       color = 'Orange';
       print('rawan');
       titlee = "Half - Empty";
       colorBin = BitmapDescriptor.hueOrange;
-      level = BinLevel(binID: 1, level: 2, full: false, half_full: true, empty: false );
-      displayMarker(colorBin);
+      level = BinLevel(
+          binID: 144, level: 2, full: false, half_full: true, empty: false);
+       displayMarker(colorBin);
     } else {
       color = 'Green';
       print('lina');
       titlee = "Empty";
-      level = BinLevel(binID: 1, level: 0, full: false, half_full: false, empty: true );
+      level = BinLevel(
+          binID: 144, level: 0, full: false, half_full: false, empty: true);
       colorBin = BitmapDescriptor.hueGreen;
-      displayMarker(colorBin);
+         displayMarker(colorBin);
     }
     //coordinateX must be double not iNTEGER
-   // location = BinLocation(binID: 1, coordinateX: 21.4893852, )
- //addObj(level, tableBinLevel);
+    // location = BinLocation(binID: 1, coordinateX: 21.4893852, )
+    //addObj(level, tableBinLevel);
 
-   //list of markers on the map
-markerss = [
+    //list of markers on the map
+    markerss = [
       Marker(
           infoWindow: InfoWindow(title: titlee),
           markerId: MarkerId(color),
           position: LatLng(21.4893852, 39.2462446),
-        icon: BitmapDescriptor.defaultMarkerWithHue(colorBin),
-        onTap: () {
-          MapUtils.openMap(
-       21.4893852, 39.2462446);  //to open google map app/direct
+          icon: BitmapDescriptor.defaultMarkerWithHue(colorBin),
+          onTap: () {
+            MapUtils.openMap(
+                21.4893852, 39.2462446); //to open google map app/direct
           })
     ];
 //list of markers on the map
@@ -168,16 +170,17 @@ void main() async {
   readDistance();
   runApp(MaterialApp(home: map()));
 }
-  Future addObj(dynamic obj, String tableName) async {
-    await DatabaseHelper.instance.generalCreate(obj, tableName);
-    print("object inserted");
-  }
+
+Future addObj(dynamic obj, String tableName) async {
+  await DatabaseHelper.instance.generalCreate(obj, tableName);
+  print("object inserted");
+}
+
 class map extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-  
       home: MapScreen(),
     );
   }
@@ -201,13 +204,11 @@ class _MapScreenState extends State<MapScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xffffDD83),
         title: Text("Map"),
-        
       ),
       body: GoogleMap(
-         markers: Set<Marker>.of(markerss),
+        markers: Set<Marker>.of(markerss),
         initialCameraPosition: INITIAL_CAMERA_POSITION,
       ),
-      
     );
   }
 }

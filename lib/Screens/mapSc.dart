@@ -18,10 +18,10 @@ var distance = 0.0;
 String color = "";
 String titlee = "";
 double colorBin = 0.0;
-
+//the markers (pins) on the map
 List<Marker> markerss = [];
 BinLevel level = BinLevel();
-BinLocation location = BinLocation();
+BinLocation location = BinLocation();//location of bin
 const CameraPosition INITIAL_CAMERA_POSITION = CameraPosition(
   target: LatLng(
     GMAP_DEFAULT_LATITUDE,
@@ -78,7 +78,7 @@ List<Marker> displayMarker(double colorBin) {
   ];*/
 }
 
-//Create a database reference
+//Create a firebase database reference
 final databaseReference = FirebaseDatabase.instance.reference();
 //to read the distance from the firebase
 void readDistance() {
@@ -86,9 +86,9 @@ void readDistance() {
   databaseReference.onValue.listen((event) {
     final distanceFirebase =
         new Map<String, dynamic>.from(event.snapshot.value);
-    print(distanceFirebase['Distance']);
-    distance = distanceFirebase['Distance'];
-    if (distance <= 0.0) {
+    print(distanceFirebase['Distance']);//json data
+    distance = distanceFirebase['Distance'];//get teh distance from the firebase
+    if (distance <= 0.0) {//full
       print('manar');
       color = 'Red';
       titlee = "Full";
@@ -96,7 +96,7 @@ void readDistance() {
           binID: 144, level: 3, full: true, half_full: false, empty: false);
       colorBin = BitmapDescriptor.hueRed;
        displayMarker(colorBin);
-    } else if (distance > 0.0 && distance < 900.0) {
+    } else if (distance > 0.0 && distance < 900.0) {//half-full
       color = 'Orange';
       print('rawan');
       titlee = "Half - Empty";
@@ -104,7 +104,7 @@ void readDistance() {
       level = BinLevel(
           binID: 144, level: 2, full: false, half_full: true, empty: false);
        displayMarker(colorBin);
-    } else {
+    } else {//empty
       color = 'Green';
       print('lina');
       titlee = "Empty";

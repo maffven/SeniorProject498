@@ -48,8 +48,8 @@ class _LoginDemoState extends State<LoginDemo> {
     super.initState();
     // readD();
   }
-
-  bool userType = false;
+//list of needed variables
+  bool userType = false; //if a driver of admin
   List<BinLocation> locList = [];
   List<Bin> bins = [];
   List<Bin> binsByCapacity = [];
@@ -120,7 +120,7 @@ class _LoginDemoState extends State<LoginDemo> {
         child: Column(
           children: <Widget>[
             Padding(
-              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+             
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 150, bottom: 0),
               child: Text(
@@ -129,7 +129,7 @@ class _LoginDemoState extends State<LoginDemo> {
               ),
             ),
             Padding(
-              //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+              
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 0, bottom: 60),
               child: Text(
@@ -264,14 +264,15 @@ class _LoginDemoState extends State<LoginDemo> {
                       if (phoneCheck != true && passCheck != true) {
                         showDialogError();
                       } else {
-                        //naviagte to the menu screen
-                        //store the loggedin id
+                      
+                        //store the loggedin id and phone
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
                         await prefs.setInt('id', loggedInId);
                         await prefs.setInt('phone', phone);
                         print(prefs.getInt('phone'));
                         print(loggedInId);
+                       //naviagte to the driver's menu screen
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -296,14 +297,15 @@ class _LoginDemoState extends State<LoginDemo> {
                       if (phoneCheck != true && passCheck != true) {
                         showDialogError();
                       } else {
-                        //naviagte to the menu screen
-                        //store the loggedin id
+                        
+                        //store the loggedin id and phone
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
                         await prefs.setInt('id', loggedInId);
                         await prefs.setInt('phone', phone);
                         print(prefs.getInt('phone'));
                         print(loggedInId);
+                        //naviagte to the admin's menu screen
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -465,9 +467,7 @@ class _LoginDemoState extends State<LoginDemo> {
     );
   }
 
-  /*void _navigateToNextScreen(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Menu()));
-  }*/
+ //required method from the database
   Future<Driver> getLoginId(int phone) async {
     return await DatabaseHelper.instance.getLoginId(phone);
   }
@@ -486,18 +486,17 @@ class _LoginDemoState extends State<LoginDemo> {
   //int id, String tableName, dynamic classFields, dynamic className
   Future<dynamic> readObj(int id, String tableName) async {
     return await DatabaseHelper.instance.generalRead(tableName, id);
-    //print("mun object: ${munObj.firatName}");
+    
   }
 
   Future<dynamic> verifyLogin(String password, int phone) async {
     return await DatabaseHelper.instance.checkLogin(password, phone);
-    //print("mun object: ${munObj.firatName}");
+   
   }
 
   Future<List<dynamic>> readAll(String tableName) async {
     //We have to define list here as dynamci *******
     return await DatabaseHelper.instance.generalReadAll(tableName);
-    // print("mun object: ${munList[0].firatName}");
   }
 
   //Delete a row

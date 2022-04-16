@@ -59,102 +59,7 @@ class _secondDemo extends State<secondDemo> {
               ),
                    
             ),
-            
-          /*  FlatButton(
-              onPressed: (){}
-                //TODO FORGOT PASSWORD SCREEN GOES HERE
-              },
-             
-            ),*/
-           /* ListTile(
-          title: Row(
-             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              ElevatedButton(
-                 onPressed: _incrementCounter,
-      style: ButtonStyle(
-           backgroundColor: MaterialStateProperty.all( Color(0xff28CC9E) ),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  side: BorderSide(
-                      color: Color(0xff000000),
-                      width: 0.4,
-                  ),
-              ),
-          ),
-      ),
-      ),
-           ElevatedButton(
-            
-              onPressed: _incrementCounter,
-      style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all( Color(0xff28CC9E) ),
-    
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  side: BorderSide(
-                      color:Color(0xff000000),
-                      width: 0.4,
-                  ),
-              ),
-          ),
-      ),
-      
-      ),
-             /* Expanded(child: FlatButton(onPressed: () {},child: Text(""),color:  Color(0xff28CC9E),)),
-              Expanded(child: FlatButton(onPressed: () {},child: Text(""),color: Color(0xff28CC9E),)),*/
-     
-             /*  RaisedButton(
-              
-                  onPressed: _incrementCounter,
-                  color:Color(0xff28CC9E),
-                ),
-              
-                 RaisedButton(
-                  onPressed: _decrementCounter,
-                 
-                  color: Color(0xff28CC9E),
-                  
-                ),*/
-            ],
-          ),
-            ),*/
         
-      
-            /*Container(
-                margin: const EdgeInsets.only(
-              right: 55,),
-              height: 20,
-              width: 20,
-              decoration: BoxDecoration(
-                  color:  Color(0xff28CC9E) , borderRadius: BorderRadius.circular(40)),
-              child: FlatButton(
-                onPressed: () {
-                 
-                },
-               
-              ),
-
-
-            ),
-            
-             Container(
-                margin: const EdgeInsets.only(
-              left: 40,  bottom: 15),
-              height: 20,
-              width: 20,
-              
-              decoration: BoxDecoration(
-                  color:  Color(0xff28CC9E) , borderRadius: BorderRadius.circular(40)),
-              child: FlatButton(
-                onPressed: () {
-                 
-                },
-               
-              ),
-            ),*/
             Container(
               height: 50,
               width: 250,
@@ -186,11 +91,6 @@ class _secondDemo extends State<secondDemo> {
       ),
     );
   }
-         
-  void _incrementCounter(){
-
-  }
-  void _decrementCounter(){
-
-  }
+ 
+  
 }

@@ -18,6 +18,7 @@ class SendComplaint extends StatelessWidget {
   List<District> disList;
   List<Complaints> complaints = [];
   List<Driver> dd;
+  //districts
   var itemsDis = [
     "Alnaseem",
     "AlJamea",
@@ -25,16 +26,19 @@ class SendComplaint extends StatelessWidget {
     "Alwaha",
     "Alsulaimania"
   ];
+  //bins id
   var itemsBin = ["144", "2", "3", "4"];
+  //database reference
   final dbHelper = DatabaseHelper.instance;
-
-  //function written by flutter
+//get inputs from the user text fields
+//---------------------------------------------------------------------
   final TextEditingController binId = new TextEditingController();
-  var selectedBinId;
-  var selectedDist;
   final TextEditingController district = new TextEditingController();
   final TextEditingController summary = new TextEditingController();
   final TextEditingController description = new TextEditingController();
+//---------------------------------------------------------------------
+  var selectedBinId;
+  var selectedDist;
   //from database
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -141,13 +145,14 @@ class SendComplaint extends StatelessWidget {
                         primaryColorDark: Colors.green,
                       ),
                       child: SizedBox(
-                        height: 200,
+                        height: 150,
                         child: new TextField(
                           controller: description,
                           keyboardType: TextInputType.multiline,
                           minLines: 1, //Normal textInputField will be displayed
                           maxLines: 20, //
                           decoration: new InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 60),
                               border: new OutlineInputBorder(
                                   borderSide: new BorderSide(
                                       color: Colors.greenAccent)),
@@ -233,7 +238,7 @@ class SendComplaint extends StatelessWidget {
       ),
     );
   }
-
+//requiredn methods from the database
   Future addObj(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalCreate(obj, tableName);
     //print("object inserted");
@@ -258,11 +263,11 @@ class SendComplaint extends StatelessWidget {
   Future<List<dynamic>> readAll(String tableName) async {
     //We have to define list here as dynamci *******
     return await DatabaseHelper.instance.generalReadAll(tableName);
-    // print("mun object: ${munList[0].firatName}");
+    
   }
 
   Future<dynamic> readObj(int id, String tableName) async {
     return await DatabaseHelper.instance.generalRead(tableName, id);
-    //print("mun object: ${munObj.firatName}");
+    
   }
 }

@@ -35,14 +35,6 @@ class _EditComplaints extends State<EditComplaints> {
   _EditComplaints({this.complaint});
 
   final dbHelper = DatabaseHelper.instance;
-
-  //function written by flutter
-  final TextEditingController binId = new TextEditingController();
-  var selectedBinId;
-  var selectedDist;
-  final TextEditingController district = new TextEditingController();
-  final TextEditingController summary = new TextEditingController();
-  final TextEditingController description = new TextEditingController();
   //from database
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -176,9 +168,7 @@ class _EditComplaints extends State<EditComplaints> {
                       borderRadius: BorderRadius.circular(20)),
                   child: FlatButton(
                     onPressed: () async {
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      print(prefs.getInt('id'));
+                     
                       if (status == true) {
                         print("it is true");
                         print("${complaint.status}");
@@ -199,10 +189,7 @@ class _EditComplaints extends State<EditComplaints> {
                         updateObj(complaint.complaintID, c, tableComplaints);
                       }
 
-                      /* Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CompResult()));*/
+                     
                     },
                     child: Text(
                       'Submit',

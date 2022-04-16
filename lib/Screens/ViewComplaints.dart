@@ -41,14 +41,14 @@ class _ViewComplaints extends State<ViewComplaints>
                 if (snapshot.hasError) {
                   return Center(child: Text("${snapshot.error}"));
                 } else {
-                  return buildDrivers(comps);
+                  return buildComplaints(comps);
                 }
             }
           },
         ),
       );
 
-  Widget buildDrivers(List<Widget> complaints) {
+  Widget buildComplaints(List<Widget> complaints) {
     return MaterialApp(
         home: Scaffold(
             resizeToAvoidBottomInset: false,
@@ -66,24 +66,11 @@ class _ViewComplaints extends State<ViewComplaints>
               ),
             )));
   }
-    Future<String> getStatus() async{
-//Get complaints from DB
-    List<Complaints> comp;
-    List<dynamic> compDB = await readAll(tableComplaints);
-    comp = compDB.cast();
-   for (int i=0;i<comp.length;i++){
-     if(complaints[i].status==false){
-       status="In Progress";
-     }else{
-       status="Completed";
-     }
-   }
-   return status;
-  }
-   
-//Class methods
 
-  //get all drivers from database
+   
+
+
+  //get all complaints from database
   Future<List<Complaints>> getComplaints() async {
     //Get complaints from DB
     List<Complaints> comp;
@@ -91,6 +78,7 @@ class _ViewComplaints extends State<ViewComplaints>
     comp = compDB.cast();
     for (int i=0;i<comp.length;i++){
      if(comp[i].status==false){
+       //check the status of the complaint
        status="In Progress";
      }else{
        status="Completed";
@@ -108,7 +96,7 @@ class _ViewComplaints extends State<ViewComplaints>
       boxWidgets.add(SizedBox(
           width: 370.0,
           height: 140.0,
-          child: InkWell(
+          child: InkWell(//move to the specific complaint's detail screen
             onTap: () => Navigator.push(context,
                 MaterialPageRoute(builder: (BuildContext context) {
               return EditComplaints(complaint: complaints[i]);
@@ -158,12 +146,12 @@ class _ViewComplaints extends State<ViewComplaints>
   //int id, String tableName, dynamic classFields, dynamic className
   Future<dynamic> readObj(int id, String tableName) async {
     return await DatabaseHelper.instance.generalRead(tableName, id);
-    //print("mun object: ${munObj.firatName}");
+    
   }
 
   Future<List<dynamic>> readAll(String tableName) async {
     //We have to define list here as dynamci *******
     return await DatabaseHelper.instance.generalReadAll(tableName);
-    // print("mun object: ${munList[0].firatName}");
+   
   }
 }

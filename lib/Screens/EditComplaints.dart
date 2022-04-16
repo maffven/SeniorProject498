@@ -8,6 +8,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/Screens/complaintResult.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 class EditComplaints extends StatefulWidget {
   final Widget child;
@@ -128,9 +130,14 @@ class _EditComplaints extends State<EditComplaints> {
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 17.0)),
-                      Text("${complaint.date} ",
+                      Text(DateFormat('yyyy-MM-dd').format(complaint.date) ,
                           style:
                               TextStyle(color: Colors.black, fontSize: 16.0)),
+                              Text('  Time: ', style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17.0)),
+                              Text(DateFormat('HH:mm').format(complaint.date)),
                     ],
                   ),
                 ),

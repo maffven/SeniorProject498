@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/model/DriverStatus.dart';
-
 
 class Profile extends StatefulWidget {
   @override
@@ -16,18 +14,11 @@ class Profile extends StatefulWidget {
 
 class ProfileState extends State<Profile> {
   bool _status = true;
-  
   final FocusNode myFocusNode = FocusNode();
   TextEditingController phoneController = TextEditingController();
   TextEditingController EmailController = TextEditingController();
   TextEditingController IDController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-
-  //Driver driver;
-  // DriverStatus status;
-  //District district;
-  //List<District> districts;
-  //List<DriverStatus> status;
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +171,7 @@ class ProfileState extends State<Profile> {
                                         mainAxisSize: MainAxisSize.max,
                                         children: <Widget>[
                                           Text("$getId()"),
-                                         // Text("${drivers[0].driverID}"),
+                                          // Text("${drivers[0].driverID}"),
                                           //new Flexible(
                                           //  child: new TextField(controller: IDController),
                                           //    decoration: const InputDecoration(
@@ -192,6 +183,14 @@ class ProfileState extends State<Profile> {
                                           //    autofocus: !_status,
                                           //  ),
                                           // ),
+                                          TextField(
+                                            readOnly: true,
+                                            controller: IDController,
+                                            obscureText: true,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                hintText: 'Input your ID'),
+                                          ),
                                         ],
                                       )),
                                   Padding(
@@ -222,6 +221,9 @@ class ProfileState extends State<Profile> {
                                       child: new Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: <Widget>[
+                                          Text(
+                                              "${drivers[0].firstName} ${drivers[0].lastName}"),
+
                                           // new Flexible(
                                           //   child: new Text(
                                           //       "${drivers[0].firstName} ${drivers[0].lastName}"),
@@ -237,6 +239,14 @@ class ProfileState extends State<Profile> {
                                           //   // enabled: !_status,
                                           //   // ),
                                           // ),
+                                          TextField(
+                                            controller: nameController,
+                                            obscureText: true,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                // labelText: 'Password',
+                                                hintText: 'Input your name'),
+                                          ),
                                         ],
                                       )),
                                   Padding(
@@ -278,6 +288,14 @@ class ProfileState extends State<Profile> {
                                           //  enabled: !_status,
                                           // ),
                                           // ),
+                                          TextField(
+                                            controller: EmailController,
+                                            obscureText: true,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                // labelText: 'Password',
+                                                hintText: 'Input your email'),
+                                          ),
                                         ],
                                       )),
                                   Padding(
@@ -327,6 +345,15 @@ class ProfileState extends State<Profile> {
                                           //   ),
                                           //   flex: 2,
                                           // ),
+                                          TextField(
+                                            controller: phoneController,
+                                            obscureText: true,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                // labelText: 'Password',
+                                                hintText:
+                                                    'Input your phone number'),
+                                          ),
                                         ],
                                       )),
                                   !_status
@@ -627,10 +654,12 @@ class ProfileState extends State<Profile> {
     // print("drivers length ${driversDB.length}");
     return driv;
   }
-Future<int> getId() async{
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  return prefs.getInt('id');
-}
+
+  Future<int> getId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('id');
+  }
+
   Future<List<dynamic>> readAll(String tableName) async {
     //We have to define list here as dynamci *******
     return await DatabaseHelper.instance.generalReadAll(tableName);

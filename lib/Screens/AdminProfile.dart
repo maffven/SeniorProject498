@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
 import '../model/MunicipalityAdmin.dart';
 import '../db/DatabaseHelper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminProfile extends StatefulWidget {
   @override
@@ -12,16 +13,39 @@ class AdminProfile extends StatefulWidget {
 }
 
 class MapScreenState extends State<AdminProfile> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: FutureBuilder<List<MunicipalityAdmin>>(
+        future: getMun(),
+        builder: (context, snapshot) {
+          final municipality = snapshot.data;
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator());
+            default:
+              if (snapshot.hasError) {
+                return Center(child: Text("${snapshot.error}"));
+              } else {
+                return buildProfile(municipality);
+              }
+          }
+        },
+      ),
+    );
+  }
+
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  MunicipalityAdmin mun;
+  //MunicipalityAdmin mun;
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 1,
+  Widget buildProfile(List<MunicipalityAdmin> mun) {
+    // drivers = await getDrivers();
+    return Scaffold(
+      body: DefaultTabController(
+        length: 2,
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -31,6 +55,9 @@ class MapScreenState extends State<AdminProfile> {
                 indicatorColor: Colors.white,
                 tabs: [
                   Tab(text: "INFO"),
+                  Tab(
+                    text: "STATUS",
+                  ),
                 ],
               )),
           body: TabBarView(
@@ -143,16 +170,7 @@ class MapScreenState extends State<AdminProfile> {
                                         child: new Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: <Widget>[
-                                            new Flexible(
-                                              child: new TextField(
-                                                decoration:
-                                                    const InputDecoration(
-                                                  hintText: "Enter Your ID",
-                                                ),
-                                                enabled: !_status,
-                                                autofocus: !_status,
-                                              ),
-                                            ),
+                                            Text("$getId()"),
                                           ],
                                         )),
                                     Padding(
@@ -183,14 +201,8 @@ class MapScreenState extends State<AdminProfile> {
                                         child: new Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: <Widget>[
-                                            new Flexible(
-                                              child: new TextField(
-                                                decoration: const InputDecoration(
-                                                    hintText:
-                                                        "Enter your full name"),
-                                                enabled: !_status,
-                                              ),
-                                            ),
+                                            Text(
+                                                "${mun[0].firstName} ${mun[0].lastName}"),
                                           ],
                                         )),
                                     Padding(
@@ -221,15 +233,7 @@ class MapScreenState extends State<AdminProfile> {
                                         child: new Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: <Widget>[
-                                            new Flexible(
-                                              child: new TextField(
-                                                decoration:
-                                                    const InputDecoration(
-                                                        hintText:
-                                                            "Enter your Email"),
-                                                enabled: !_status,
-                                              ),
-                                            ),
+                                            Text("${mun[0].email}"),
                                           ],
                                         )),
                                     Padding(
@@ -262,19 +266,7 @@ class MapScreenState extends State<AdminProfile> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: <Widget>[
-                                            Flexible(
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: 10.0),
-                                                child: new TextField(
-                                                  decoration: const InputDecoration(
-                                                      hintText:
-                                                          "Enter your phone number"),
-                                                  enabled: !_status,
-                                                ),
-                                              ),
-                                              flex: 2,
-                                            ),
+                                            Text("${mun[0].phone}"),
                                           ],
                                         )),
                                     !_status
@@ -420,13 +412,18 @@ class MapScreenState extends State<AdminProfile> {
     db.close();
   }
 
-  Future<List<MunicipalityAdmin>> getDrivers() async {
+  Future<int> getId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('id');
+  }
+
+  Future<List<MunicipalityAdmin>> getMun() async {
     //Get drivers from DB
     List<MunicipalityAdmin> Mun;
     List<dynamic> MunDB = await readAll(tableMunicipalityAdmin);
     Mun = MunDB.cast();
     //print("in get drivers method");
-    print("Admin length ${MunDB.length}");
+    // print("Admin length ${MunDB.length}");
     return Mun;
   }
 }

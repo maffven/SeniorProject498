@@ -15,205 +15,220 @@ class MapScreenState extends State<DriverSatus> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: DefaultTabController(
-      length: 1,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Color(0xffffDD83),
-          title: Text("Status"),
-        ),
-        body: TabBarView(children: [
-          Padding(
-            padding: EdgeInsets.only(bottom: 25.0),
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                    padding:
-                        EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
-                    child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        new Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Text(
-                              'District : AlNaseem , AlRawdhah',
-                              style: TextStyle(
-                                  fontSize: 18.0, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        new Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[],
-                        )
-                      ],
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(
-                        left: 55.0, right: 15.0, top: 25.0, bottom: 0.0),
-                    child: new Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Text(
-                              'Number of bins',
-                              style: TextStyle(
-                                  fontSize: 16.0, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              width: 350,
-                            ),
-                            new Text(
-                              'Performance',
-                              style: TextStyle(
-                                  fontSize: 16.0, fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ],
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(left: 25.0, right: 2.0, top: 2.0),
-                    child: new Row(
-                      //mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Align(
-                          child: Container(
-                            height: 50,
-                            width: 100,
-                            margin:
-                                EdgeInsets.only(top: 40, left: 40, right: 40),
-                            decoration: new BoxDecoration(
-                              color: Color.fromARGB(255, 162, 255, 229),
-                              border: Border.all(
-                                  color: Color(0xff28CC9E), width: 0.0),
-                              borderRadius: new BorderRadius.all(
-                                  Radius.elliptical(100, 50)),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 35.0),
-                            child: Text("22"),
-                          ),
-                        ),
-                        new Container(
-                          height: 50,
-                          width: 100,
-                          margin: EdgeInsets.only(top: 40, left: 300, right: 0),
-                          decoration: new BoxDecoration(
-                            color: Color.fromARGB(255, 162, 255, 229),
-                            border: Border.all(
-                                color: Color(0xff28CC9E), width: 0.0),
-                            borderRadius: new BorderRadius.all(
-                                Radius.elliptical(100, 50)),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 35.0),
-                          child: Text("60%"),
-                        ),
-                      ],
-                    )),
-                Padding(
-                    padding:
-                        EdgeInsets.only(left: 55.0, right: 25.0, top: 25.0),
-                    child: new Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Text(
-                              'Bins collected',
-                              style: TextStyle(
-                                  fontSize: 16.0, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              width: 350,
-                            ),
-                            new Text(
-                              'Bins not collected',
-                              style: TextStyle(
-                                  fontSize: 16.0, fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ],
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 2.0),
-                    child: new Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Align(
-                          child: Container(
-                            height: 50,
-                            width: 100,
-                            margin:
-                                EdgeInsets.only(top: 40, left: 40, right: 40),
-                            decoration: new BoxDecoration(
-                              color: Color.fromARGB(255, 162, 255, 229),
-                              border: Border.all(
-                                  color: Color(0xff28CC9E), width: 0.0),
-                              borderRadius: new BorderRadius.all(
-                                  Radius.elliptical(100, 50)),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 35.0),
-                            child: Text("12"),
-                          ),
-                        ),
-                        new Container(
-                          height: 50,
-                          width: 100,
-                          margin: EdgeInsets.only(top: 40, left: 300, right: 0),
-                          decoration: new BoxDecoration(
-                            color: Color.fromARGB(255, 162, 255, 229),
-                            border: Border.all(
-                                color: Color(0xff28CC9E), width: 0.0),
-                            borderRadius: new BorderRadius.all(
-                                Radius.elliptical(100, 50)),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 35.0),
-                          child: Text("10"),
-                          //child: Icon(CupertinoIcons.bell),
-                        ),
-                      ],
-                    )),
-                Padding(
-                  padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
-                  child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      SizedBox(
-                        width: 280,
-                      ),
-                      Icon(
-                        CupertinoIcons.bell,
-                        size: 50,
-                      ),
-                    ],
-                  ),
-
-                  //  !_status ? _getActionButtons() : new Container(),
-                )
-              ],
-            ),
+      home: DefaultTabController(
+        length: 1,
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Color(0xffffDD83),
+            title: Text("Status"),
           ),
-        ]),
+          body: TabBarView(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 25.0),
+                child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 25.0),
+                        child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 25.0),
+                                child: new Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    new Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[new Text("")],
+                                    ),
+                                    new Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[],
+                                    )
+                                  ],
+                                )),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 55.0,
+                                    right: 15.0,
+                                    top: 25.0,
+                                    bottom: 0.0),
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    new Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        new Text(
+                                          'Number of bins',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          width: 50,
+                                        ),
+                                        new Text(
+                                          'Performance',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 25.0, right: 2.0, top: 2.0),
+                                child: new Row(
+                                  //mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Align(
+                                      child: Container(
+                                        height: 50,
+                                        width: 100,
+                                        margin: EdgeInsets.only(
+                                            top: 20, left: 40, right: 25),
+                                        decoration: new BoxDecoration(
+                                          color: Color.fromARGB(
+                                              255, 162, 255, 229),
+                                          border: Border.all(
+                                              color: Color(0xff28CC9E),
+                                              width: 0.0),
+                                          borderRadius: new BorderRadius.all(
+                                              Radius.elliptical(100, 50)),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10.0, horizontal: 35.0),
+                                        child: Text("dd"),
+                                        //district=await readObj(DriverFields.id, district)
+                                      ),
+                                    ),
+                                    new Container(
+                                      height: 50,
+                                      width: 100,
+                                      margin: EdgeInsets.only(
+                                          top: 20, left: 50, right: 0),
+                                      decoration: new BoxDecoration(
+                                        color:
+                                            Color.fromARGB(255, 162, 255, 229),
+                                        border: Border.all(
+                                            color: Color(0xff28CC9E),
+                                            width: 0.0),
+                                        borderRadius: new BorderRadius.all(
+                                            Radius.elliptical(100, 50)),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10.0, horizontal: 35.0),
+                                      child: Text("60%"),
+                                    ),
+                                  ],
+                                )),
+
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 55.0, right: 25.0, top: 25.0),
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    new Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        new Text(
+                                          'Bins collected',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          width: 50,
+                                        ),
+                                        new Text(
+                                          'Bins not collected',
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 25.0, right: 25.0, top: 2.0),
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Align(
+                                      child: Container(
+                                        height: 50,
+                                        width: 100,
+                                        margin: EdgeInsets.only(
+                                            top: 20, left: 40, right: 25),
+                                        decoration: new BoxDecoration(
+                                          color: Color.fromARGB(
+                                              255, 162, 255, 229),
+                                          border: Border.all(
+                                              color: Color(0xff28CC9E),
+                                              width: 0.0),
+                                          borderRadius: new BorderRadius.all(
+                                              Radius.elliptical(100, 50)),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10.0, horizontal: 35.0),
+                                        child: Text("ll"),
+                                        //status = await readObj(DriverFields.id, DriverStatus)
+                                      ),
+                                    ),
+                                    new Container(
+                                      height: 50,
+                                      width: 100,
+                                      margin: EdgeInsets.only(
+                                          top: 20, left: 50, right: 0),
+                                      decoration: new BoxDecoration(
+                                        color:
+                                            Color.fromARGB(255, 162, 255, 229),
+                                        border: Border.all(
+                                            color: Color(0xff28CC9E),
+                                            width: 0.0),
+                                        borderRadius: new BorderRadius.all(
+                                            Radius.elliptical(100, 50)),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10.0, horizontal: 35.0),
+                                      child: Text("ll"),
+                                      //status = await readObj(DriverFields.id, DriverStatus)
+                                    ),
+                                  ],
+                                )),
+
+                            //  !_status ? _getActionButtons() : new Container(),
+                          ],
+                        ),
+                      ),
+                    ]),
+              ),
+            ],
+          ),
+        ),
       ),
-    ));
+    );
   }
 
   @override

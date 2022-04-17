@@ -100,6 +100,46 @@ class _AdminDriverDashboard extends State<AdminDriverDashboard> {
                                       fontSize: 15),
                                 )
                               ],
+                              selectionModels: [
+                                charts.SelectionModelConfig(changedListener:
+                                    (charts.SelectionModel model) {
+                                  if (model.hasDatumSelection) {
+                                    // switch ((model.selectedSeries[0]
+                                    //     .measureFn(model.selectedDatum[0].index))) {
+                                    //   case numberOfEmpty:
+                                    //     Navigator.push(
+                                    //       context,
+                                    //       MaterialPageRoute(
+                                    //           builder: (context) =>
+                                    //               const DriverMenu()),
+                                    //     );
+                                    //     break;
+                                    //   case numberOfFull:
+                                    //     Navigator.push(
+                                    //       context,
+                                    //       MaterialPageRoute(
+                                    //           builder: (context) =>
+                                    //               const DriverMenu()),
+                                    //     );
+                                    //     break;
+                                    //   case numberOfHalfFull:
+                                    //     Navigator.push(
+                                    //       context,
+                                    //       MaterialPageRoute(
+                                    //           builder: (context) =>
+                                    //               const DriverMenu()),
+                                    //     );
+                                    //     break;
+                                    //   default:
+                                    //     print("nothing match");
+                                    //     break;
+                                    // }
+                                  }
+                                  // print(model.selectedSeries[0]
+                                  //     .measureFn(model.selectedDatum[0].index));
+                                  print("clicked");
+                                })
+                              ],
                               defaultRenderer: new charts.ArcRendererConfig(
                                   arcWidth: 90,
                                   arcRendererDecorators: [

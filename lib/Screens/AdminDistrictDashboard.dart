@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Screens/AdminDashboard.dart';
@@ -25,6 +27,7 @@ class AdminDistrictDashboard extends StatefulWidget {
 
 class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
 //Define variables
+  final _myState = new charts.UserManagedState<String>();
   final Driver driver;
   List<District> districts = [];
   List<Bin> bins;
@@ -33,6 +36,7 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
   String value;
   List<charts.Series<PieChartData, String>> _seriesPieDataForDistrict;
   District selectedDistrict;
+  double numberOfFull = 0, numberOfHalfFull = 0, numberOfEmpty = 0;
   _AdminDistrictDashboard({this.driver});
 
   @override
@@ -111,6 +115,46 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
                                   fontSize: 15),
                             )
                           ],
+                          selectionModels: [
+                            charts.SelectionModelConfig(
+                                changedListener: (charts.SelectionModel model) {
+                              if (model.hasDatumSelection) {
+                                // switch ((model.selectedSeries[0]
+                                //     .measureFn(model.selectedDatum[0].index))) {
+                                //   case numberOfEmpty:
+                                //     Navigator.push(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //           builder: (context) =>
+                                //               const DriverMenu()),
+                                //     );
+                                //     break;
+                                //   case numberOfFull:
+                                //     Navigator.push(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //           builder: (context) =>
+                                //               const DriverMenu()),
+                                //     );
+                                //     break;
+                                //   case numberOfHalfFull:
+                                //     Navigator.push(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //           builder: (context) =>
+                                //               const DriverMenu()),
+                                //     );
+                                //     break;
+                                //   default:
+                                //     print("nothing match");
+                                //     break;
+                                // }
+                              }
+                              // print(model.selectedSeries[0]
+                              //     .measureFn(model.selectedDatum[0].index));
+                              print("clicked");
+                            })
+                          ],
                           defaultRenderer: new charts.ArcRendererConfig(
                               arcWidth: 80,
                               arcRendererDecorators: [
@@ -129,6 +173,18 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
   }
 
 //Class methods
+
+  void _infoSelectionModelUpdated(charts.SelectionModel<String> model) {
+    // If you want to allow the chart to continue to respond to select events
+    // that update the selection, add an updatedListener that saves off the
+    // selection model each time the selection model is updated, regardless of
+    // if there are changes.
+    //
+    // This also allows you to listen to the selection model update events and
+    // alter the selection.
+    _myState.selectionModels[charts.SelectionModelType.info] =
+        new charts.UserManagedSelectionModel(model: model);
+  }
 
   _fillSelectedDistrict(String val) {
     //data about specific district
@@ -180,7 +236,6 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
     //     numberOfEmpty++;
     //   }
     // }
-    double numberOfFull = 0, numberOfHalfFull = 0, numberOfEmpty = 0;
 
     for (int i = 0; i < binsLevelForSelectedDistrict.length; i++) {
       if (binsLevelForSelectedDistrict[i].full == true)

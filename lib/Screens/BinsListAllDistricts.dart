@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screens/AdminDriverDashboard.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/Bin.dart';
 import 'package:flutter_application_1/model/BinLevel.dart';
@@ -6,20 +7,20 @@ import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 
 class BinsListAllDistricts extends StatefulWidget {
-  final String BinsStatus;
-  final Driver driver;
+  final List<BinInfo> binsInfo;
+  final String binsStatus;
   @override
-  BinsListAllDistricts({Key key, this.BinsStatus, this.driver})
+  BinsListAllDistricts({Key key, this.binsStatus, this.binsInfo})
       : super(key: key);
   _BinsListAllDistricts createState() =>
-      _BinsListAllDistricts(BinsStatus: BinsStatus, driver: driver);
+      _BinsListAllDistricts(binsStatus: binsStatus, binsInfo: binsInfo);
 }
 
 class _BinsListAllDistricts extends State<BinsListAllDistricts> {
-  final String BinsStatus;
-  final Driver driver;
-  List<District> Assigneddistricts = [];
-  _BinsListAllDistricts({this.BinsStatus, this.driver});
+  final List<BinInfo> binsInfo;
+  final String binsStatus;
+  Color color;
+  _BinsListAllDistricts({this.binsStatus, this.binsInfo});
 
   @override
   void initState() {
@@ -27,46 +28,44 @@ class _BinsListAllDistricts extends State<BinsListAllDistricts> {
     super.initState();
   }
 
-  Future<void> getLists() async {
-    List<District> district;
-    List<dynamic> districtDB = await readAll(tableDistrict);
-    List<BinLevel> binsLevel = [];
-    district = districtDB.cast();
-    print("in get distric method");
-    print("district length ${districtDB.length}");
-
-    setState(() {
-      for (int i = 0; i < district.length; i++) {
-        if (district[i].driverID == driver.driverID) {
-          Assigneddistricts.add(district[i]);
-        }
-      }
-    });
-
-    print(Assigneddistricts);
-
-    List<BinLevel> bin;
-    List<Bin> bins;
-    List<dynamic> binStatus = await readAll(tableBinLevel);
-    bin = binStatus.cast();
-    print("in get binsLevel method");
-    print("binsLevel length ${binStatus.length}");
-    binsLevel = bin;
-    print("here inside getBins");
-    List<Bin> binsInfo;
-    List<dynamic> binDB = await readAll("bin_table");
-    binsInfo = binDB.cast();
-    print("in get bins method");
-    print("bins length ${binDB.length}");
-    setState(() {
-      bins = binsInfo;
-    });
-    print(bins);
-  }
-
-  Future<List<dynamic>> readAll(String tableName) async {
-    //We have to define list here as dynamci *******
-    return await DatabaseHelper.instance.generalReadAll(tableName);
-    // print("mun object: ${munList[0].firatName}");
+  @override
+  Widget build(BuildContext context) {
+    switch (binsStatus) {
+      case "Empty":
+        color = Colors.green;
+        break;
+      case "Full":
+        color = Colors.red;
+        break;
+      case "Half-full":
+        color = Colors.orange;
+        break;
+      default:
+        print("doesn't match");
+    }
+    return new Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: color),
+            onPressed: () => Navigator.of(context).pop()),
+        backgroundColor: Color(0xffffDD83),
+        title: Text("Bins List"),
+      ),
+      body: Container(
+        child: ListView.builder(
+            itemCount: binsInfo.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: Icon(
+                  Icons.circle,
+                  color: color,
+                ),
+                title: Text(binsInfo[index].districtName),
+                subtitle: Text("${binsInfo[index].binID}"),
+                onTap: () {},
+              );
+            }),
+      ),
+    );
   }
 }

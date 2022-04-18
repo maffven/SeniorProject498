@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Screens/AdminDashboard.dart';
 import 'package:flutter_application_1/Screens/AdminDriverDashboard.dart';
+import 'package:flutter_application_1/Screens/BinsListAllDistricts.dart';
 import 'package:flutter_application_1/Screens/DistrictListTab.dart';
 import 'package:flutter_application_1/Screens/DriverDashboard.dart';
 import 'package:flutter_application_1/Screens/DriverListTab.dart';
@@ -33,6 +34,8 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
   List<Bin> bins;
   List<BinLevel> binsLevel;
   List<BinLevel> binsLevelForSelectedDistrict = [];
+  List<Bin> binsInsideSelectedDistrict = [];
+  List<BinInfo> binsInfo = [];
   String value;
   List<charts.Series<PieChartData, String>> _seriesPieDataForDistrict;
   District selectedDistrict;
@@ -55,6 +58,7 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
   @override
   Widget build(BuildContext context) {
     _generateDataForDistrict(value);
+    _fillBinsInfoList();
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(top: 8.0, bottom: 40.0, right: 8.0, left: 8.0),
@@ -119,40 +123,41 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
                             charts.SelectionModelConfig(
                                 changedListener: (charts.SelectionModel model) {
                               if (model.hasDatumSelection) {
-                                // switch ((model.selectedSeries[0]
-                                //     .measureFn(model.selectedDatum[0].index))) {
-                                //   case numberOfEmpty:
-                                //     Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //           builder: (context) =>
-                                //               const DriverMenu()),
-                                //     );
-                                //     break;
-                                //   case numberOfFull:
-                                //     Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //           builder: (context) =>
-                                //               const DriverMenu()),
-                                //     );
-                                //     break;
-                                //   case numberOfHalfFull:
-                                //     Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //           builder: (context) =>
-                                //               const DriverMenu()),
-                                //     );
-                                //     break;
-                                //   default:
-                                //     print("nothing match");
-                                //     break;
-                                // }
+                                if ((model.selectedSeries[0].measureFn(
+                                        model.selectedDatum[0].index)) ==
+                                    numberOfEmpty) {
+                                  print("it is here");
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            BinsListAllDistricts(
+                                              binsStatus: "Empty",
+                                              binsInfo: binsInfo,
+                                            )),
+                                  );
+                                } else if ((model.selectedSeries[0].measureFn(
+                                        model.selectedDatum[0].index)) ==
+                                    numberOfFull) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            BinsListAllDistricts(
+                                                binsStatus: "Full",
+                                                binsInfo: binsInfo)),
+                                  );
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            BinsListAllDistricts(
+                                                binsStatus: "Half-full",
+                                                binsInfo: binsInfo)),
+                                  );
+                                }
                               }
-                              // print(model.selectedSeries[0]
-                              //     .measureFn(model.selectedDatum[0].index));
-                              print("clicked");
                             })
                           ],
                           defaultRenderer: new charts.ArcRendererConfig(
@@ -198,12 +203,19 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
     }
   }
 
+  _fillBinsInfoList() {
+    //create BinInfoObjects
+    for (var i = 0; i < binsLevelForSelectedDistrict.length; i++) {
+      binsInfo.add(new BinInfo(binsLevelForSelectedDistrict[i].binID, value));
+    }
+  }
+
   _generateDataForDistrict(String val) {
     _fillSelectedDistrict(val);
     //print("district name: ${district.name}");
     //To show piechart based on specific district
     // bool check = false;
-    List<Bin> binsInsideSelectedDistrict = [];
+
     if (selectedDistrict != null) {
       for (int i = 0; i < bins.length; i++) {
         if (bins[i].districtId == selectedDistrict.districtID) {

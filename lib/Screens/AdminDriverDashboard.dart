@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Screens/AdminDashboard.dart';
 import 'package:flutter_application_1/Screens/AdminDistrictDashboard.dart';
+import 'package:flutter_application_1/Screens/BinsListAllDistricts.dart';
 import 'package:flutter_application_1/Screens/DistrictListTab.dart';
 import 'package:flutter_application_1/Screens/DriverDashboard.dart';
 import 'package:flutter_application_1/Screens/DriverListTab.dart';
@@ -24,10 +25,15 @@ class AdminDriverDashboard extends StatefulWidget {
 
 class _AdminDriverDashboard extends State<AdminDriverDashboard> {
 //Define variables
+
   final Driver driver;
+  double numberOfFull = 0, numberOfHalfFull = 0, numberOfEmpty = 0;
+  List<Bin> binsInsideDistricts = [];
+  List<BinLevel> binsLevelForDistricts = [];
   List<Bin> bins;
   List<BinLevel> binsLevel = [];
-  List<District> Assigneddistricts = [];
+  List<District> assigneddistricts = [];
+  List<BinInfo> binsInfo = [];
   List<charts.Series<PieChartData, String>> _seriesPieDataForDriver;
   _AdminDriverDashboard({this.driver});
 
@@ -44,6 +50,7 @@ class _AdminDriverDashboard extends State<AdminDriverDashboard> {
   @override
   Widget build(BuildContext context) {
     _generateDataForDriver();
+    _fillBinsInfoList();
     return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -104,40 +111,46 @@ class _AdminDriverDashboard extends State<AdminDriverDashboard> {
                                 charts.SelectionModelConfig(changedListener:
                                     (charts.SelectionModel model) {
                                   if (model.hasDatumSelection) {
-                                    // switch ((model.selectedSeries[0]
-                                    //     .measureFn(model.selectedDatum[0].index))) {
-                                    //   case numberOfEmpty:
-                                    //     Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //           builder: (context) =>
-                                    //               const DriverMenu()),
-                                    //     );
-                                    //     break;
-                                    //   case numberOfFull:
-                                    //     Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //           builder: (context) =>
-                                    //               const DriverMenu()),
-                                    //     );
-                                    //     break;
-                                    //   case numberOfHalfFull:
-                                    //     Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //           builder: (context) =>
-                                    //               const DriverMenu()),
-                                    //     );
-                                    //     break;
-                                    //   default:
-                                    //     print("nothing match");
-                                    //     break;
-                                    // }
+                                    if ((model.selectedSeries[0].measureFn(
+                                            model.selectedDatum[0].index)) ==
+                                        numberOfEmpty) {
+                                      print("it is here");
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BinsListAllDistricts(
+                                                  binsStatus: "Empty",
+                                                  binsInfo: binsInfo,
+                                                )),
+                                      );
+                                    } else if ((model.selectedSeries[0]
+                                            .measureFn(model
+                                                .selectedDatum[0].index)) ==
+                                        numberOfFull) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BinsListAllDistricts(
+                                                    binsStatus: "Full",
+                                                    binsInfo: binsInfo)),
+                                      );
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BinsListAllDistricts(
+                                                    binsStatus: "Half-full",
+                                                    binsInfo: binsInfo)),
+                                      );
+                                    }
+                                    print("clicked");
+                                    print("$numberOfEmpty this is");
                                   }
                                   // print(model.selectedSeries[0]
                                   //     .measureFn(model.selectedDatum[0].index));
-                                  print("clicked");
                                 })
                               ],
                               defaultRenderer: new charts.ArcRendererConfig(
@@ -158,6 +171,22 @@ class _AdminDriverDashboard extends State<AdminDriverDashboard> {
   }
 
 //Class methods
+  _fillBinsInfoList() {
+    //create BinInfoObjects
+    for (var i = 0; i < binsLevelForDistricts.length; i++) {
+      for (var k = 0; k < binsInsideDistricts.length; k++) {
+        for (var j = 0; j < assigneddistricts.length; j++) {
+          if (binsLevelForDistricts[i].binID == binsInsideDistricts[k].binID) {
+            if (binsInsideDistricts[k].districtId ==
+                assigneddistricts[j].districtID) {
+              binsInfo.add(new BinInfo(
+                  binsLevelForDistricts[i].binID, assigneddistricts[j].name));
+            }
+          }
+        }
+      }
+    }
+  }
 
   _generateDataForDriver() {
     //data about specific district
@@ -190,10 +219,10 @@ class _AdminDriverDashboard extends State<AdminDriverDashboard> {
     //print("inside generate ${binsLevelForDistrict.length}");
 
 //All bins inside assigned districts for driver
-    List<Bin> binsInsideDistricts = [];
+
     for (int j = 0; j < bins.length; j++) {
-      for (int k = 0; k < Assigneddistricts.length; k++) {
-        if (bins[j].districtId == Assigneddistricts[k].districtID) {
+      for (int k = 0; k < assigneddistricts.length; k++) {
+        if (bins[j].districtId == assigneddistricts[k].districtID) {
           print("inside fill binsInsideDistricts $k");
           binsInsideDistricts.add(bins[j]);
         }
@@ -201,9 +230,8 @@ class _AdminDriverDashboard extends State<AdminDriverDashboard> {
     }
     print("binsInsideDistricts length: ${binsInsideDistricts.length}");
 
-    double numberOfFull = 0, numberOfHalfFull = 0, numberOfEmpty = 0;
     // List of all bins leve that inside assigned district
-    List<BinLevel> binsLevelForDistricts = [];
+
     for (int i = 0; i < binsLevel.length; i++) {
       for (int j = 0; j < binsInsideDistricts.length; j++) {
         if (binsInsideDistricts[j].binID == binsLevel[i].binID) {
@@ -256,12 +284,12 @@ class _AdminDriverDashboard extends State<AdminDriverDashboard> {
     setState(() {
       for (int i = 0; i < district.length; i++) {
         if (district[i].driverID == driver.driverID) {
-          Assigneddistricts.add(district[i]);
+          assigneddistricts.add(district[i]);
         }
       }
     });
 
-    print(Assigneddistricts);
+    print(assigneddistricts);
 
     List<BinLevel> bin;
     List<dynamic> binStatus = await readAll(tableBinLevel);
@@ -294,4 +322,11 @@ class _AdminDriverDashboard extends State<AdminDriverDashboard> {
     return await DatabaseHelper.instance.generalReadAll(tableName);
     // print("mun object: ${munList[0].firatName}");
   }
+}
+
+class BinInfo {
+  String districtName;
+  int binID;
+
+  BinInfo(this.binID, this.districtName);
 }

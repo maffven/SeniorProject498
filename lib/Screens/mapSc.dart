@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_application_1/model/Bin.dart';
 
 const double GMAP_DEFAULT_LATITUDE = 21.584873;
 const double GMAP_DEFAULT_LONGITUDE = 39.205959;
@@ -18,6 +19,8 @@ var distance = 0.0;
 String color = "";
 String titlee = "";
 double colorBin = 0.0;
+List<BinLevel> binlevel =[];
+List<Bin> b = [];
 //the markers (pins) on the map
 List<Marker> markerss = [];
 BinLevel level = BinLevel();
@@ -77,7 +80,16 @@ List<Marker> displayMarker(double colorBin) {
         }),
   ];*/
 }
+ Future deleteObj(int id, String tableName) async {
+    print("$id rawan");
+    await DatabaseHelper.instance.gneralDelete(id, tableName);
+    print("Object is deleted");
+  }
 
+ Future<List<dynamic>> readAll(String tableName) async {
+    //We have to define list here as dynamci *******
+    return await DatabaseHelper.instance.generalReadAll(tableName);
+  }
 //Create a firebase database reference
 final databaseReference = FirebaseDatabase.instance.reference();
 //to read the distance from the firebase
@@ -93,7 +105,7 @@ void readDistance() {
       color = 'Red';
       titlee = "Full";
       level = BinLevel(
-          binID: 144, level: 3, full: true, half_full: false, empty: false);
+          binID: 144,  full: true, half_full: false, empty: false);
       colorBin = BitmapDescriptor.hueRed;
        displayMarker(colorBin);
     } else if (distance > 0.0 && distance < 900.0) {//half-full
@@ -102,20 +114,23 @@ void readDistance() {
       titlee = "Half - Empty";
       colorBin = BitmapDescriptor.hueOrange;
       level = BinLevel(
-          binID: 144, level: 2, full: false, half_full: true, empty: false);
+          binID: 144, full: false, half_full: true, empty: false);
+ 
        displayMarker(colorBin);
     } else {//empty
       color = 'Green';
       print('lina');
       titlee = "Empty";
       level = BinLevel(
-          binID: 144, level: 0, full: false, half_full: false, empty: true);
+          binID: 144,  full: false, half_full: false, empty: true);
       colorBin = BitmapDescriptor.hueGreen;
          displayMarker(colorBin);
     }
     //coordinateX must be double not iNTEGER
     // location = BinLocation(binID: 1, coordinateX: 21.4893852, )
-    //addObj(level, tableBinLevel);
+
+    addObj(level, tableBinLevel);
+
 
     //list of markers on the map
     markerss = [
@@ -160,16 +175,24 @@ void readDistance() {
           }),
     ];*/
   });
+
+  
 }
 
-void main() async {
+/*void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp()
       .then((value) => print("connected " + value.options.asMap.toString()))
       .catchError((e) => print(e.toString()));
+             List<dynamic> d = await readAll(tableBinLevel);
+                  binlevel = d.cast();
+                  for (int i = 0; i < binlevel.length; i++) {
+                    print("${binlevel[i].binID}");
+                    //deleteObj(disList[i].districtID, tableDistrict);
+                  }
   readDistance();
   runApp(MaterialApp(home: map()));
-}
+}*/
 
 Future addObj(dynamic obj, String tableName) async {
   await DatabaseHelper.instance.generalCreate(obj, tableName);
@@ -196,6 +219,7 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     super.initState();
     readDistance();
+    
   }
 
   @override
@@ -211,6 +235,7 @@ class _MapScreenState extends State<MapScreen> {
       ),
     );
   }
+  
 }
 
 class MapUtils {

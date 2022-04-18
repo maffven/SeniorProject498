@@ -14,11 +14,19 @@ class Profile extends StatefulWidget {
 
 class ProfileState extends State<Profile> {
   bool _status = true;
+  bool _Enabled = false;
+
   final FocusNode myFocusNode = FocusNode();
+
+  //To take input from
   TextEditingController phoneController = TextEditingController();
-  TextEditingController EmailController = TextEditingController();
-  TextEditingController IDController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
+  //Driver driver;
+  // DriverStatus status;
+  //District district;
+  //List<District> districts;
+  //List<DriverStatus> status;
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +52,7 @@ class ProfileState extends State<Profile> {
 
   Widget buildProfile(List<Driver> drivers) {
     // drivers = await getDrivers();
-    return Scaffold(
-        body: DefaultTabController(
+    return DefaultTabController(
       length: 2,
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -55,22 +62,23 @@ class ProfileState extends State<Profile> {
             bottom: TabBar(
               indicatorColor: Colors.white,
               tabs: [
-                Tab(text: "INFO"),
+                Tab(text: "Info"),
                 Tab(
-                  text: "STATUS",
+                  text: "Status",
                 ),
               ],
             )),
         body: TabBarView(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 50.0),
+              padding: const EdgeInsets.only(top: 15.0),
               child: Center(
                   child: Expanded(
                       child: Container(
-                height: 600.0,
+                height: 800.0,
                 child: ListView(padding: const EdgeInsets.all(8), children: <
                     Widget>[
+                  //Icon container
                   Container(
                     color: Color(0xffFFFFFF),
                     child: Padding(
@@ -108,6 +116,7 @@ class ProfileState extends State<Profile> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
+                                  //Edit Icon
                                   Padding(
                                       padding: EdgeInsets.only(
                                           left: 25.0, right: 25.0, top: 25.0),
@@ -142,6 +151,8 @@ class ProfileState extends State<Profile> {
                                           )
                                         ],
                                       )),
+
+                                  //ID padding
                                   Padding(
                                       padding: EdgeInsets.only(
                                           left: 25.0, right: 25.0, top: 25.0),
@@ -164,13 +175,14 @@ class ProfileState extends State<Profile> {
                                           ),
                                         ],
                                       )),
+                                  //Id information
                                   Padding(
                                       padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 2.0),
+                                          left: 25.0, right: 15.0, top: 2.0),
                                       child: new Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: <Widget>[
-                                          Text("$getId()"),
+                                          Text("$getId()")
                                           // Text("${drivers[0].driverID}"),
                                           //new Flexible(
                                           //  child: new TextField(controller: IDController),
@@ -183,16 +195,9 @@ class ProfileState extends State<Profile> {
                                           //    autofocus: !_status,
                                           //  ),
                                           // ),
-                                          TextField(
-                                            readOnly: true,
-                                            controller: IDController,
-                                            obscureText: true,
-                                            decoration: InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                hintText: 'Input your ID'),
-                                          ),
                                         ],
                                       )),
+                                  //Name padding
                                   Padding(
                                       padding: EdgeInsets.only(
                                           left: 25.0, right: 25.0, top: 25.0),
@@ -215,15 +220,13 @@ class ProfileState extends State<Profile> {
                                           ),
                                         ],
                                       )),
+                                  //Name information
                                   Padding(
                                       padding: EdgeInsets.only(
                                           left: 25.0, right: 25.0, top: 2.0),
                                       child: new Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: <Widget>[
-                                          Text(
-                                              "${drivers[0].firstName} ${drivers[0].lastName}"),
-
                                           // new Flexible(
                                           //   child: new Text(
                                           //       "${drivers[0].firstName} ${drivers[0].lastName}"),
@@ -239,16 +242,9 @@ class ProfileState extends State<Profile> {
                                           //   // enabled: !_status,
                                           //   // ),
                                           // ),
-                                          TextField(
-                                            controller: nameController,
-                                            obscureText: true,
-                                            decoration: InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                // labelText: 'Password',
-                                                hintText: 'Input your name'),
-                                          ),
                                         ],
                                       )),
+                                  //Email padding
                                   Padding(
                                       padding: EdgeInsets.only(
                                           left: 25.0, right: 25.0, top: 25.0),
@@ -271,33 +267,40 @@ class ProfileState extends State<Profile> {
                                           ),
                                         ],
                                       )),
+                                  //Email information
                                   Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 2.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: <Widget>[
-                                          Text("${drivers[0].email}"),
-                                          //new Flexible(
-                                          // key:new TxtField(controller: EmailController),
-                                          // child: new TextField(
-                                          //  decoration: const InputDecoration(
-                                          //      hintText: "Enter your Email"),
-                                          //mun = await readObj(mun.email, "municipality_admin");
-                                          // driver= await readObj(driver.email, Driver)
-                                          //  enabled: !_status,
-                                          // ),
-                                          // ),
-                                          TextField(
-                                            controller: EmailController,
-                                            obscureText: true,
-                                            decoration: InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                // labelText: 'Password',
-                                                hintText: 'Input your email'),
+                                    padding: EdgeInsets.only(
+                                        left: 25.0, right: 25.0, top: 2.0),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Container(
+                                          width: 100,
+                                          child: TextField(
+                                            controller: emailController,
+                                            enabled: _Enabled,
                                           ),
-                                        ],
-                                      )),
+                                        ),
+                                      ],
+                                    ),
+
+                                    // new Row(
+                                    //   mainAxisSize: MainAxisSize.max,
+                                    //   children: <Widget>[
+                                    //     Text("${drivers[0].email}"),
+                                    //     //new Flexible(
+                                    //     // key:new TxtField(controller: EmailController),
+                                    //     // child: new TextField(
+                                    //     //  decoration: const InputDecoration(
+                                    //     //      hintText: "Enter your Email"),
+                                    //     //mun = await readObj(mun.email, "municipality_admin");
+                                    //     // driver= await readObj(driver.email, Driver)
+                                    //     //  enabled: !_status,
+                                    //     // ),
+                                    //     // ),
+                                    //   ],
+                                    // )
+                                  ),
+                                  //Phone padding
                                   Padding(
                                       padding: EdgeInsets.only(
                                           left: 25.0, right: 25.0, top: 25.0),
@@ -320,6 +323,7 @@ class ProfileState extends State<Profile> {
                                           ),
                                         ],
                                       )),
+                                  //phone information
                                   Padding(
                                       padding: EdgeInsets.only(
                                           left: 25.0, right: 25.0, top: 2.0),
@@ -345,15 +349,6 @@ class ProfileState extends State<Profile> {
                                           //   ),
                                           //   flex: 2,
                                           // ),
-                                          TextField(
-                                            controller: phoneController,
-                                            obscureText: true,
-                                            decoration: InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                // labelText: 'Password',
-                                                hintText:
-                                                    'Input your phone number'),
-                                          ),
                                         ],
                                       )),
                                   !_status
@@ -560,9 +555,10 @@ class ProfileState extends State<Profile> {
           ],
         ),
       ),
-    ));
+    );
   }
 
+  // Save and Cancel button
   Widget _getActionButtons() {
     return Padding(
       padding: EdgeInsets.only(left: 25.0, right: 25.0, top: 45.0),
@@ -580,11 +576,13 @@ class ProfileState extends State<Profile> {
                 color: Colors.green,
                 onPressed: () async {
                   // ignore: unused_local_variable
-                  String email = EmailController.text;
-                  String name = nameController.text;
+                  String email = emailController.text;
+                  //String name = nameController.text;
                   String phone = phoneController.text;
-                  String newId = IDController.text;
-                  //  DriverFields.email = email;
+                  //Check email and phone if its correct create new object
+                  // new Driver(driverID: Driver, municpalityID: municpalityID, firstName: firstName, lastName: lastName, password: password, email: email, phone: phone, workTime: workTime)
+                  //String newId = IDController.text;
+                  //  DriverFields.email = email; Driver
                   //  driver.driverID =Id;
                   //  driver.firstName = name;
                   // await updateObj(Id,driver,tableDriver);
@@ -626,6 +624,7 @@ class ProfileState extends State<Profile> {
   }
 
   Widget _getEditIcon() {
+    //Edit icon style
     return new GestureDetector(
       child: new CircleAvatar(
         backgroundColor: Colors.red,
@@ -639,6 +638,7 @@ class ProfileState extends State<Profile> {
       onTap: () {
         setState(() {
           _status = false;
+          _Enabled = true;
         });
       },
     );

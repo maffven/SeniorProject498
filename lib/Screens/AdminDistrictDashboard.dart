@@ -285,7 +285,6 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
     district = districtDB.cast();
     print("in get distric method");
     print("district length ${districtDB.length}");
-
     setState(() {
       for (int i = 0; i < district.length; i++) {
         if (district[i].driverID == driver.driverID) {

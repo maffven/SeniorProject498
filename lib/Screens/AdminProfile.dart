@@ -14,6 +14,15 @@ class AdminProfile extends StatefulWidget {
 
 class MapScreenState extends State<AdminProfile> {
   @override
+  bool _status = true;
+  bool _Enabled = false;
+
+  final FocusNode myFocusNode = FocusNode();
+
+  //To take input from
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
   Widget build(BuildContext context) {
     return MaterialApp(
       home: FutureBuilder<List<MunicipalityAdmin>>(
@@ -35,14 +44,12 @@ class MapScreenState extends State<AdminProfile> {
     );
   }
 
-  bool _status = true;
-  final FocusNode myFocusNode = FocusNode();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   //MunicipalityAdmin mun;
   @override
   Widget buildProfile(List<MunicipalityAdmin> mun) {
     // drivers = await getDrivers();
+    phoneController = TextEditingController(text: "${mun[0].phone}");
+    emailController = TextEditingController(text: "${mun[0].email}");
     return Scaffold(
       body: DefaultTabController(
         length: 2,
@@ -227,15 +234,28 @@ class MapScreenState extends State<AdminProfile> {
                                             ),
                                           ],
                                         )),
+                                    //Email information
                                     Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 25.0, right: 25.0, top: 2.0),
-                                        child: new Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: <Widget>[
-                                            Text("${mun[0].email}"),
-                                          ],
-                                        )),
+                                      padding: EdgeInsets.only(
+                                          left: 25.0, right: 25.0, top: 2.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Container(
+                                              width: 100,
+                                              child: TextFormField(
+                                                controller: emailController,
+                                                validator: (value) {
+                                                  if (!RegExp(r'\S+@\S+\.\S+')
+                                                      .hasMatch(value)) {
+                                                    return "Please enter a valid email address";
+                                                  }
+                                                  return null;
+                                                },
+                                                enabled: _Enabled,
+                                              )),
+                                        ],
+                                      ),
+                                    ),
                                     Padding(
                                         padding: EdgeInsets.only(
                                             left: 25.0, right: 25.0, top: 25.0),
@@ -258,17 +278,28 @@ class MapScreenState extends State<AdminProfile> {
                                             ),
                                           ],
                                         )),
+                                    //Email information
                                     Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 25.0, right: 25.0, top: 2.0),
-                                        child: new Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text("${mun[0].phone}"),
-                                          ],
-                                        )),
+                                      padding: EdgeInsets.only(
+                                          left: 25.0, right: 25.0, top: 2.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Container(
+                                            width: 100,
+                                            child: TextFormField(
+                                              controller: phoneController,
+                                              validator: (value) {
+                                                if (value.length != 10)
+                                                  return 'Mobile Number must be of 10 digit';
+                                                else
+                                                  return null;
+                                              },
+                                              enabled: _Enabled,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                     !_status
                                         ? _getActionButtons()
                                         : new Container(),
@@ -313,7 +344,12 @@ class MapScreenState extends State<AdminProfile> {
                 textColor: Colors.white,
                 color: Colors.green,
                 onPressed: () async {
-                  //edit profile
+                  String email = emailController.text;
+                  String phone = phoneController.text;
+                  var phonenumber = int.parse(phone);
+
+                  //Check email and phone if its correct create new object
+                  // new MunicipalityAdmin(municpalityID: municpalityID, firstName: firstName, lastName: lastName, email: email, password: password)
 
                   setState(() {
                     _status = true;
@@ -351,6 +387,15 @@ class MapScreenState extends State<AdminProfile> {
     );
   }
 
+  bool isEmail(String em) {
+    String p =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+    RegExp regExp = new RegExp(p);
+
+    return regExp.hasMatch(em);
+  }
+
   Widget _getEditIcon() {
     return new GestureDetector(
       child: new CircleAvatar(
@@ -365,6 +410,7 @@ class MapScreenState extends State<AdminProfile> {
       onTap: () {
         setState(() {
           _status = false;
+          _Enabled = true;
         });
       },
     );

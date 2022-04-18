@@ -52,6 +52,8 @@ class ProfileState extends State<Profile> {
 
   Widget buildProfile(List<Driver> drivers) {
     // drivers = await getDrivers();
+    phoneController = TextEditingController(text: "${drivers[0].phone}");
+    emailController = TextEditingController(text: "${drivers[0].email}");
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -227,6 +229,8 @@ class ProfileState extends State<Profile> {
                                       child: new Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: <Widget>[
+                                          Text(
+                                              "${drivers[0].firstName} ${drivers[0].lastName}"),
                                           // new Flexible(
                                           //   child: new Text(
                                           //       "${drivers[0].firstName} ${drivers[0].lastName}"),
@@ -275,31 +279,22 @@ class ProfileState extends State<Profile> {
                                       children: <Widget>[
                                         Container(
                                           width: 100,
-                                          child: TextField(
+                                          child: TextFormField(
                                             controller: emailController,
+                                            validator: (value) {
+                                              if (!RegExp(r'\S+@\S+\.\S+')
+                                                  .hasMatch(value)) {
+                                                return "Please enter a valid email address";
+                                              }
+                                              return null;
+                                            },
                                             enabled: _Enabled,
                                           ),
                                         ),
                                       ],
                                     ),
-
-                                    // new Row(
-                                    //   mainAxisSize: MainAxisSize.max,
-                                    //   children: <Widget>[
-                                    //     Text("${drivers[0].email}"),
-                                    //     //new Flexible(
-                                    //     // key:new TxtField(controller: EmailController),
-                                    //     // child: new TextField(
-                                    //     //  decoration: const InputDecoration(
-                                    //     //      hintText: "Enter your Email"),
-                                    //     //mun = await readObj(mun.email, "municipality_admin");
-                                    //     // driver= await readObj(driver.email, Driver)
-                                    //     //  enabled: !_status,
-                                    //     // ),
-                                    //     // ),
-                                    //   ],
-                                    // )
                                   ),
+
                                   //Phone padding
                                   Padding(
                                       padding: EdgeInsets.only(
@@ -325,32 +320,26 @@ class ProfileState extends State<Profile> {
                                       )),
                                   //phone information
                                   Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 25.0, right: 25.0, top: 2.0),
-                                      child: new Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text("${drivers[0].phone}"),
-                                          // Flexible(
-                                          //   child: Padding(
-                                          //     padding:
-                                          //         EdgeInsets.only(right: 10.0),
-                                          //     //  child: new TextField(controller: phoneController),
-
-                                          //     //   decoration: const InputDecoration(
-                                          //     //     hintText:
-                                          //     //          "Enter your phone number"),
-                                          //     //  mun = await readObj(mun.phone, "municipality_admin");
-                                          //     // driver= await readObj(driver.phone, Driver)
-                                          //     //  enabled: !_status,
-                                          //     //  ),
-                                          //   ),
-                                          //   flex: 2,
-                                          // ),
-                                        ],
-                                      )),
+                                    padding: EdgeInsets.only(
+                                        left: 25.0, right: 25.0, top: 2.0),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Container(
+                                          width: 100,
+                                          child: TextFormField(
+                                            controller: phoneController,
+                                            validator: (value) {
+                                              if (value.length != 10)
+                                                return 'Mobile Number must be of 10 digit';
+                                              else
+                                                return null;
+                                            },
+                                            enabled: _Enabled,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   !_status
                                       ? _getActionButtons()
                                       : new Container(),
@@ -575,18 +564,13 @@ class ProfileState extends State<Profile> {
                 textColor: Colors.white,
                 color: Colors.green,
                 onPressed: () async {
-                  // ignore: unused_local_variable
                   String email = emailController.text;
-                  //String name = nameController.text;
                   String phone = phoneController.text;
+                  var phonenumber = int.parse(phone);
+
                   //Check email and phone if its correct create new object
-                  // new Driver(driverID: Driver, municpalityID: municpalityID, firstName: firstName, lastName: lastName, password: password, email: email, phone: phone, workTime: workTime)
-                  //String newId = IDController.text;
-                  //  DriverFields.email = email; Driver
-                  //  driver.driverID =Id;
-                  //  driver.firstName = name;
-                  // await updateObj(Id,driver,tableDriver);
-                  //mun = await updateObj(mun.municpalityID,mun, "municipality_admin");
+                  // new Driver(driverID: Driver, municpalityID: municpalityID, firstName: firstName, lastName: lastName, password: password, email: email, phone: phonenumber, workTime: workTime)
+
                   setState(() {
                     _status = true;
                     FocusScope.of(context).requestFocus(new FocusNode());
@@ -621,6 +605,15 @@ class ProfileState extends State<Profile> {
         ],
       ),
     );
+  }
+
+  bool isEmail(String em) {
+    String p =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+    RegExp regExp = new RegExp(p);
+
+    return regExp.hasMatch(em);
   }
 
   Widget _getEditIcon() {

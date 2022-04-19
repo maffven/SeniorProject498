@@ -209,6 +209,14 @@ class map extends StatelessWidget {
   }
 }
 
+void main() async {          
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp()
+      .then((value) => print("connected " + value.options.asMap.toString()))
+      .catchError((e) => print(e.toString()));
+  runApp(MaterialApp(home: map())); //function written by flutter
+}
+
 class MapScreen extends StatefulWidget {
   @override
   _MapScreenState createState() => _MapScreenState();

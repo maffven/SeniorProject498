@@ -84,7 +84,6 @@ Future deleteObj(int id, String tableName) async {
     List<dynamic> compDB = await readAll(tableBinLevel);
     binLevel = compDB.cast();
     for (int i = 0; i < binLevel.length; i++) {
-      deleteObj(binLevel[i].level, tableBinLevel);
       if (binLevel[i].empty == true) {
         emptyCheck = true;
         level = "Empty";
@@ -118,7 +117,7 @@ if(binLevel[i].binID==144){
   Future<List<Widget>> getWidgets() async {
     binLevels = await getBinLevels();
     for (int i = 0; i < binLevels.length; i++) {
-      if(emptyCheck!=true){ //don't show the empty ones
+      if(level=="Full"){ //don't show the empty ones
       boxWidgets.add(SizedBox(
           width: 370.0,
           height: 100.0,

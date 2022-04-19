@@ -9,6 +9,7 @@ import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/MunicipalityAdmin.dart';
 import 'package:flutter_application_1/model/Bin.dart';
+import 'package:flutter_application_1/model/BinLevel.dart';
 import 'package:flutter_application_1/model/BinLocation.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
@@ -48,6 +49,7 @@ class _LoginDemoState extends State<LoginDemo> {
     super.initState();
     // readD();
   }
+
 //list of needed variables
   bool userType = false; //if a driver of admin
   List<BinLocation> locList = [];
@@ -87,6 +89,7 @@ class _LoginDemoState extends State<LoginDemo> {
       },
     );
   }
+
 //show warning when text fields (password & username) don't match the database
   void showDialogError() {
     showCupertinoDialog(
@@ -120,7 +123,6 @@ class _LoginDemoState extends State<LoginDemo> {
         child: Column(
           children: <Widget>[
             Padding(
-             
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 150, bottom: 0),
               child: Text(
@@ -129,7 +131,6 @@ class _LoginDemoState extends State<LoginDemo> {
               ),
             ),
             Padding(
-              
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 0, bottom: 60),
               child: Text(
@@ -203,6 +204,16 @@ class _LoginDemoState extends State<LoginDemo> {
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
+                  List<BinLevel> binLevel = [];
+                  List<dynamic> compDB = await readAll(tableBinLevel);
+                  binLevel = compDB.cast();
+                  for (int i = 0; i < binLevel.length; i++) {
+                    //deleteObj(binLevel[i].level, tableBinLevel);
+                    print('${binLevel[i].binID}');
+                  }
+                 /* for(int i=0;i<binLevel.length;i++){
+                      deleteObj(144, tableBinLevel);
+                  }*/
                   //create object
                   /* District di =
                       District(name: "Alnaseem", numberOfBins: 15, driverID: 5);
@@ -248,7 +259,7 @@ class _LoginDemoState extends State<LoginDemo> {
                     if (userType != true) {
                       //driver
                       print("driver");
-                     //check login info from the database driver's list
+                      //check login info from the database driver's list
                       List<dynamic> drListd = await readAll(tableDriver);
                       dd = drListd.cast();
                       for (int i = 0; i < dd.length; i++) {
@@ -264,7 +275,6 @@ class _LoginDemoState extends State<LoginDemo> {
                       if (phoneCheck != true && passCheck != true) {
                         showDialogError();
                       } else {
-                      
                         //store the loggedin id and phone
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
@@ -272,7 +282,7 @@ class _LoginDemoState extends State<LoginDemo> {
                         await prefs.setInt('phone', phone);
                         print(prefs.getInt('phone'));
                         print(loggedInId);
-                       //naviagte to the driver's menu screen
+                        //naviagte to the driver's menu screen
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -297,7 +307,6 @@ class _LoginDemoState extends State<LoginDemo> {
                       if (phoneCheck != true && passCheck != true) {
                         showDialogError();
                       } else {
-                        
                         //store the loggedin id and phone
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
@@ -467,7 +476,7 @@ class _LoginDemoState extends State<LoginDemo> {
     );
   }
 
- //required method from the database
+  //required method from the database
   Future<Driver> getLoginId(int phone) async {
     return await DatabaseHelper.instance.getLoginId(phone);
   }
@@ -486,12 +495,10 @@ class _LoginDemoState extends State<LoginDemo> {
   //int id, String tableName, dynamic classFields, dynamic className
   Future<dynamic> readObj(int id, String tableName) async {
     return await DatabaseHelper.instance.generalRead(tableName, id);
-    
   }
 
   Future<dynamic> verifyLogin(String password, int phone) async {
     return await DatabaseHelper.instance.checkLogin(password, phone);
-   
   }
 
   Future<List<dynamic>> readAll(String tableName) async {

@@ -21,7 +21,8 @@ class ProfileState extends State<Profile> {
   //To take input from
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-
+  List<Driver> dd;
+  bool checkInfo = false;
   //Driver driver;
   // DriverStatus status;
   //District district;
@@ -568,8 +569,38 @@ class ProfileState extends State<Profile> {
                   String phone = phoneController.text;
                   var phonenumber = int.parse(phone);
 
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  int driverId = prefs.getInt('driverID');
+                  int municipalityId;
+                  String firstName;
+                  String lastName;
+                  String password;
+                  String workTime;
+                  List<dynamic> drListd = await readAll(tableDriver);
+                  dd = drListd.cast();
+                  for (int i = 0; i < dd.length; i++) {
+                    if (dd[i].driverID == driverId) {
+                      checkInfo = true;
+                      firstName = dd[i].firstName;
+                      lastName = dd[i].lastName;
+                      password = dd[i].password;
+                      municipalityId = dd[i].municpalityID;
+                      workTime = dd[i].workTime;
+                    }
+                  }
                   //Check email and phone if its correct create new object
-                  // new Driver(driverID: Driver, municpalityID: municpalityID, firstName: firstName, lastName: lastName, password: password, email: email, phone: phonenumber, workTime: workTime)
+                  if (checkInfo == true) {
+                    Driver updateddriver = new Driver(
+                        driverID: driverId,
+                        municpalityID: municipalityId,
+                        firstName: firstName,
+                        lastName: lastName,
+                        password: password,
+                        email: email,
+                        phone: phonenumber,
+                        workTime: workTime);
+                  }
 
                   setState(() {
                     _status = true;

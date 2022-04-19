@@ -22,6 +22,8 @@ class MapScreenState extends State<AdminProfile> {
   //To take input from
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  List<MunicipalityAdmin> mun;
+  bool checkInfo = false;
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -347,10 +349,35 @@ class MapScreenState extends State<AdminProfile> {
                   String email = emailController.text;
                   String phone = phoneController.text;
                   var phonenumber = int.parse(phone);
-
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  int municipalityId = prefs.getInt('municpalityID');
+                  String firstName;
+                  String lastName;
+                  String password;
+                  String workTime;
+                  List<dynamic> munListd =
+                      await readAll(tableMunicipalityAdmin);
+                  mun = munListd.cast();
+                  for (int i = 0; i < mun.length; i++) {
+                    if (mun[i].municpalityID == municipalityId) {
+                      checkInfo = true;
+                      firstName = mun[i].firstName;
+                      lastName = mun[i].lastName;
+                      password = mun[i].password;
+                    }
+                  }
                   //Check email and phone if its correct create new object
-                  // new MunicipalityAdmin(municpalityID: municpalityID, firstName: firstName, lastName: lastName, email: email, password: password)
-
+                  if (checkInfo == true) {
+                    MunicipalityAdmin updateddriver = new MunicipalityAdmin(
+                      municpalityID: municipalityId,
+                      firstName: firstName,
+                      lastName: lastName,
+                      password: password,
+                      email: email,
+                      phone: phonenumber,
+                    );
+                  }
                   setState(() {
                     _status = true;
                     FocusScope.of(context).requestFocus(new FocusNode());

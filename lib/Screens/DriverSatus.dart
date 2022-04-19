@@ -1,12 +1,32 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_application_1/db/DatabaseHelper.dart';
+import 'package:flutter_application_1/model/Bin.dart';
+import 'package:flutter_application_1/model/BinLevel.dart';
+import 'package:flutter_application_1/model/District.dart';
+import 'package:flutter_application_1/model/Driver.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DriverSatus extends StatefulWidget {
   @override
-  final Widget child;
-  DriverSatus({Key key, this.child}) : super(key: key);
+  final Driver driver;
+  DriverSatus({Key key, this.driver}) : super(key: key);
   MapScreenState createState() => MapScreenState();
 }
+
+//  final String BinsStatus = null;
+//  final Driver driver = null;
+List<District> Assigneddistricts = [];
+Driver driver;
+List<District> districts = [];
+List<Bin> bins;
+List<BinLevel> binsLevel;
+List<BinLevel> binsLevelForSelectedDistrict = [];
+String value;
+District selectedDistrict;
+double numberOfFull = 0, numberOfHalfFull = 0, numberOfEmpty = 0;
 
 class MapScreenState extends State<DriverSatus> {
   bool _status = true;
@@ -14,6 +34,7 @@ class MapScreenState extends State<DriverSatus> {
 
   @override
   Widget build(BuildContext context) {
+    _generateDataForDriver(value);
     return MaterialApp(
       home: DefaultTabController(
         length: 1,
@@ -49,7 +70,11 @@ class MapScreenState extends State<DriverSatus> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[new Text("")],
+                                      children: <Widget>[
+                                        new Text("Districts:" +
+                                            _generateDataForDriver(
+                                                "assignedDistricts"))
+                                      ],
                                     ),
                                     new Column(
                                       mainAxisAlignment: MainAxisAlignment.end,
@@ -114,7 +139,9 @@ class MapScreenState extends State<DriverSatus> {
                                         ),
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10.0, horizontal: 35.0),
-                                        child: Text("dd"),
+                                        child: Text(_generateDataForDriver(
+                                            "totalBins")),
+                                        // _generateDataForDistrict(totalBin);
                                         //district=await readObj(DriverFields.id, district)
                                       ),
                                     ),
@@ -134,7 +161,9 @@ class MapScreenState extends State<DriverSatus> {
                                       ),
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10.0, horizontal: 35.0),
-                                      child: Text("60%"),
+                                      child: Text(_generateDataForDriver(
+                                              "performancePercent") +
+                                          "%"),
                                     ),
                                   ],
                                 )),
@@ -192,7 +221,8 @@ class MapScreenState extends State<DriverSatus> {
                                         ),
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10.0, horizontal: 35.0),
-                                        child: Text("ll"),
+                                        child: Text(_generateDataForDriver(
+                                            "emptyBins")),
                                         //status = await readObj(DriverFields.id, DriverStatus)
                                       ),
                                     ),
@@ -212,7 +242,8 @@ class MapScreenState extends State<DriverSatus> {
                                       ),
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10.0, horizontal: 35.0),
-                                      child: Text("ll"),
+                                      child: Text(_generateDataForDriver(
+                                          "notCollected")),
                                       //status = await readObj(DriverFields.id, DriverStatus)
                                     ),
                                   ],
@@ -229,6 +260,143 @@ class MapScreenState extends State<DriverSatus> {
         ),
       ),
     );
+  }
+
+//to get district lists, bins list, and bins level list
+  Future<void> getLists() async {
+    List<District> district;
+    List<dynamic> districtDB = await readAll(tableDistrict);
+    district = districtDB.cast();
+    print("in get distric method");
+    print("district length ${districtDB.length}");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int driverId = prefs.getInt('driverID');
+    setState(() {
+      for (int i = 0; i < district.length; i++) {
+        if (district[i].driverID == driverId) {
+          districts.add(district[i]);
+        }
+      }
+    });
+
+    print(districts);
+
+    List<BinLevel> bin;
+    List<dynamic> binStatus = await readAll(tableBinLevel);
+    bin = binStatus.cast();
+    print("in get binsLevel method");
+    print("binsLevel length ${binStatus.length}");
+    binsLevel = bin;
+
+    print("here inside getBins");
+    List<Bin> binsInfo;
+    List<dynamic> binDB = await readAll("bin_table");
+    binsInfo = binDB.cast();
+    print("in get bins method");
+    print("bins length ${binDB.length}");
+    setState(() {
+      bins = binsInfo;
+      List<Bin> binsInsideDistricts = [];
+      for (int j = 0; j < bins.length; j++) {
+        for (int k = 0; k < Assigneddistricts.length; k++) {
+          if (bins[j].districtId == Assigneddistricts[k].districtID) {
+            print("inside fill binsInsideDistricts $k");
+            binsInsideDistricts.add(bins[j]);
+          }
+        }
+      }
+    });
+    print(bins);
+  }
+
+  _generateDataForDriver(String val) {
+    //All bins inside assigned districts for driver
+    List<Bin> binsInsideDistricts = [];
+    for (int j = 0; j < bins.length; j++) {
+      for (int k = 0; k < Assigneddistricts.length; k++) {
+        if (bins[j].districtId == Assigneddistricts[k].districtID) {
+          print("inside fill binsInsideDistricts $k");
+          binsInsideDistricts.add(bins[j]);
+        }
+      }
+    }
+    print("binsInsideDistricts length: ${binsInsideDistricts.length}");
+
+    double numberOfFull = 0, numberOfHalfFull = 0, numberOfEmpty = 0;
+    // List of all bins leve that inside assigned district
+    List<BinLevel> binsLevelForDistricts = [];
+    for (int i = 0; i < binsLevel.length; i++) {
+      for (int j = 0; j < binsInsideDistricts.length; j++) {
+        if (binsInsideDistricts[j].binID == binsLevel[i].binID) {
+          print("inside fill binsLevelForDistrict $j");
+          binsLevelForDistricts.add(binsLevel[i]);
+        }
+      }
+    }
+
+    print("binsLevelForDistricts length: ${binsLevelForDistricts.length}");
+
+    for (int i = 0; i < binsLevelForDistricts.length; i++) {
+      if (binsLevelForDistricts[i].full == true)
+        numberOfFull++;
+      else if (binsLevelForDistricts[i].half_full == true)
+        numberOfHalfFull++;
+      else
+        numberOfEmpty++;
+    }
+
+    print("numberOfEmpty: $numberOfEmpty");
+    int totalBin = (numberOfEmpty + numberOfHalfFull + numberOfFull) as int;
+    int notCollected = (numberOfHalfFull + numberOfFull) as int;
+    int performance = ((totalBin - notCollected) / totalBin) as int;
+    int performancePercernt = performance * 100;
+
+    switch (val) {
+      case ("totalBins"):
+        {
+          return totalBin;
+        }
+        break;
+
+      case ("notCollected"):
+        {
+          return notCollected;
+        }
+        break;
+      case ("performancePercent"):
+        {
+          return performancePercernt;
+        }
+        break;
+      case ("emptyBins"):
+        {
+          return numberOfEmpty;
+        }
+        break;
+      case ("assignedDistricts"):
+        {
+          return Assigneddistricts;
+        }
+        break;
+      default:
+        {
+          return ("vv");
+        }
+        break;
+    }
+  }
+
+  //read objects
+  //int id, String tableName, dynamic classFields, dynamic className
+  Future<dynamic> readObj(int id, String tableName) async {
+    return await DatabaseHelper.instance.generalRead(tableName, id);
+    //print("mun object: ${munObj.firatName}");
+  }
+
+  Future<List<dynamic>> readAll(String tableName) async {
+    //We have to define list here as dynamci *******
+    return await DatabaseHelper.instance.generalReadAll(tableName);
+    // print("mun object: ${munList[0].firatName}");
   }
 
   @override

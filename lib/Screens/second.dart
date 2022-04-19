@@ -4,11 +4,8 @@ import 'package:flutter_application_1/screens/first.dart';
 import 'package:flutter_application_1/screens/Login.dart';
 
 
-void main() {
-  runApp(second());
-  
- }
 class second extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,6 +21,15 @@ class secondDemo extends StatefulWidget {
 }
 
 class _secondDemo extends State<secondDemo> {
+
+
+// develeopment : Fierwbase Emulator
+// production and release - firebase
+/// fluter flavores
+
+//Create a firebase database reference
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -92,5 +98,5 @@ class _secondDemo extends State<secondDemo> {
     );
   }
  
-  
+
 }

@@ -101,8 +101,7 @@ void readDistance() {
     final distanceFirebase =
         new Map<String, dynamic>.from(event.snapshot.value);
     print(distanceFirebase['Distance']); //json data
-    distance =
-        distanceFirebase['Distance']; //get teh distance from the firebase
+    distance = distanceFirebase['Distance']; //get teh distance from the firebase
     if (distance <= 0.0) {
       //full
       print('manar');
@@ -118,7 +117,6 @@ void readDistance() {
       titlee = "Half - Empty";
       colorBin = BitmapDescriptor.hueOrange;
       level = BinLevel(binID: 144, full: false, half_full: true, empty: false);
-
       displayMarker(colorBin);
     } else {
       //empty
@@ -235,6 +233,7 @@ class _MapScreenState extends State<MapScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xffffDD83),
         title: Text("Map"),
+        
       ),
       body: GoogleMap(
         markers: Set<Marker>.of(markerss),

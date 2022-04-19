@@ -11,16 +11,18 @@ import 'package:flutter_application_1/model/Driver.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-
-void main() => runApp(MaterialApp(home: ViewNotification()));
+import 'package:flutter_application_1/db/DatabaseHelper.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class ViewNotification extends StatefulWidget {
   @override
   _ViewNotification createState() => _ViewNotification();
 }
-
 class _ViewNotification extends State<ViewNotification>
     with AutomaticKeepAliveClientMixin<ViewNotification> {
+  
   @override
   bool get wantKeepAlive => true;
   //Define variables
@@ -32,6 +34,7 @@ class _ViewNotification extends State<ViewNotification>
   String level;
   var status;
   String distName;
+
   @override
   Widget build(BuildContext context) => Scaffold(
         body: FutureBuilder<List<Widget>>(
@@ -84,6 +87,7 @@ class _ViewNotification extends State<ViewNotification>
     List<dynamic> compDB = await readAll(tableBinLevel);
     binLevel = compDB.cast();
     for (int i = 0; i < binLevel.length; i++) {
+      //deleteObj(i, tableBinLevel);
       if (binLevel[i].empty == true) {
         level = "Empty";
       } else if (binLevel[i].half_full == true) {
@@ -116,7 +120,7 @@ class _ViewNotification extends State<ViewNotification>
   Future<List<Widget>> getWidgets() async {
     binLevels = await getBinLevels();
     for (int i = 0; i < binLevels.length; i++) {
-      if (level == "Full") {
+      if (level == "Half-Full") {
         //don't show the empty and half-full ones
         boxWidgets.add(SizedBox(
             width: 370.0,

@@ -15,12 +15,13 @@ import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:firebase_database/firebase_database.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp()
       .then((value) => print("connected " + value.options.asMap.toString()))
       .catchError((e) => print(e.toString()));
+    //  readDistance();
   runApp(Login()); //function written by flutter
 }
 
@@ -66,6 +67,7 @@ class _LoginDemoState extends State<LoginDemo> {
   bool phoneCheck = false;
   String password;
   int loggedInId;
+
   //Take input from user or textview
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -207,13 +209,22 @@ class _LoginDemoState extends State<LoginDemo> {
                   List<BinLevel> binLevel = [];
                   List<dynamic> compDB = await readAll(tableBinLevel);
                   binLevel = compDB.cast();
-                  for (int i = 0; i < binLevel.length; i++) {
-                    //deleteObj(binLevel[i].level, tableBinLevel);
-                    print('${binLevel[i].binID}');
+                  print(binLevel.length);
+                  for (int i = 0; i < binlevel.length; i++) {
+                   print('hi');
+                   print('the id : ' +'${binLevel[i].level}');
                   }
+
+                /*  deleteObj(23, tableBinLevel);
+                  deleteObj(24, tableBinLevel);
+                  deleteObj(25, tableBinLevel);
+                  deleteObj(26, tableBinLevel);
+                  deleteObj(27, tableBinLevel);
+                  deleteObj(28, tableBinLevel);
+                  deleteObj(29, tableBinLevel);*/
                  /* for(int i=0;i<binLevel.length;i++){
                       deleteObj(144, tableBinLevel);
-                  }*/
+                  }s*/
                   //create object
                   /* District di =
                       District(name: "Alnaseem", numberOfBins: 15, driverID: 5);
@@ -304,9 +315,9 @@ class _LoginDemoState extends State<LoginDemo> {
                           passCheck = true;
                         }
                       }
-                      if (phoneCheck != true && passCheck != true) {
+                       if (phoneCheck != true && passCheck != true) {
                         showDialogError();
-                      } else {
+                       } else {
                         //store the loggedin id and phone
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();

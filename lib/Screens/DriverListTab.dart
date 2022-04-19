@@ -20,8 +20,7 @@ class _DriverList extends State<DriverList>
   @override
   bool get wantKeepAlive => true;
   //Define variables
-  List<Driver> drivers;
-  List<District> district;
+  List<Driver> drivers = [];
   List<Widget> boxWidgets = [];
 
   @override
@@ -73,7 +72,9 @@ class _DriverList extends State<DriverList>
 
   //get box widgets
   Future<List<Widget>> getWidgets(String tab) async {
+    drivers = [];
     drivers = await getDrivers();
+    boxWidgets = [];
     for (int i = 0; i < drivers.length; i++) {
       boxWidgets.add(SizedBox(
           width: 160.0,

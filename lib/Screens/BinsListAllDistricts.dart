@@ -47,7 +47,7 @@ class _BinsListAllDistricts extends State<BinsListAllDistricts> {
       appBar: AppBar(
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: color),
-            onPressed: () => Navigator.of(context).pop()),
+            onPressed: () => Navigator.pop(context)),
         backgroundColor: Color(0xffffDD83),
         title: Text("Bins List"),
       ),

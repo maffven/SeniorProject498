@@ -19,12 +19,12 @@ var distance = 0.0;
 String color = "";
 String titlee = "";
 double colorBin = 0.0;
-List<BinLevel> binlevel =[];
+List<BinLevel> binlevel = [];
 List<Bin> b = [];
 //the markers (pins) on the map
 List<Marker> markerss = [];
 BinLevel level = BinLevel();
-BinLocation location = BinLocation();//location of bin
+BinLocation location = BinLocation(); //location of bin
 const CameraPosition INITIAL_CAMERA_POSITION = CameraPosition(
   target: LatLng(
     GMAP_DEFAULT_LATITUDE,
@@ -80,16 +80,18 @@ List<Marker> displayMarker(double colorBin) {
         }),
   ];*/
 }
- Future deleteObj(int id, String tableName) async {
-    print("$id rawan");
-    await DatabaseHelper.instance.gneralDelete(id, tableName);
-    print("Object is deleted");
-  }
 
- Future<List<dynamic>> readAll(String tableName) async {
-    //We have to define list here as dynamci *******
-    return await DatabaseHelper.instance.generalReadAll(tableName);
-  }
+Future deleteObj(int id, String tableName) async {
+  print("$id rawan");
+  await DatabaseHelper.instance.gneralDelete(id, tableName);
+  print("Object is deleted");
+}
+
+Future<List<dynamic>> readAll(String tableName) async {
+  //We have to define list here as dynamci *******
+  return await DatabaseHelper.instance.generalReadAll(tableName);
+}
+
 //Create a firebase database reference
 final databaseReference = FirebaseDatabase.instance.reference();
 //to read the distance from the firebase
@@ -98,39 +100,39 @@ void readDistance() {
   databaseReference.onValue.listen((event) {
     final distanceFirebase =
         new Map<String, dynamic>.from(event.snapshot.value);
-    print(distanceFirebase['Distance']);//json data
-    distance = distanceFirebase['Distance'];//get teh distance from the firebase
-    if (distance <= 0.0) {//full
+    print(distanceFirebase['Distance']); //json data
+    distance =
+        distanceFirebase['Distance']; //get teh distance from the firebase
+    if (distance <= 0.0) {
+      //full
       print('manar');
       color = 'Red';
       titlee = "Full";
-      level = BinLevel(
-          binID: 144,  full: true, half_full: false, empty: false);
+      level = BinLevel(binID: 144, full: true, half_full: false, empty: false);
       colorBin = BitmapDescriptor.hueRed;
-       displayMarker(colorBin);
-    } else if (distance > 0.0 && distance < 900.0) {//half-full
+      displayMarker(colorBin);
+    } else if (distance > 0.0 && distance < 900.0) {
+      //half-full
       color = 'Orange';
       print('rawan');
       titlee = "Half - Empty";
       colorBin = BitmapDescriptor.hueOrange;
-      level = BinLevel(
-          binID: 144, full: false, half_full: true, empty: false);
- 
-       displayMarker(colorBin);
-    } else {//empty
+      level = BinLevel(binID: 144, full: false, half_full: true, empty: false);
+
+      displayMarker(colorBin);
+    } else {
+      //empty
       color = 'Green';
       print('lina');
       titlee = "Empty";
-      level = BinLevel(
-          binID: 144,  full: false, half_full: false, empty: true);
+      level = BinLevel(binID: 144, full: false, half_full: false, empty: true);
       colorBin = BitmapDescriptor.hueGreen;
-         displayMarker(colorBin);
+      displayMarker(colorBin);
     }
     //coordinateX must be double not iNTEGER
     // location = BinLocation(binID: 1, coordinateX: 21.4893852, )
-
-    addObj(level, tableBinLevel);
-
+    print("before adding bin level");
+    //addObj(level, tableBinLevel);
 
     //list of markers on the map
     markerss = [
@@ -175,8 +177,6 @@ void readDistance() {
           }),
     ];*/
   });
-
-  
 }
 
 /*void main() async {
@@ -219,7 +219,6 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     super.initState();
     readDistance();
-    
   }
 
   @override
@@ -235,7 +234,6 @@ class _MapScreenState extends State<MapScreen> {
       ),
     );
   }
-  
 }
 
 class MapUtils {

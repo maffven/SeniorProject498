@@ -14,7 +14,7 @@ class _DistrictList extends State<DistrictList>
   @override
   bool get wantKeepAlive => true;
   //Define variables
-  List<District> district;
+  List<District> district = [];
   List<Widget> boxWidgets = [];
 
   @override
@@ -64,8 +64,10 @@ class _DistrictList extends State<DistrictList>
 
   //get box widgets
   Future<List<Widget>> getWidgets() async {
+    district = [];
     district = await getDistricts();
     print("in get widget dist length ${district.length}");
+    boxWidgets = [];
     for (int i = 0; i < district.length; i++) {
       boxWidgets.add(SizedBox(
         width: 160.0,

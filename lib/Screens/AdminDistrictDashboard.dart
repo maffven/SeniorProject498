@@ -135,7 +135,7 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
                                               binsStatus: "Empty",
                                               binsInfo: binsInfo,
                                             )),
-                                  );
+                                  ).then((value) => setState(() {}));
                                 } else if ((model.selectedSeries[0].measureFn(
                                         model.selectedDatum[0].index)) ==
                                     numberOfFull) {
@@ -146,7 +146,7 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
                                             BinsListAllDistricts(
                                                 binsStatus: "Full",
                                                 binsInfo: binsInfo)),
-                                  );
+                                  ).then((value) => setState(() {}));
                                 } else {
                                   Navigator.push(
                                     context,
@@ -155,7 +155,7 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
                                             BinsListAllDistricts(
                                                 binsStatus: "Half-full",
                                                 binsInfo: binsInfo)),
-                                  );
+                                  ).then((value) => setState(() {}));
                                 }
                               }
                             })
@@ -198,6 +198,8 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
       if (val != null && val == districts[i].name) {
         print("val: $val");
         selectedDistrict = districts[i];
+        print(
+            "${selectedDistrict.name} and id: ${selectedDistrict.districtID}");
         break;
       }
     }
@@ -205,6 +207,7 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
 
   _fillBinsInfoList() {
     //create BinInfoObjects
+    binsInfo = [];
     for (var i = 0; i < binsLevelForSelectedDistrict.length; i++) {
       binsInfo.add(new BinInfo(binsLevelForSelectedDistrict[i].binID, value));
     }
@@ -212,11 +215,14 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
 
   _generateDataForDistrict(String val) {
     _fillSelectedDistrict(val);
+    print(
+        "selected district name ${selectedDistrict.name} and id ${selectedDistrict.districtID}");
     //print("district name: ${district.name}");
     //To show piechart based on specific district
     // bool check = false;
 
     if (selectedDistrict != null) {
+      binsInsideSelectedDistrict = [];
       for (int i = 0; i < bins.length; i++) {
         if (bins[i].districtId == selectedDistrict.districtID) {
           binsInsideSelectedDistrict.add(bins[i]);
@@ -225,11 +231,16 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
     }
 
     bool check = false;
+    binsLevelForSelectedDistrict = [];
     for (int j = 0; j < binsLevel.length; j++) {
+      print(
+          "binsInsideSelectedDistrict.length: ${binsInsideSelectedDistrict.length}");
       for (int k = 0; k < binsInsideSelectedDistrict.length; k++) {
         //       print("inside binsLevel $j");
         if (binsInsideSelectedDistrict[k].binID == binsLevel[j].binID) {
           //         print("inside second if");
+          print(
+              "${binsInsideSelectedDistrict[k].districtId} and ${binsLevel[j].binID}");
           check = true;
           binsLevelForSelectedDistrict.add(binsLevel[j]);
           //       }
@@ -248,7 +259,9 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
     //     numberOfEmpty++;
     //   }
     // }
-
+    numberOfFull = 0;
+    numberOfHalfFull = 0;
+    numberOfEmpty = 0;
     for (int i = 0; i < binsLevelForSelectedDistrict.length; i++) {
       if (binsLevelForSelectedDistrict[i].full == true)
         numberOfFull++;
@@ -292,6 +305,7 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
 
 //to get district lists, bins list, and bins level list
   Future<void> getLists() async {
+    districts = [];
     List<District> district;
     List<dynamic> districtDB = await readAll(tableDistrict);
     district = districtDB.cast();
@@ -308,6 +322,7 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
     print(districts);
 
     List<BinLevel> bin;
+    binsLevel = [];
     List<dynamic> binStatus = await readAll(tableBinLevel);
     bin = binStatus.cast();
     print("in get binsLevel method");
@@ -316,6 +331,7 @@ class _AdminDistrictDashboard extends State<AdminDistrictDashboard> {
 
     print("here inside getBins");
     List<Bin> binsInfo;
+    bins = [];
     List<dynamic> binDB = await readAll("bin_table");
     binsInfo = binDB.cast();
     print("in get bins method");

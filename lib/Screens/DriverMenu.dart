@@ -5,6 +5,7 @@ import 'package:flutter_application_1/Screens/Notification.dart';
 import 'package:flutter_application_1/Screens/profileScreen.dart';
 import 'package:flutter_application_1/screens/SendComplaint.dart';
 import 'package:flutter_application_1/screens/Login.dart';
+import 'package:flutter_application_1/screens/NotiTry.dart';
 import 'AdminDashboard.dart';
 import 'package:flutter_application_1/Screens/DriverDashboard.dart';
 import 'mapSc.dart';
@@ -50,7 +51,7 @@ class DriverMenu extends StatelessWidget {
             return MapScreen();
             break;
           case 2:
-            return Notifications();
+            return ViewNotification();
             break;
           case 3:
             return SendComplaint();

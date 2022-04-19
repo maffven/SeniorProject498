@@ -117,7 +117,7 @@ if(binLevel[i].binID==144){
   Future<List<Widget>> getWidgets() async {
     binLevels = await getBinLevels();
     for (int i = 0; i < binLevels.length; i++) {
-      if(level=="Full"){ //don't show the empty ones
+      if(level=="Full"){ //don't show the empty and half-full ones
       boxWidgets.add(SizedBox(
           width: 370.0,
           height: 100.0,

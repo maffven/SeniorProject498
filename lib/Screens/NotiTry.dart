@@ -29,7 +29,6 @@ class _ViewNotification extends State<ViewNotification>
   List<District> district;
   List<Widget> boxWidgets = [];
   Color color;
-  bool emptyCheck = false;
   String level;
   var status;
   String distName;
@@ -52,11 +51,12 @@ class _ViewNotification extends State<ViewNotification>
           },
         ),
       );
-Future deleteObj(int id, String tableName) async {
+  Future deleteObj(int id, String tableName) async {
     print("$id rawan");
     await DatabaseHelper.instance.gneralDelete(id, tableName);
     print("Object is deleted");
   }
+
   Widget buildNotifications(List<Widget> complaints) {
     return MaterialApp(
         home: Scaffold(
@@ -85,93 +85,95 @@ Future deleteObj(int id, String tableName) async {
     binLevel = compDB.cast();
     for (int i = 0; i < binLevel.length; i++) {
       if (binLevel[i].empty == true) {
-        emptyCheck = true;
         level = "Empty";
       } else if (binLevel[i].half_full == true) {
         color = Color(0xfff19840);
-        emptyCheck = false;
-        level = "Half-full";
+        level = "Half-Full";
       } else {
         color = Color(0xfff05e5e);
-        emptyCheck = false;
         level = "Full";
       }
-if(binLevel[i].binID==144){
-  distName="Aljamea";
-}else if (binLevel[i].binID==1){
-       distName="Alnaseem";
-    }else if(binLevel[i].binID==2){
-        distName="Alfaisaliyah";
-    }else if(binLevel[i].binID==3){
-       distName="Alwaha";
-    }else{
-       distName="Alsulaimaniyah";
-    }
+      //-------------------------------------------
+      if (binLevel[i].binID == 144) {
+        distName = "Aljamea";
+      } else if (binLevel[i].binID == 1) {
+        distName = "Alnaseem";
+      } else if (binLevel[i].binID == 2) {
+        distName = "Alfaisaliyah";
+      } else if (binLevel[i].binID == 3) {
+        distName = "Alwaha";
+      } else {
+        distName = "Alsulaimaniyah";
+      }
 
-    
-    print("complaints length ${compDB.length}");
-    return binLevel;
+      //----------------------------------------------
+      print("complaints length ${compDB.length}");
+      return binLevel;
+    }
   }
-  }
+
   //get box widgets
   Future<List<Widget>> getWidgets() async {
     binLevels = await getBinLevels();
     for (int i = 0; i < binLevels.length; i++) {
-      if(level=="Full"){ //don't show the empty and half-full ones
-      boxWidgets.add(SizedBox(
-          width: 370.0,
-          height: 100.0,
-          child: InkWell(
-            //move to the specific complaint's detail screen
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (BuildContext context) {
-              return EditComplaints(complaint: complaints[i]);
-            })),
-            child: Card(
-              borderOnForeground: true,
-              color: Colors.white,
-              elevation: 2.0,
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Color(0xff28CC9E), width: 1),
-                  borderRadius: BorderRadius.circular(8.0)),
-              child: Center(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    Text("\t"+ distName,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0),
-                    ),
-                    Text("\t \t"),
-                    Icon(
-                      Icons.circle_sharp,
-                      color: color,
-                    ),
-                    Text("\t"+
-                      level + " in bin " + '${binLevels[i].binID}',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0),
-                    ),
-                    SizedBox(
-                      height: 2.0,
-                    ),
-                  ],
-                ),
-              )),
-            ),
-          )));
-    }}
+      if (level == "Full") {
+        //don't show the empty and half-full ones
+        boxWidgets.add(SizedBox(
+            width: 370.0,
+            height: 100.0,
+            child: InkWell(
+              //move to the specific complaint's detail screen
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return EditComplaints(complaint: complaints[i]);
+              })),
+              child: Card(
+                borderOnForeground: true,
+                color: Colors.white,
+                elevation: 2.0,
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Color(0xff28CC9E), width: 1),
+                    borderRadius: BorderRadius.circular(8.0)),
+                child: Center(
+                    child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      Text(
+                        "\t" + distName,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0),
+                      ),
+                      Text("\t \t"),
+                      Icon(
+                        Icons.circle_sharp,
+                        color: color,
+                      ),
+                      Text(
+                        "\t" + level + " in bin " + '${binLevels[i].binID}',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0),
+                      ),
+                      SizedBox(
+                        height: 2.0,
+                      ),
+                    ],
+                  ),
+                )),
+              ),
+            )));
+      }
+    }
     return boxWidgets;
   }
-  
+
   //read objects
   //int id, String tableName, dynamic classFields, dynamic className
   Future<dynamic> readObj(int id, String tableName) async {

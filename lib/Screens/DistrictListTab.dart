@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screens/DistrictDashboard.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/District.dart';
 
@@ -72,40 +73,47 @@ class _DistrictList extends State<DistrictList>
       boxWidgets.add(SizedBox(
         width: 160.0,
         height: 160.0,
-        child: Card(
-          borderOnForeground: true,
-          color: Colors.white,
-          elevation: 2.0,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Color(0xff28CC9E), width: 1),
-              borderRadius: BorderRadius.circular(8.0)),
-          child: Center(
-              child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  '${district[i].name}',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0),
-                ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                /*  Text(
-                  "2 Items",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w100),
-                )*/
-              ],
-            ),
-          )),
+        child: InkWell(
+          onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return DistrictDashboard(
+                district: district[i]); //PieChartDashboard(driver: drivers[i]);
+          })),
+          child: Card(
+            borderOnForeground: true,
+            color: Colors.white,
+            elevation: 2.0,
+            shape: RoundedRectangleBorder(
+                side: BorderSide(color: Color(0xff28CC9E), width: 1),
+                borderRadius: BorderRadius.circular(8.0)),
+            child: Center(
+                child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    '${district[i].name}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0),
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  /*  Text(
+                    "2 Items",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w100),
+                  )*/
+                ],
+              ),
+            )),
+          ),
         ),
       ));
     }

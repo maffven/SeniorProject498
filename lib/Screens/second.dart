@@ -23,21 +23,13 @@ class secondDemo extends StatefulWidget {
 class _secondDemo extends State<secondDemo> {
 
 
-// develeopment : Fierwbase Emulator
-// production and release - firebase
-/// fluter flavores
-
-//Create a firebase database reference
-
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
          backgroundColor: Color(0xffffDD83) ,
-        title: Text("Hello"),
+        title: Text("Start"),
       ),
       body: 
       SingleChildScrollView(
@@ -65,7 +57,31 @@ class _secondDemo extends State<secondDemo> {
               ),
                    
             ),
-        
+         ListTile(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  RawMaterialButton(
+                    onPressed: () {  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => second()));},
+                    elevation: 4.0,
+                    fillColor:  Color(0xff28CC9E),
+                   
+                    padding: EdgeInsets.all(5.0),
+                    shape: CircleBorder(),
+                  ),
+                  RawMaterialButton(
+                    onPressed: () {  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => FirstDemo()));},
+                    elevation: 2.0,
+                    fillColor:  Color(0xff28CC9E),
+                   
+                    padding: EdgeInsets.all(5.0),
+                    shape: CircleBorder(),
+                  )
+                ],
+              ),
+            ),
             Container(
               height: 50,
               width: 250,

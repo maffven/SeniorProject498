@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Screens/Login.dart';
+import 'package:flutter_application_1/Screens/second.dart';
 import 'package:flutter_application_1/screens/first.dart';
 
 void main() {
   runApp(first());
-  
- }
+}
+
 class first extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,8 @@ class _FirstDemo extends State<FirstDemo> {
                 child: Container(
                   decoration: new BoxDecoration(
                     image: new DecorationImage(
-                      image: AssetImage("/Applications/XAMPP/xamppfiles/htdocs/Untitled/SeniorProject498/assets/images/second.png"),
+                      image: AssetImage(
+                          "/Applications/XAMPP/xamppfiles/htdocs/Untitled/SeniorProject498/assets/images/third.png"),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -58,34 +60,31 @@ class _FirstDemo extends State<FirstDemo> {
                 style: TextStyle(fontSize: 24),
               ),
             ),
-
-           /* ListTile(
+            ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-    
-                 ElevatedButton(
-                    onPressed: _incrementCounter,
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Color(0xff28CC9E)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          side: BorderSide(
-                            color: Color(0xff000000),
-                            width: 0.4,
-                          ),
-                        ),
-                      ),
-                    ),
+                  RawMaterialButton(
+                    onPressed: () {  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => second()));},
+                    elevation: 4.0,
+                    fillColor:  Color(0xff28CC9E),
+                   
+                    padding: EdgeInsets.all(5.0),
+                    shape: CircleBorder(),
                   ),
-              
+                  RawMaterialButton(
+                    onPressed: () {  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => FirstDemo()));},
+                    elevation: 2.0,
+                    fillColor:  Color(0xff28CC9E),
+                   
+                    padding: EdgeInsets.all(5.0),
+                    shape: CircleBorder(),
+                  )
                 ],
               ),
-            ),*/
-
-           
+            ),
             Container(
               height: 50,
               width: 250,
@@ -95,9 +94,8 @@ class _FirstDemo extends State<FirstDemo> {
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () {
-                   Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
-                     
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Login()));
                 },
                 child: Text(
                   'Login',
@@ -113,7 +111,4 @@ class _FirstDemo extends State<FirstDemo> {
       ),
     );
   }
-
-  void _incrementCounter() {}
-  void _decrementCounter() {}
 }

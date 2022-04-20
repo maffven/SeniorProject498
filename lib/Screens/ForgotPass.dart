@@ -92,6 +92,9 @@ class _ForgotPasswordState extends State<ForgotPasswordDemo> {
     return MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
+             leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () => Navigator.of(context).pop()),
           backgroundColor: Color(0xffffDD83),
           title: Text("Reset Password"),
         ),

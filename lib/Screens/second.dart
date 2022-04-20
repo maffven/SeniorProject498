@@ -37,7 +37,7 @@ class _secondDemo extends State<secondDemo> {
       backgroundColor: Colors.white,
       appBar: AppBar(
          backgroundColor: Color(0xffffDD83) ,
-        title: Text("Login"),
+        title: Text("Hello"),
       ),
       body: 
       SingleChildScrollView(

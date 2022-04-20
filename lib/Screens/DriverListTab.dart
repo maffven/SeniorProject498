@@ -25,6 +25,12 @@ class _DriverList extends State<DriverList>
 
   @override
   Widget build(BuildContext context) => Scaffold(
+
+     backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Color(0xffffDD83),
+        title: Text("Drivers"),
+      ),
         body: FutureBuilder<List<Widget>>(
           future: getWidgets("Driver"),
           builder: (context, snapshot) {

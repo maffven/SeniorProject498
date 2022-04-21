@@ -117,4 +117,7 @@ class Complaints {
     return db.delete(tableComplaints,
         where: '${ComplaintsFields.id} = ?', whereArgs: [id]);
   }
+
+
+  
 }

@@ -286,7 +286,7 @@ class _LoginDemoState extends State<LoginDemo> {
                         }*/
                       }
 
-                   dynamic checkPhone = LoginField.validatePhone(phone);
+                   dynamic checkPhone = LoginField.checkPhone(phone);
                    phoneCheck = checkPhone;
                    print(checkPhone.toString());
                       if (phoneCheck != true && passCheck != true) {

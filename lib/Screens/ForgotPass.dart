@@ -92,7 +92,7 @@ class _ForgotPasswordState extends State<ForgotPasswordDemo> {
     return MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
-             leading: IconButton(
+          leading: IconButton(
               icon: Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () => Navigator.of(context).pop()),
           backgroundColor: Color(0xffffDD83),
@@ -202,30 +202,31 @@ class _ForgotPasswordState extends State<ForgotPasswordDemo> {
 
                             if (phone == dd[i].phone) {
                               driverId = dd[i].driverID;
-                              fname=dd[i].firstName;
-                              lname=dd[i].lastName;
-                              email=dd[i].email;
-                              munId=dd[i].municpalityID;
-                              workTime=dd[i].workTime;
+                              fname = dd[i].firstName;
+                              lname = dd[i].lastName;
+                              email = dd[i].email;
+                              munId = dd[i].municpalityID;
+                              workTime = dd[i].workTime;
                             }
                           }
                           print("$driverId");
                           //create a driver object with the new updated password
-                          
-                       Driver updatedDriver = Driver(driverID: driverId,
-                      municpalityID: munId,
-                      firstName: fname,
-                      lastName: lname,
-                      password: confPassField,
-                      email: email,
-                      phone: phone,
-                      workTime: workTime);
+
+                          Driver updatedDriver = Driver(
+                              driverID: driverId,
+                              municpalityID: munId,
+                              firstName: fname,
+                              lastName: lname,
+                              password: confPassField,
+                              email: email,
+                              phone: phone,
+                              workTime: workTime);
 
                           //update password in the database
-                         // updateObj(driverId, updatedDriver , tableDriver);
+                          // updateObj(driverId, updatedDriver , tableDriver);
 
                           //move back to the login screen
-                           Navigator.push(context,
+                          Navigator.push(context,
                               MaterialPageRoute(builder: (context) => Login()));
                         } else {
                           showDialogError();

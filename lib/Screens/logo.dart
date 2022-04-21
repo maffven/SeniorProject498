@@ -50,7 +50,7 @@ class _LogoDemoState extends State<LogoDemo> {
     onTap: () { 
        Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) =>  second()),
+    MaterialPageRoute(builder: (context) =>  first()),
   );
     },
             child: Container(

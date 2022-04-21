@@ -9,12 +9,35 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/Screens/complaintResult.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_application_1/model/ComplaintFields.dart';
+import 'package:flutter/cupertino.dart';
 
 void main() async {
-  runApp(SendComplaint());
+runApp(MaterialApp(home: SendComplaint())); 
+}
+class SendComplaint extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SendComplaintDemo(),
+    );
+  }
+}
+class SendComplaintDemo extends StatefulWidget {
+  @override
+  _SendComplaintState createState() => _SendComplaintState();
 }
 
-class SendComplaint extends StatelessWidget {
+
+
+class _SendComplaintState extends State<SendComplaintDemo> {
+  @override
+  void initState() {
+    super.initState();
+    // readD();
+  }
+
   List<District> disList;
   List<Complaints> complaints = [];
   List<Driver> dd;
@@ -26,6 +49,27 @@ class SendComplaint extends StatelessWidget {
     "Alwaha",
     "Alsulaimania"
   ];
+  //display warning when fields are empty
+  void showDialog() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text("Warning"),
+          content: Text("please enter all the fields"),
+          actions: [
+            CupertinoDialogAction(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
   //bins id
   var itemsBin = ["144", "2", "3", "4"];
   //database reference
@@ -41,9 +85,8 @@ class SendComplaint extends StatelessWidget {
   var selectedDist;
   //from database
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Drop List Example',
-      home: new Scaffold(
+    return Scaffold(
+    
         appBar: AppBar(
           backgroundColor: Color(0xffffDD83),
           title: Text("Send Complaint"),
@@ -152,7 +195,8 @@ class SendComplaint extends StatelessWidget {
                           minLines: 1, //Normal textInputField will be displayed
                           maxLines: 20, //
                           decoration: new InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(vertical: 60),
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 60),
                               border: new OutlineInputBorder(
                                   borderSide: new BorderSide(
                                       color: Colors.greenAccent)),
@@ -171,39 +215,47 @@ class SendComplaint extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20)),
                   child: FlatButton(
                     onPressed: () async {
-                      DateTime now = new DateTime.now();
-                      print(now);
+                      print(ComplaintFields.validateFields(selectedBinId,
+                          district.text, summary.text, description.text));
+                      if (ComplaintFields.validateFields(selectedBinId,
+                              district.text, summary.text, description.text) ==
+                          false) {
+                            print("hi");
+                        showDialog();
+                      } else {
+                        DateTime now = new DateTime.now();
+                        print(now);
 //format the date
-                      var newFormat = DateFormat("yyyy-MM-dd");
-                      String updatedDt = newFormat.format(now);
+                        var newFormat = DateFormat("yyyy-MM-dd");
+                        String updatedDt = newFormat.format(now);
 
-                      DateTime date =
-                          new DateTime(now.year, now.month, now.day);
+                        DateTime date =
+                            new DateTime(now.year, now.month, now.day);
 //added the district name column to the complaint table
 //addCol("DistrictName", tableComplaints);
 //delCol("DistrictName", tableComplaints);
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      print(prefs.getInt('id'));
-                      // print(date);
-                      print(district.text);
-                      Complaints c = Complaints(
-                          binID: int.parse(selectedBinId),
-                          complaintMessage: description.text,
-                          subject: summary.text,
-                          status: false,
-                          driverID: prefs.getInt('id'),
-                          districtName: district.text,
-                          date: now);
-                    //  addObj(c, tableComplaints);
-                     /* for (int i = 16; i <= 18; i++) {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        print(prefs.getInt('id'));
+                        // print(date);
+                        print(district.text);
+                        Complaints c = Complaints(
+                            binID: int.parse(selectedBinId),
+                            complaintMessage: description.text,
+                            subject: summary.text,
+                            status: false,
+                            driverID: prefs.getInt('id'),
+                            districtName: district.text,
+                            date: now);
+                        //  addObj(c, tableComplaints);
+                        /* for (int i = 16; i <= 18; i++) {
                         deleteObj(i, tableComplaints);
                       }*/
-                      //  deleteObj(14, tableComplaints);
-                      /*  Complaints cc = await readObj(1, tableComplaints);
+                        //  deleteObj(14, tableComplaints);
+                        /*  Complaints cc = await readObj(1, tableComplaints);
                       print(cc.complaintID);*/
 
-                      /* List<dynamic> compList = await readAll(tableComplaints);
+                        /* List<dynamic> compList = await readAll(tableComplaints);
                       complaints = compList.cast();
                       for (int i = 0; i < complaints.length; i++) {
                         print("${complaints[i].binID}");
@@ -213,17 +265,18 @@ class SendComplaint extends StatelessWidget {
                         print("${complaints[i].status}");
                       }*/
 
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CompResult()));
-                      /* BinLevel bin = BinLevel(
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CompResult()));
+                        /* BinLevel bin = BinLevel(
                           binID: 123,
                           half_full: true,
                           full: false,
                           empty: false,
                           level: 1);
                       addObj(bin, tableBinLevel);*/
+                      }
                     },
                     child: Text(
                       'Submit',
@@ -235,10 +288,12 @@ class SendComplaint extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      
+    
     );
   }
-//requiredn methods from the database
+
+//required methods from the database
   Future addObj(dynamic obj, String tableName) async {
     await DatabaseHelper.instance.generalCreate(obj, tableName);
     //print("object inserted");
@@ -263,11 +318,9 @@ class SendComplaint extends StatelessWidget {
   Future<List<dynamic>> readAll(String tableName) async {
     //We have to define list here as dynamci *******
     return await DatabaseHelper.instance.generalReadAll(tableName);
-    
   }
 
   Future<dynamic> readObj(int id, String tableName) async {
     return await DatabaseHelper.instance.generalRead(tableName, id);
-    
   }
 }

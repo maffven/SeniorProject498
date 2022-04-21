@@ -16,6 +16,8 @@ import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_application_1/model/LoginField.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp()
@@ -275,14 +277,18 @@ class _LoginDemoState extends State<LoginDemo> {
                       dd = drListd.cast();
                       for (int i = 0; i < dd.length; i++) {
                         if (dd[i].phone == phone) {
-                          phoneCheck = true;
+                         // phoneCheck = true;
                           loggedInId = dd[i].driverID;
                         }
 
-                        if (dd[i].password == password) {
+                        /*if (dd[i].password == password) {
                           passCheck = true;
-                        }
+                        }*/
                       }
+
+                   dynamic checkPhone = LoginField.validatePhone(phone);
+                   phoneCheck = checkPhone;
+                   print(checkPhone.toString());
                       if (phoneCheck != true && passCheck != true) {
                         showDialogError();
                       } else {
@@ -486,6 +492,7 @@ class _LoginDemoState extends State<LoginDemo> {
       ),
     );
   }
+
 
   //required method from the database
   Future<Driver> getLoginId(int phone) async {

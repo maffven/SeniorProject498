@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_application_1/Screens/Logo.dart';
+import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'Screens/DriverMenu.dart';
 import 'model/BinLevel.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -84,8 +85,12 @@ class _MyAppDemoState extends State<MyAppDemo> {
       }
       //coordinateX must be double not iNTEGER
       // location = BinLocation(binID: 1, coordinateX: 21.4893852, )
-      print("before adding bin level");
-      //addObj(level, tableBinLevel);
+      // print("before adding bin level");
+      updateObj(level.level, level, tableBinLevel);
     });
+  }
+
+  Future updateObj(int id, dynamic obj, String tableName) async {
+    await DatabaseHelper.instance.generalUpdate(tableName, id, obj);
   }
 }

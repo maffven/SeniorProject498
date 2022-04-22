@@ -4,6 +4,7 @@ import 'package:flutter_application_1/Screens/AdminDashboard.dart';
 import 'package:flutter_application_1/Screens/AdminDriverDashboard.dart';
 import 'package:flutter_application_1/Screens/DistrictListTab.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
+import 'package:flutter_application_1/model/BinLevel.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,12 +26,7 @@ class _DriverList extends State<DriverList>
 
   @override
   Widget build(BuildContext context) => Scaffold(
-
-     backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Color(0xffffDD83),
-        title: Text("Drivers"),
-      ),
+        backgroundColor: Colors.white,
         body: FutureBuilder<List<Widget>>(
           future: getWidgets("Driver"),
           builder: (context, snapshot) {

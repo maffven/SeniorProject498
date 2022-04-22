@@ -173,7 +173,7 @@ class _BarAndPieChartDashboard extends State<BarAndPieChartDashboard> {
     _seriesData = List<charts.Series<BarChartData, String>>();
     _seriesPieDataForDistrict = List<charts.Series<PieChartData, String>>(1);
     _getLists().whenComplete(() => setState(() {
-          value = driverDistricts[0].name;
+          //value = driverDistricts[0].name;
           _generateDataForBarChart();
         }));
   }

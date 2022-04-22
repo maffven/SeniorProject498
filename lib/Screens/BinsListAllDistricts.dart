@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Screens/AdminDriverDashboard.dart';
+import 'package:flutter_application_1/Screens/mapSc.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/Bin.dart';
 import 'package:flutter_application_1/model/BinLevel.dart';
@@ -62,10 +63,20 @@ class _BinsListAllDistricts extends State<BinsListAllDistricts> {
                 ),
                 title: Text(binsInfo[index].districtName),
                 subtitle: Text("${binsInfo[index].binID}"),
-                onTap: () {},
+                onTap: () {
+                  MapUtils.openMap(21.4893852, 39.2462446);
+                },
               );
             }),
       ),
     );
   }
 }
+
+//get binlevel list
+// binlevel.full == true 
+// fulbinlevel 
+// get bins 
+// fullbins.districtID = district
+// get district 
+// display 

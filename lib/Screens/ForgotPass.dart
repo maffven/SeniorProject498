@@ -10,6 +10,7 @@ import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/model/LoginField.dart';
+
 void main() {
   runApp(ForgotPass()); //function written by flutter
 }
@@ -43,6 +44,27 @@ class _ForgotPasswordState extends State<ForgotPasswordDemo> {
   bool matchCheck = false;
   String confPassField;
   final dbHelper = DatabaseHelper.instance;
+
+  void showDialogSuccess() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text("Confirmation"),
+          content: Text("passowrd updated successfully"),
+          actions: [
+            CupertinoDialogAction(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
   void showDialog() {
     showCupertinoDialog(
       context: context,
@@ -210,51 +232,56 @@ class _ForgotPasswordState extends State<ForgotPasswordDemo> {
                         phone = int.parse(phoneField.text);
                         confPassField = confPass.text;
                         //validate the password
-                        if(LoginField.validatePassword(newPass.text)==null){
-                        //check if the two passwords match
-                        if (LoginField.matchTwoPasswords(newPassField, confPassField)==true) {
-                          matchCheck = true;
-                          List<dynamic> drListd = await readAll(tableDriver);
-                          dd = drListd.cast();
-                          for (int i = 0; i < dd.length; i++) {
-                            print("${dd[i].driverID}");
-                            print("${dd[i].phone}");
-                            print("${dd[i].password}");
+                        if (LoginField.validatePassword(newPass.text) == null) {
+                          //check if the two passwords match
+                          if (LoginField.matchTwoPasswords(
+                                  newPassField, confPassField) ==
+                              true) {
+                            matchCheck = true;
+                            List<dynamic> drListd = await readAll(tableDriver);
+                            dd = drListd.cast();
+                            for (int i = 0; i < dd.length; i++) {
+                              print("${dd[i].driverID}");
+                              print("${dd[i].phone}");
+                              print("${dd[i].password}");
 
-                            if (phone == dd[i].phone) {
-                              driverId = dd[i].driverID;
-                              fname = dd[i].firstName;
-                              lname = dd[i].lastName;
-                              email = dd[i].email;
-                              munId = dd[i].municpalityID;
-                              workTime = dd[i].workTime;
+                              if (phone == dd[i].phone) {
+                                driverId = dd[i].driverID;
+                                fname = dd[i].firstName;
+                                lname = dd[i].lastName;
+                                email = dd[i].email;
+                                munId = dd[i].municpalityID;
+                                workTime = dd[i].workTime;
+                              }
                             }
+                            print("$driverId");
+                            //create a driver object with the new updated password
+
+                            Driver updatedDriver = Driver(
+                                driverID: driverId,
+                                municpalityID: munId,
+                                firstName: fname,
+                                lastName: lname,
+                                password: confPassField,
+                                email: email,
+                                phone: phone,
+                                workTime: workTime);
+
+                            //update password in the database
+                            updateObj(driverId, updatedDriver , tableDriver);
+                            showDialogSuccess();
+                            print("updated successsfully");
+                            //move back to the login screen
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Login()));
+                          } else {
+                            showDialogError();
                           }
-                          print("$driverId");
-                          //create a driver object with the new updated password
-
-                          Driver updatedDriver = Driver(
-                              driverID: driverId,
-                              municpalityID: munId,
-                              firstName: fname,
-                              lastName: lname,
-                              password: confPassField,
-                              email: email,
-                              phone: phone,
-                              workTime: workTime);
-
-                          //update password in the database
-                          // updateObj(driverId, updatedDriver , tableDriver);
-
-                          //move back to the login screen
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Login()));
                         } else {
-                          showDialogError();
-                        }}else{
-                          showDialogValPassword(); 
+                          showDialogValPassword();
                         }
-
                       }
                     },
                     child: Text(

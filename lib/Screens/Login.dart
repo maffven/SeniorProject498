@@ -23,7 +23,7 @@ void main() async {
   await Firebase.initializeApp()
       .then((value) => print("connected " + value.options.asMap.toString()))
       .catchError((e) => print(e.toString()));
-    //  readDistance();
+  //  readDistance();
   runApp(Login()); //function written by flutter
 }
 
@@ -213,18 +213,18 @@ class _LoginDemoState extends State<LoginDemo> {
                   binLevel = compDB.cast();
                   print(binLevel.length);
                   for (int i = 0; i < binlevel.length; i++) {
-                   print('hi');
-                   print('the id : ' +'${binLevel[i].level}');
+                    print('hi');
+                    print('the id : ' + '${binLevel[i].level}');
                   }
 
-                /*  deleteObj(23, tableBinLevel);
+                  /*  deleteObj(23, tableBinLevel);
                   deleteObj(24, tableBinLevel);
                   deleteObj(25, tableBinLevel);
                   deleteObj(26, tableBinLevel);
                   deleteObj(27, tableBinLevel);
                   deleteObj(28, tableBinLevel);
                   deleteObj(29, tableBinLevel);*/
-                 /* for(int i=0;i<binLevel.length;i++){
+                  /* for(int i=0;i<binLevel.length;i++){
                       deleteObj(144, tableBinLevel);
                   }s*/
                   //create object
@@ -275,23 +275,52 @@ class _LoginDemoState extends State<LoginDemo> {
                       //check login info from the database driver's list
                       List<dynamic> drListd = await readAll(tableDriver);
                       dd = drListd.cast();
+
+                      /* phoneCheck = LoginField.checkPhone(dd, phone);
+                      passCheck = LoginField.checkPassword(dd, password);*/
                       for (int i = 0; i < dd.length; i++) {
+                        print(dd[i].phone);
+                        print(dd[i].password);
                         if (dd[i].phone == phone) {
-                         // phoneCheck = true;
+                          // phoneCheck = true;
                           loggedInId = dd[i].driverID;
                         }
-
+                       //dynamic bb = await LoginField.checkPhone(phone);
+                        bool bb = await LoginField.checkPhone(phone);
+                        print("hhi hi " + '${ bb}');
+                        bool bb1 = await LoginField.checkPassword(password);
+                        if (bb!=false) {
+                          print("bb false");
+                          phoneCheck = true;
+                        }
+                        if (bb1!=false) {
+                            print(" bb1 true");
+                          passCheck = true;
+                        }
                         /*if (dd[i].password == password) {
                           passCheck = true;
                         }*/
+
                       }
 
-                   dynamic checkPhone = LoginField.checkPhone(phone);
-                   phoneCheck = checkPhone;
-                   print(checkPhone.toString());
+                      print(phoneCheck);
+                      print(passCheck);
                       if (phoneCheck != true && passCheck != true) {
+                        print("first");
+
                         showDialogError();
-                      } else {
+                      }
+                      if (phoneCheck == true && passCheck != true) {
+                        print("second");
+
+                        showDialogError();
+                      }
+                      if (phoneCheck != true && passCheck == true) {
+                        print("third");
+
+                        showDialogError();
+                      }
+                      if (phoneCheck == true && passCheck == true) {
                         //store the loggedin id and phone
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
@@ -321,9 +350,9 @@ class _LoginDemoState extends State<LoginDemo> {
                           passCheck = true;
                         }
                       }
-                       if (phoneCheck != true && passCheck != true) {
+                      if (phoneCheck != true && passCheck != true) {
                         showDialogError();
-                       } else {
+                      } else {
                         //store the loggedin id and phone
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
@@ -492,7 +521,6 @@ class _LoginDemoState extends State<LoginDemo> {
       ),
     );
   }
-
 
   //required method from the database
   Future<Driver> getLoginId(int phone) async {

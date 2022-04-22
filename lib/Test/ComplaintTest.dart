@@ -6,7 +6,7 @@ import 'package:flutter_application_1/model/ComplaintFields.dart';
 
 void main(){
    test('Empty Complaint fields Test', () {
-    var result =  ComplaintFields.validateFields("", "distName", "", "m");
-    expect(result, false);
+    var result =  ComplaintFields.validateFields("", "", "", "");
+    expect(result, true);
   });
 }

@@ -10,33 +10,65 @@ class LoginField {
 
 //validate login info
   static Future<bool> checkPhone(int phone) async {
-    bool phoneCheck;
+    Future<bool> phoneCheck;
     List<Driver> dd = [];
-//check login info from the database driver's list
     List<dynamic> drListd = await readAll(tableDriver);
     dd = drListd.cast();
+
+//check login info from the database driver's list
+
     for (int i = 0; i < dd.length; i++) {
-      if (dd[i].phone == phone) {
-        return Future<bool>.value(true);
+      print("jj " + '${dd[i].phone}');
+      if (dd[i].phone != phone) {
+        print('entered false phone');
+        phoneCheck = Future<bool>.value(false);
+      } else {
+        print('entered true phone');
+        phoneCheck = Future<bool>.value(true);
+        break;
       }
-      return Future<bool>.value(false);
+      /*  if (driverPhone != phone) {
+      print('entered false phone');
+      phoneCheck = false;
+    } else {
+      print('entered true phone');
+      phoneCheck = true;
+    }*/
+      /*switch(driver.phone){
+      case 06795435123 : phoneCheck = true; break;
+      case 06795436234 : phoneCheck = true; break;
+      case 06795437890 : phoneCheck = true; break;
+      case 06795437634 : phoneCheck = true; break;
+      case 06795431420 : phoneCheck = true; break;
+      default:   phoneCheck = false; break;
+    }*/
+
+    
     }
-    return Future<bool>.value(false);
+      return phoneCheck;
   }
 
-  static Future<bool> checkPassword(int password) async {
-    bool passwordCheck;
+  static Future<bool> checkPassword(String password) async {
+    Future<bool> passwordCheck;
+
     List<Driver> dd = [];
+
     List<dynamic> drListd = await readAll(tableDriver);
     dd = drListd.cast();
-    for (int i = 0; i < dd.length; i++) {
-      if (dd[i].password == password) {
-        return Future<bool>.value(true);
-      }
 
-      return Future<bool>.value(false);
+    for (int i = 0; i < dd.length; i++) {
+      print("oo " + '${dd[i].password}');
+      if (dd[i].password != password) {
+        print('entered false pass');
+        passwordCheck = Future<bool>.value(false);
+      } else {
+        print('entered true pass');
+        passwordCheck = Future<bool>.value(true);
+        break;
+      }
     }
-    return Future<bool>.value(false);
+
+    return passwordCheck;
   }
 
   static String validatePassword(String pass) {

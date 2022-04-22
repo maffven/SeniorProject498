@@ -24,7 +24,7 @@ class _ViewComplaints extends State<ViewComplaints>
   @override
   bool get wantKeepAlive => true;
   //Define variables
-  List<Complaints> complaints;
+  List<Complaints> complaints=[];
   List<District> district;
   List<Widget> boxWidgets = [];
   var status;
@@ -74,6 +74,7 @@ class _ViewComplaints extends State<ViewComplaints>
   Future<List<Complaints>> getComplaints() async {
     //Get complaints from DB
     List<Complaints> comp;
+   
     List<dynamic> compDB = await readAll(tableComplaints);
     comp = compDB.cast();
     for (int i=0;i<comp.length;i++){
@@ -91,6 +92,7 @@ class _ViewComplaints extends State<ViewComplaints>
 
   //get box widgets
   Future<List<Widget>> getWidgets() async {
+     complaints=[];
     complaints = await getComplaints();
     for (int i = 0; i < complaints.length; i++) {
       boxWidgets.add(SizedBox(

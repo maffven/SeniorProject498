@@ -9,7 +9,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:flutter_application_1/model/Driver.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_application_1/model/LoginField.dart';
 void main() {
   runApp(ForgotPass()); //function written by flutter
 }
@@ -70,6 +70,26 @@ class _ForgotPasswordState extends State<ForgotPasswordDemo> {
         return CupertinoAlertDialog(
           title: Text("Warning"),
           content: Text("Passwords don't match"),
+          actions: [
+            CupertinoDialogAction(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void showDialogValPassword() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text("Warning"),
+          content: Text("Enter a valid password"),
           actions: [
             CupertinoDialogAction(
               child: Text("OK"),
@@ -189,10 +209,11 @@ class _ForgotPasswordState extends State<ForgotPasswordDemo> {
                         newPassField = newPass.text;
                         phone = int.parse(phoneField.text);
                         confPassField = confPass.text;
+                        //validate the password
+                        if(LoginField.validatePassword(newPass.text)==null){
                         //check if the two passwords match
-                        if (newPassField == confPassField) {
+                        if (LoginField.matchTwoPasswords(newPassField, confPassField)==true) {
                           matchCheck = true;
-
                           List<dynamic> drListd = await readAll(tableDriver);
                           dd = drListd.cast();
                           for (int i = 0; i < dd.length; i++) {
@@ -230,7 +251,10 @@ class _ForgotPasswordState extends State<ForgotPasswordDemo> {
                               MaterialPageRoute(builder: (context) => Login()));
                         } else {
                           showDialogError();
+                        }}else{
+                          showDialogValPassword(); 
                         }
+
                       }
                     },
                     child: Text(

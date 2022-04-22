@@ -66,7 +66,7 @@ class _FirstDemo extends State<FirstDemo> {
                 children: <Widget>[
                   RawMaterialButton(
                     onPressed: () {  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => second()));},
+                      MaterialPageRoute(builder: (context) => FirstDemo()));},
                     elevation: 4.0,
                     fillColor:  Color(0xff28CC9E),
                    
@@ -75,7 +75,7 @@ class _FirstDemo extends State<FirstDemo> {
                   ),
                   RawMaterialButton(
                     onPressed: () {  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FirstDemo()));},
+                      MaterialPageRoute(builder: (context) => second()));},
                     elevation: 2.0,
                     fillColor:  Color(0xff28CC9E),
                    

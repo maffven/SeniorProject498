@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Screens/mapSc.dart';
 import 'package:flutter_application_1/screens/first.dart';
 import 'package:flutter_application_1/screens/Login.dart';
 
@@ -63,7 +64,7 @@ class _secondDemo extends State<secondDemo> {
                 children: <Widget>[
                   RawMaterialButton(
                     onPressed: () {  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => second()));},
+                      MaterialPageRoute(builder: (context) => FirstDemo()));},
                     elevation: 4.0,
                     fillColor:  Color(0xff28CC9E),
                    
@@ -72,7 +73,7 @@ class _secondDemo extends State<secondDemo> {
                   ),
                   RawMaterialButton(
                     onPressed: () {  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FirstDemo()));},
+                      MaterialPageRoute(builder: (context) => second()));},
                     elevation: 2.0,
                     fillColor:  Color(0xff28CC9E),
                    

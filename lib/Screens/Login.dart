@@ -225,8 +225,7 @@ class _LoginDemoState extends State<LoginDemo> {
                   deleteObj(27, tableBinLevel);
                   deleteObj(28, tableBinLevel);
                   deleteObj(29, tableBinLevel);*/
-                  double cx;
-                  double cy;
+              
 
                 /*  List<BinLocation> loc = [];
                   List<dynamic> binLoc = await readAll(tableBinLocation);

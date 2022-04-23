@@ -16,36 +16,20 @@ class LoginField {
     dd = drListd.cast();
 
 //check login info from the database driver's list
-
-    for (int i = 0; i < dd.length; i++) {
-      print("jj " + '${dd[i].phone}');
-      if (dd[i].phone != phone) {
-        //print('entered false phone');
-        phoneCheck = Future<bool>.value(false);
-      } else {
-       // print('entered true phone');
-        phoneCheck = Future<bool>.value(true);
-        break;
+    try {
+      for (int i = 0; i < dd.length; i++) {
+        print("jj " + '${dd[i].phone}');
+        if (dd[i].phone != phone) {
+          phoneCheck = Future<bool>.value(false);
+        } else {
+          phoneCheck = Future<bool>.value(true);
+          break;
+        }
       }
-      /*  if (driverPhone != phone) {
-      print('entered false phone');
-      phoneCheck = false;
-    } else {
-      print('entered true phone');
-      phoneCheck = true;
-    }*/
-      /*switch(driver.phone){
-      case 06795435123 : phoneCheck = true; break;
-      case 06795436234 : phoneCheck = true; break;
-      case 06795437890 : phoneCheck = true; break;
-      case 06795437634 : phoneCheck = true; break;
-      case 06795431420 : phoneCheck = true; break;
-      default:   phoneCheck = false; break;
-    }*/
-
-    
+    } catch (error, stackTrace) {
+      return Future.error(error, stackTrace);
     }
-      return phoneCheck;
+    return phoneCheck;
   }
 
   static Future<bool> checkPassword(String password) async {
@@ -55,18 +39,17 @@ class LoginField {
 
     List<dynamic> drListd = await readAll(tableDriver);
     dd = drListd.cast();
-
-    for (int i = 0; i < dd.length; i++) {
-     // print("oo " + '${dd[i].password}');
-      if (dd[i].password != password) {
-    //    print('entered false pass');
-        passwordCheck = Future<bool>.value(false);
-      } else {
-     //   print('entered true pass');
-        passwordCheck = Future<bool>.value(true);
-        break;
+    try {
+      for (int i = 0; i < dd.length; i++) {
+        if (dd[i].password != password) {
+          passwordCheck = Future<bool>.value(false);
+        } else {
+          passwordCheck = Future<bool>.value(true);
+          break;
+        }
       }
-
+    } catch (error, stackTrace) {
+      return Future.error(error, stackTrace);
     }
 
     return passwordCheck;
@@ -83,17 +66,25 @@ class LoginField {
 
     RegExp regex =
         RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
-    if (!regex.hasMatch(pass)) {
-      return 'Enter a valid password';
-    } else {
-      return null;
+    try {
+      if (!regex.hasMatch(pass)) {
+        return 'Enter a valid password';
+      } else {
+        return null;
+      }
+    } catch (error) {
+      print(error.toString());
     }
   }
 
   static bool matchTwoPasswords(String password, String confiPassword) {
-    if (password == confiPassword) {
-      return true;
+    try {
+      if (password == confiPassword) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      print(error);
     }
-    return false;
   }
 }

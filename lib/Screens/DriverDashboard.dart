@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter_application_1/Screens/AdminDriverDashboard.dart';
+import 'package:flutter_application_1/Screens/BinsListAllDistricts.dart';
 import 'package:flutter_application_1/Screens/DriverSatus.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/Bin.dart';
@@ -31,6 +33,7 @@ class _BarAndPieChartDashboard extends State<BarAndPieChartDashboard> {
   String value;
   List<charts.Series<BarChartData, String>> _seriesData;
   List<charts.Series<PieChartData, String>> _seriesPieDataForDistrict;
+  List<BinInfo> binsInfo = [];
   List<Bin> barBinsInsideDistrict = [];
   List<BinLevel> pieBinsLevelForSelectedDistrict = [];
   List<Bin> pieBinsInsideSelectedDistrict = [];
@@ -173,7 +176,7 @@ class _BarAndPieChartDashboard extends State<BarAndPieChartDashboard> {
     _seriesData = List<charts.Series<BarChartData, String>>();
     _seriesPieDataForDistrict = List<charts.Series<PieChartData, String>>(1);
     _getLists().whenComplete(() => setState(() {
-          //value = driverDistricts[0].name;
+          value = driverDistricts[0].name;
           _generateDataForBarChart();
         }));
   }
@@ -420,9 +423,19 @@ class _BarAndPieChartDashboard extends State<BarAndPieChartDashboard> {
     }
   }
 
+  _fillBinsInfoList() {
+    //create BinInfoObjects
+    binsInfo = [];
+    for (var i = 0; i < pieBinsLevelForSelectedDistrict.length; i++) {
+      binsInfo
+          .add(new BinInfo(pieBinsLevelForSelectedDistrict[i].binID, value));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     _generateDataForPieChart(value);
+    _fillBinsInfoList();
     return MaterialApp(
       home: DefaultTabController(
         length: 2,
@@ -460,6 +473,47 @@ class _BarAndPieChartDashboard extends State<BarAndPieChartDashboard> {
                             barGroupingType: charts.BarGroupingType.grouped,
                             //behaviors: [new charts.SeriesLegend()],
                             animationDuration: Duration(seconds: 1),
+                            selectionModels: [
+                              charts.SelectionModelConfig(changedListener:
+                                  (charts.SelectionModel model) {
+                                if (model.hasDatumSelection) {
+                                  if ((model.selectedSeries[0].measureFn(
+                                          model.selectedDatum[0].index)) ==
+                                      numberOfEmpty) {
+                                    print("it is here");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              BinsListAllDistricts(
+                                                binsStatus: "Empty",
+                                                binsInfo: binsInfo,
+                                              )),
+                                    ).then((value) => setState(() {}));
+                                  } else if ((model.selectedSeries[0].measureFn(
+                                          model.selectedDatum[0].index)) ==
+                                      numberOfFull) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              BinsListAllDistricts(
+                                                  binsStatus: "Full",
+                                                  binsInfo: binsInfo)),
+                                    ).then((value) => setState(() {}));
+                                  } else {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              BinsListAllDistricts(
+                                                  binsStatus: "Half-full",
+                                                  binsInfo: binsInfo)),
+                                    ).then((value) => setState(() {}));
+                                  }
+                                }
+                              })
+                            ],
                           ),
                         ),
                       ],
@@ -527,6 +581,49 @@ class _BarAndPieChartDashboard extends State<BarAndPieChartDashboard> {
                                           fontFamily: 'Arial',
                                           fontSize: 15),
                                     )
+                                  ],
+                                  selectionModels: [
+                                    charts.SelectionModelConfig(changedListener:
+                                        (charts.SelectionModel model) {
+                                      if (model.hasDatumSelection) {
+                                        if ((model.selectedSeries[0].measureFn(
+                                                model
+                                                    .selectedDatum[0].index)) ==
+                                            numberOfEmpty) {
+                                          print("it is here");
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BinsListAllDistricts(
+                                                      binsStatus: "Empty",
+                                                      binsInfo: binsInfo,
+                                                    )),
+                                          ).then((value) => setState(() {}));
+                                        } else if ((model.selectedSeries[0]
+                                                .measureFn(model
+                                                    .selectedDatum[0].index)) ==
+                                            numberOfFull) {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BinsListAllDistricts(
+                                                        binsStatus: "Full",
+                                                        binsInfo: binsInfo)),
+                                          ).then((value) => setState(() {}));
+                                        } else {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BinsListAllDistricts(
+                                                        binsStatus: "Half-full",
+                                                        binsInfo: binsInfo)),
+                                          ).then((value) => setState(() {}));
+                                        }
+                                      }
+                                    })
                                   ],
                                   defaultRenderer: new charts.ArcRendererConfig(
                                       arcWidth: 90,

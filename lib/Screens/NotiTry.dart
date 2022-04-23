@@ -5,6 +5,7 @@ import 'package:flutter_application_1/Screens/DistrictListTab.dart';
 import 'package:flutter_application_1/Screens/EditComplaints.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/BinLevel.dart';
+import 'package:flutter_application_1/model/Bin.dart';
 import 'package:flutter_application_1/model/District.dart';
 import 'package:flutter_application_1/model/Complaints.dart';
 import 'package:flutter_application_1/model/Driver.dart';
@@ -20,16 +21,18 @@ class ViewNotification extends StatefulWidget {
   @override
   _ViewNotification createState() => _ViewNotification();
 }
+
 class _ViewNotification extends State<ViewNotification>
     with AutomaticKeepAliveClientMixin<ViewNotification> {
-  
   @override
   bool get wantKeepAlive => true;
   //Define variables
   List<Complaints> complaints;
   List<BinLevel> binLevels = [];
-  List<District> district;
+  List<District> disBin = [];
   List<Widget> boxWidgets = [];
+  List<Bin> binDist = [];
+  List<District> districts;
   Color color;
   String level;
   var status;
@@ -81,11 +84,14 @@ class _ViewNotification extends State<ViewNotification>
   }
 
   //get all complaints from database
-  Future<List<BinLevel>> getBinLevels() async {
+  Future<List<Bin>> getBinLevels() async {
     //Get complaints from DB
     List<BinLevel> binLevel = [];
+    List<Bin> bin = [];
+    List<dynamic> binDB = await readAll(tableBin);
     List<dynamic> compDB = await readAll(tableBinLevel);
     binLevel = compDB.cast();
+    bin = binDB.cast();
     for (int i = 0; i < binLevel.length; i++) {
       //deleteObj(i, tableBinLevel);
       if (binLevel[i].empty == true) {
@@ -98,7 +104,14 @@ class _ViewNotification extends State<ViewNotification>
         level = "Full";
       }
       //-------------------------------------------
-      if (binLevel[i].binID == 144) {
+      for (int j = 0; j < bin.length; j++) {
+        if (binLevel[i].binID == bin[j].binID) {
+          binDist.add(bin[i]);
+        }
+      }
+     
+      //-------------------------------------------
+      /*if (binLevel[i].binID == 144) {
         distName = "Aljamea";
       } else if (binLevel[i].binID == 1) {
         distName = "Alnaseem";
@@ -108,18 +121,40 @@ class _ViewNotification extends State<ViewNotification>
         distName = "Alwaha";
       } else {
         distName = "Alsulaimaniyah";
-      }
+      }*/
 
       //----------------------------------------------
       print("complaints length ${compDB.length}");
-      return binLevel;
+     
+    }
+    for (int i = 0; i < districts.length; i++) {
+      for (int b = 0; b < binDist.length; b++) {
+        if (districts[i].districtID == binDist[i].districtId) {
+          binDist.add(binDist[i]);
+        }
+  }
+ 
+    }
+      return binDist;
+  }
+  Future<List<District>> getDistricts(List<Bin>binDist) async {
+    List<District> districts = [];
+    List<dynamic> distDB = await readAll(tableDistrict);
+    districts = distDB.cast();
+    for (int i = 0; i < districts.length; i++) {
+      for (int b = 0; b < binDist.length; b++) {
+        if (districts[i].districtID == binDist[i].districtId) {
+          disBin.add(districts[i]);
+        }
+      }
     }
   }
 
   //get box widgets
   Future<List<Widget>> getWidgets() async {
-    binLevels = await getBinLevels();
-    for (int i = 0; i < binLevels.length; i++) {
+   List<Bin> theBins = await getBinLevels();
+  
+    for (int i = 0; i < theBins.length; i++) {
       if (level == "Half-Full") {
         //don't show the empty and half-full ones
         boxWidgets.add(SizedBox(
@@ -147,7 +182,7 @@ class _ViewNotification extends State<ViewNotification>
                         height: 5.0,
                       ),
                       Text(
-                        "\t" + distName,
+                        "\t" ,
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -159,7 +194,7 @@ class _ViewNotification extends State<ViewNotification>
                         color: color,
                       ),
                       Text(
-                        "\t" + level + " in bin " + '${binLevels[i].binID}',
+                        "\t" + level + " in bin " + '${theBins[i].binID}',
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,

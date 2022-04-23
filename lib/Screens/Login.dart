@@ -228,12 +228,12 @@ class _LoginDemoState extends State<LoginDemo> {
                   double cx;
                   double cy;
 
-                  List<BinLocation> loc = [];
+                /*  List<BinLocation> loc = [];
                   List<dynamic> binLoc = await readAll(tableBinLocation);
                   loc = binLoc.cast();
                    for(int i=0;i<loc.length;i++){
-                  cx = loc[i].coordinateX;
-                  }
+                //  cx = loc[i].coordinateX;
+                  }*/
                   //create object
                   /* District di =
                       District(name: "Alnaseem", numberOfBins: 15, driverID: 5);

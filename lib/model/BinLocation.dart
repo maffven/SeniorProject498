@@ -47,7 +47,7 @@ class BinLocation {
           coordinateY: coordinateY ?? this.coordinateY,
           location: id ?? this.location);
 
-  //convert from json to MunicipalityAdmin
+  //convert from json to BinLocation
   static BinLocation fromJson(Map<String, Object> json) => BinLocation(
       binID: json[BinLocationFields.binID] as int,
       coordinateX: double.parse(json[BinLocationFields.coordinateX]),

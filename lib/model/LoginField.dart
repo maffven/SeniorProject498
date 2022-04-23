@@ -20,10 +20,10 @@ class LoginField {
     for (int i = 0; i < dd.length; i++) {
       print("jj " + '${dd[i].phone}');
       if (dd[i].phone != phone) {
-        print('entered false phone');
+        //print('entered false phone');
         phoneCheck = Future<bool>.value(false);
       } else {
-        print('entered true phone');
+       // print('entered true phone');
         phoneCheck = Future<bool>.value(true);
         break;
       }
@@ -57,15 +57,16 @@ class LoginField {
     dd = drListd.cast();
 
     for (int i = 0; i < dd.length; i++) {
-      print("oo " + '${dd[i].password}');
+     // print("oo " + '${dd[i].password}');
       if (dd[i].password != password) {
-        print('entered false pass');
+    //    print('entered false pass');
         passwordCheck = Future<bool>.value(false);
       } else {
-        print('entered true pass');
+     //   print('entered true pass');
         passwordCheck = Future<bool>.value(true);
         break;
       }
+
     }
 
     return passwordCheck;

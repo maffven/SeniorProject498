@@ -208,6 +208,7 @@ class _LoginDemoState extends State<LoginDemo> {
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
+                  
                   List<BinLevel> binLevel = [];
                   List<dynamic> compDB = await readAll(tableBinLevel);
                   binLevel = compDB.cast();
@@ -224,9 +225,15 @@ class _LoginDemoState extends State<LoginDemo> {
                   deleteObj(27, tableBinLevel);
                   deleteObj(28, tableBinLevel);
                   deleteObj(29, tableBinLevel);*/
-                  /* for(int i=0;i<binLevel.length;i++){
-                      deleteObj(144, tableBinLevel);
-                  }s*/
+                  double cx;
+                  double cy;
+
+                  List<BinLocation> loc = [];
+                  List<dynamic> binLoc = await readAll(tableBinLocation);
+                  loc = binLoc.cast();
+                   for(int i=0;i<loc.length;i++){
+                  cx = loc[i].coordinateX;
+                  }
                   //create object
                   /* District di =
                       District(name: "Alnaseem", numberOfBins: 15, driverID: 5);
@@ -369,10 +376,10 @@ class _LoginDemoState extends State<LoginDemo> {
                     }
                   }
 
-                  BinLocation loc = BinLocation(
+              /*    BinLocation loc = BinLocation(
                       binID: 1,
                       coordinateX: 21.4893852,
-                      coordinateY: 39.2462446);
+                      coordinateY: 39.2462446);*/
 
                   //addObj(loc, tableBinLocation);
                   /*   List<dynamic> loca = await readAll(tableBinLocation);

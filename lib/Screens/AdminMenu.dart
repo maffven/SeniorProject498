@@ -6,6 +6,7 @@ import 'package:flutter_application_1/Screens/profileScreen.dart';
 import 'package:flutter_application_1/screens/SendComplaint.dart';
 import 'package:flutter_application_1/screens/Login.dart';
 import 'package:flutter_application_1/screens/AdminProfile.dart';
+import 'package:flutter_application_1/screens/DriversList.dart';
 import 'AdminDashboard.dart';
 import 'package:flutter_application_1/screens/ViewComplaints.dart';
 import 'package:flutter_application_1/Screens/DriverDashboard.dart';
@@ -53,7 +54,7 @@ class AdminMenu extends StatelessWidget {
             return MapScreen();
             break;
           case 2:
-            return DriverList();
+            return ViewDrivers();
             break;
           case 3:
             return ViewComplaints();

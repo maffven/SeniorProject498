@@ -18,7 +18,6 @@ class LoginField {
 //check login info from the database driver's list
     try {
       for (int i = 0; i < dd.length; i++) {
-        print("jj " + '${dd[i].phone}');
         if (dd[i].phone != phone) {
           phoneCheck = Future<bool>.value(false);
         } else {

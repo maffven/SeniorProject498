@@ -146,6 +146,7 @@ class _LoginDemoState extends State<LoginDemo> {
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
+                key: ValueKey("addPhone"),
                   controller: phoneController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -158,6 +159,7 @@ class _LoginDemoState extends State<LoginDemo> {
                   left: 15.0, right: 15.0, top: 15, bottom: 0),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
+                key: Key("addPassword"),
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
@@ -177,6 +179,7 @@ class _LoginDemoState extends State<LoginDemo> {
                   style: TextStyle(fontSize: 15.0),
                 ), //Text
                 Checkbox(
+                  key: Key("checkType"),
                   checkColor: Colors.white,
                   focusColor: Color(0xff28CC9E),
                   value: userType,
@@ -189,6 +192,7 @@ class _LoginDemoState extends State<LoginDemo> {
               ], //<Widget>[]
             ), //Row
             FlatButton(
+              key: Key("forgotPassword"),
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ForgotPass()));
@@ -207,6 +211,7 @@ class _LoginDemoState extends State<LoginDemo> {
                   color: Color(0xff28CC9E),
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
+                key: Key("loginButton"),
                 onPressed: () async {
                   
                   List<BinLevel> binLevel = [];
@@ -281,49 +286,35 @@ class _LoginDemoState extends State<LoginDemo> {
                       //check login info from the database driver's list
                       List<dynamic> drListd = await readAll(tableDriver);
                       dd = drListd.cast();
-
-                      /* phoneCheck = LoginField.checkPhone(dd, phone);
-                      passCheck = LoginField.checkPassword(dd, password);*/
                       for (int i = 0; i < dd.length; i++) {
                         print(dd[i].phone);
                         print(dd[i].password);
                         if (dd[i].phone == phone) {
-                          // phoneCheck = true;
+                      
                           loggedInId = dd[i].driverID;
                         }
-                       //dynamic bb = await LoginField.checkPhone(phone);
+                       
                         bool bb = await LoginField.checkPhone(phone);
                         print("hhi hi " + '${ bb}');
                         bool bb1 = await LoginField.checkPassword(password);
                         if (bb!=false) {
-                          print("bb false");
+                     
                           phoneCheck = true;
                         }
                         if (bb1!=false) {
-                            print(" bb1 true");
+                         
                           passCheck = true;
                         }
-                        /*if (dd[i].password == password) {
-                          passCheck = true;
-                        }*/
-
+                    
                       }
 
-                      print(phoneCheck);
-                      print(passCheck);
                       if (phoneCheck != true && passCheck != true) {
-                        print("first");
-
                         showDialogError();
                       }
                       if (phoneCheck == true && passCheck != true) {
-                        print("second");
-
                         showDialogError();
                       }
                       if (phoneCheck != true && passCheck == true) {
-                        print("third");
-
                         showDialogError();
                       }
                       if (phoneCheck == true && passCheck == true) {

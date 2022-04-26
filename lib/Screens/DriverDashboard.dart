@@ -14,15 +14,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class BarAndPieChartDashboard extends StatefulWidget {
+class DriverDashboard extends StatefulWidget {
   final Widget child;
 
-  BarAndPieChartDashboard({Key key, this.child}) : super(key: key);
+  DriverDashboard({Key key, this.child}) : super(key: key);
 
-  _BarAndPieChartDashboard createState() => _BarAndPieChartDashboard();
+  BarAndPieChartDashboard createState() => BarAndPieChartDashboard();
 }
 
-class _BarAndPieChartDashboard extends State<BarAndPieChartDashboard> {
+class BarAndPieChartDashboard extends State<DriverDashboard> {
   //List to store bar chart data
   List<District> driverDistricts = [];
   //List<Driver> drivers = [];
@@ -175,13 +175,14 @@ class _BarAndPieChartDashboard extends State<BarAndPieChartDashboard> {
     super.initState();
     _seriesData = List<charts.Series<BarChartData, String>>();
     _seriesPieDataForDistrict = List<charts.Series<PieChartData, String>>(1);
-    _getLists().whenComplete(() => setState(() {
+    getLists().whenComplete(() => setState(() {
           value = driverDistricts[0].name;
           _generateDataForBarChart();
         }));
   }
 
-  Future<void> _getLists() async {
+  @visibleForTesting
+  Future<void> getLists() async {
     //retrieve all deivers
     List<Driver> driv;
     List<dynamic> driversDB = await readAll(tableDriver);

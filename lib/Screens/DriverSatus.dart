@@ -10,155 +10,121 @@ class DriverSatus extends StatefulWidget {
   @override
   final Driver driver;
   DriverSatus({Key key, this.driver}) : super(key: key);
-  MapScreenState createState() => MapScreenState();
+  StatusScreenState createState() => StatusScreenState();
 }
 
-//  final String BinsStatus = null;
-//  final Driver driver = null;
-List<District> Assigneddistricts = [];
-Driver driver;
-List<District> districts = [];
-List<Bin> bins;
-List<BinLevel> binsLevel;
-List<BinLevel> binsLevelForSelectedDistrict = [];
-String value;
-bool alert;
-District selectedDistrict;
-double numberOfFull = 0, numberOfHalfFull = 0, numberOfEmpty = 0;
-
-class MapScreenState extends State<DriverSatus> {
-  bool _status = true;
+class StatusScreenState extends State<DriverSatus> {
   final FocusNode myFocusNode = FocusNode();
+  List<District> assignedDistricts = [];
+  Driver driver;
+  List<Bin> bins;
+  List<BinLevel> binsLevel;
+  List<BinLevel> binsLevelForSelectedDistrict = [];
+  String value;
+  bool alert;
+  District selectedDistrict;
+  double numberOfFull = 0, numberOfHalfFull = 0, numberOfEmpty = 0;
+  bool _status = true;
 
   @override
   Widget build(BuildContext context) {
-    _generateDataForDriver(value);
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 1,
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            backgroundColor: Color(0xffffDD83),
-            title: Text("Status"),
-          ),
-          body: TabBarView(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: 25.0),
-                child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 25.0),
-                        child: new Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    new Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text("Districts:" +
-                                            (_generateDataForDriver(
-                                                    "assignedDistricts"))
-                                                .toString())
-                                      ],
-                                    ),
-                                    IconButton(
-                                      onPressed: () async {
-                                        SharedPreferences prefs =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        await prefs.setBool("stats", true);
-                                      },
-                                      icon: Icon(Icons.add_alert_rounded),
-                                    ),
-                                    new Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[],
-                                    )
-                                  ],
-                                )),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 55.0,
-                                    right: 15.0,
-                                    top: 25.0,
-                                    bottom: 0.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'Number of bins',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          width: 50,
-                                        ),
-                                        new Text(
-                                          'Performance',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 2.0, top: 2.0),
-                                child: new Row(
-                                  //mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[
-                                    Align(
-                                      child: Container(
-                                        height: 50,
-                                        width: 100,
-                                        margin: EdgeInsets.only(
-                                            top: 20, left: 40, right: 25),
-                                        decoration: new BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 162, 255, 229),
-                                          border: Border.all(
-                                              color: Color(0xff28CC9E),
-                                              width: 0.0),
-                                          borderRadius: new BorderRadius.all(
-                                              Radius.elliptical(100, 50)),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10.0, horizontal: 35.0),
-                                        child: Text((_generateDataForDriver(
-                                                "totalBins"))
-                                            .toString()),
-                                        // _generateDataForDistrict(totalBin);
-                                        //district=await readObj(DriverFields.id, district)
+    return DefaultTabController(
+      length: 1,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Color(0xffffDD83),
+          title: Text("Status"),
+        ),
+        body: TabBarView(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 25.0),
+              child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 25.0),
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left: 25.0, right: 25.0, top: 25.0),
+                              child: new Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  new Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      for ( var i in assignedDistricts ) Text(i.toString()),
+                                    ],
+                                  ),
+                                  IconButton(
+                                    onPressed: () async {
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.setBool("stats", true);
+                                    },
+                                    icon: Icon(Icons.add_alert_rounded),
+                                  ),
+                                  new Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[],
+                                  )
+                                ],
+                              )),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left: 55.0,
+                                  right: 15.0,
+                                  top: 25.0,
+                                  bottom: 0.0),
+                              child: new Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      new Text(
+                                        'Number of bins',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                    ),
-                                    new Container(
+                                      SizedBox(
+                                        width: 50,
+                                      ),
+                                      new Text(
+                                        'Performance',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              )),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left: 25.0, right: 2.0, top: 2.0),
+                              child: new Row(
+                                //mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  Align(
+                                    child: Container(
                                       height: 50,
                                       width: 100,
                                       margin: EdgeInsets.only(
-                                          top: 20, left: 50, right: 0),
+                                          top: 20, left: 40, right: 25),
                                       decoration: new BoxDecoration(
                                         color:
                                             Color.fromARGB(255, 162, 255, 229),
@@ -170,78 +136,76 @@ class MapScreenState extends State<DriverSatus> {
                                       ),
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10.0, horizontal: 35.0),
-                                      child: Text((_generateDataForDriver(
-                                                  "performancePercent"))
-                                              .toString() +
-                                          "%"),
+                                      child: Text(
+                                          (_generateDataForDriver("totalBins"))
+                                              .toString()),
+                                      // _generateDataForDistrict(totalBin);
+                                      //district=await readObj(DriverFields.id, district)
                                     ),
-                                  ],
-                                )),
+                                  ),
+                                  new Container(
+                                    height: 50,
+                                    width: 100,
+                                    margin: EdgeInsets.only(
+                                        top: 20, left: 50, right: 0),
+                                    decoration: new BoxDecoration(
+                                      color: Color.fromARGB(255, 162, 255, 229),
+                                      border: Border.all(
+                                          color: Color(0xff28CC9E), width: 0.0),
+                                      borderRadius: new BorderRadius.all(
+                                          Radius.elliptical(100, 50)),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 35.0),
+                                    child: Text((_generateDataForDriver(
+                                                "performancePercent"))
+                                            .toString() +
+                                        "%"),
+                                  ),
+                                ],
+                              )),
 
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 55.0, right: 25.0, top: 25.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    new Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        new Text(
-                                          'Bins collected',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          width: 50,
-                                        ),
-                                        new Text(
-                                          'Bins not collected',
-                                          style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 25.0, right: 25.0, top: 2.0),
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Align(
-                                      child: Container(
-                                        height: 50,
-                                        width: 100,
-                                        margin: EdgeInsets.only(
-                                            top: 20, left: 40, right: 25),
-                                        decoration: new BoxDecoration(
-                                          color: Color.fromARGB(
-                                              255, 162, 255, 229),
-                                          border: Border.all(
-                                              color: Color(0xff28CC9E),
-                                              width: 0.0),
-                                          borderRadius: new BorderRadius.all(
-                                              Radius.elliptical(100, 50)),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10.0, horizontal: 35.0),
-                                        child: Text((_generateDataForDriver(
-                                                "emptyBins"))
-                                            .toString()),
-                                        //status = await readObj(DriverFields.id, DriverStatus)
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left: 55.0, right: 25.0, top: 25.0),
+                              child: new Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  new Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      new Text(
+                                        'Bins collected',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                    ),
-                                    new Container(
+                                      SizedBox(
+                                        width: 50,
+                                      ),
+                                      new Text(
+                                        'Bins not collected',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              )),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left: 25.0, right: 25.0, top: 2.0),
+                              child: new Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Align(
+                                    child: Container(
                                       height: 50,
                                       width: 100,
                                       margin: EdgeInsets.only(
-                                          top: 20, left: 50, right: 0),
+                                          top: 20, left: 40, right: 25),
                                       decoration: new BoxDecoration(
                                         color:
                                             Color.fromARGB(255, 162, 255, 229),
@@ -253,22 +217,41 @@ class MapScreenState extends State<DriverSatus> {
                                       ),
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10.0, horizontal: 35.0),
-                                      child: Text((_generateDataForDriver(
-                                              "notCollected"))
-                                          .toString()),
+                                      child: Text(
+                                          (_generateDataForDriver("emptyBins"))
+                                              .toString()),
                                       //status = await readObj(DriverFields.id, DriverStatus)
                                     ),
-                                  ],
-                                )),
+                                  ),
+                                  new Container(
+                                    height: 50,
+                                    width: 100,
+                                    margin: EdgeInsets.only(
+                                        top: 20, left: 50, right: 0),
+                                    decoration: new BoxDecoration(
+                                      color: Color.fromARGB(255, 162, 255, 229),
+                                      border: Border.all(
+                                          color: Color(0xff28CC9E), width: 0.0),
+                                      borderRadius: new BorderRadius.all(
+                                          Radius.elliptical(100, 50)),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 35.0),
+                                    child: Text(
+                                        (_generateDataForDriver("notCollected"))
+                                            .toString()),
+                                    //status = await readObj(DriverFields.id, DriverStatus)
+                                  ),
+                                ],
+                              )),
 
-                            //  !_status ? _getActionButtons() : new Container(),
-                          ],
-                        ),
+                          //  !_status ? _getActionButtons() : new Container(),
+                        ],
                       ),
-                    ]),
-              ),
-            ],
-          ),
+                    ),
+                  ]),
+            ),
+          ],
         ),
       ),
     );
@@ -286,12 +269,12 @@ class MapScreenState extends State<DriverSatus> {
     setState(() {
       for (int i = 0; i < district.length; i++) {
         if (district[i].driverID == driverId) {
-          districts.add(district[i]);
+          assignedDistricts.add(district[i]);
         }
       }
     });
 
-    print(districts);
+    print(assignedDistricts);
 
     List<BinLevel> bin;
     List<dynamic> binStatus = await readAll(tableBinLevel);
@@ -310,8 +293,8 @@ class MapScreenState extends State<DriverSatus> {
       bins = binsInfo;
       List<Bin> binsInsideDistricts = [];
       for (int j = 0; j < bins.length; j++) {
-        for (int k = 0; k < Assigneddistricts.length; k++) {
-          if (bins[j].districtId == Assigneddistricts[k].districtID) {
+        for (int k = 0; k < assignedDistricts.length; k++) {
+          if (bins[j].districtId == assignedDistricts[k].districtID) {
             print("inside fill binsInsideDistricts $k");
             binsInsideDistricts.add(bins[j]);
           }
@@ -321,12 +304,12 @@ class MapScreenState extends State<DriverSatus> {
     print(bins);
   }
 
-  int _generateDataForDriver(String val) {
+  double _generateDataForDriver(String val) {
     //All bins inside assigned districts for driver
     List<Bin> binsInsideDistricts = [];
     for (int j = 0; j < bins.length; j++) {
-      for (int k = 0; k < Assigneddistricts.length; k++) {
-        if (bins[j].districtId == Assigneddistricts[k].districtID) {
+      for (int k = 0; k < assignedDistricts.length; k++) {
+        if (bins[j].districtId == assignedDistricts[k].districtID) {
           print("inside fill binsInsideDistricts $k");
           binsInsideDistricts.add(bins[j]);
         }
@@ -366,28 +349,23 @@ class MapScreenState extends State<DriverSatus> {
     switch (val) {
       case ("totalBins"):
         {
-          return totalBin;
+          return totalBin.toDouble();
         }
         break;
 
       case ("notCollected"):
         {
-          return notCollected;
+          return notCollected.toDouble();
         }
         break;
       case ("performancePercent"):
         {
-          return performancePercernt;
+          return performancePercernt.toDouble();
         }
         break;
       case ("emptyBins"):
         {
-          return numberOfEmpty as int;
-        }
-        break;
-      case ("assignedDistricts"):
-        {
-          return Assigneddistricts.length;
+          return numberOfEmpty.toDouble();
         }
         break;
       default:

@@ -12,10 +12,16 @@ import 'package:flutter_application_1/model/Driver.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+<<<<<<< Updated upstream
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_database/firebase_database.dart';
+=======
+import 'package:shared_preferences/shared_preferences.dart';
+
+void main() => runApp(MaterialApp(home: ViewNotification()));
+>>>>>>> Stashed changes
 
 class ViewNotification extends StatefulWidget {
   @override
@@ -152,10 +158,65 @@ class _ViewNotification extends State<ViewNotification>
 
   //get box widgets
   Future<List<Widget>> getWidgets() async {
+<<<<<<< Updated upstream
    List<Bin> theBins = await getBinLevels();
   
     for (int i = 0; i < theBins.length; i++) {
       if (level == "Half-Full") {
+=======
+    binLevels = await getBinLevels();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool stat = prefs.getBool('stat');
+    if (prefs.getBool('stat') == true) {
+      boxWidgets.add(SizedBox(
+        width: 370.0,
+        height: 100.0,
+        child: Card(
+          borderOnForeground: true,
+          color: Colors.white,
+          elevation: 2.0,
+          shape: RoundedRectangleBorder(
+              side: BorderSide(color: Color(0xff28CC9E), width: 1),
+              borderRadius: BorderRadius.circular(8.0)),
+          child: Center(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                SizedBox(
+                  height: 5.0,
+                ),
+                Text(
+                  "\t" + distName,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0),
+                ),
+                Text("\t \t"),
+                Icon(
+                  Icons.add_alert_rounded,
+                  color: Colors.red,
+                ),
+                Text(
+                  "Performance alerts",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0),
+                ),
+                SizedBox(
+                  height: 2.0,
+                ),
+              ],
+            ),
+          )),
+        ),
+      ));
+    }
+    for (int i = 0; i < binLevels.length; i++) {
+      if (level == "Full") {
+>>>>>>> Stashed changes
         //don't show the empty and half-full ones
         boxWidgets.add(SizedBox(
             width: 370.0,

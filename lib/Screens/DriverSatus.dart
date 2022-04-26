@@ -1,7 +1,44 @@
-// ignore_for_file: unused_local_variable
-
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart'
+    show
+        Align,
+        AppBar,
+        Border,
+        BorderRadius,
+        BoxDecoration,
+        BuildContext,
+        CircleAvatar,
+        Color,
+        Colors,
+        Column,
+        Container,
+        CrossAxisAlignment,
+        DefaultTabController,
+        EdgeInsets,
+        Expanded,
+        FocusNode,
+        FocusScope,
+        FontWeight,
+        GestureDetector,
+        Icon,
+        IconButton,
+        Icons,
+        Key,
+        MainAxisAlignment,
+        MainAxisSize,
+        MaterialApp,
+        Padding,
+        Radius,
+        RaisedButton,
+        RoundedRectangleBorder,
+        Row,
+        Scaffold,
+        SizedBox,
+        State,
+        StatefulWidget,
+        TabBarView,
+        Text,
+        TextStyle,
+        Widget;
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/Bin.dart';
 import 'package:flutter_application_1/model/BinLevel.dart';
@@ -25,6 +62,7 @@ List<Bin> bins;
 List<BinLevel> binsLevel;
 List<BinLevel> binsLevelForSelectedDistrict = [];
 String value;
+bool alert;
 District selectedDistrict;
 double numberOfFull = 0, numberOfHalfFull = 0, numberOfEmpty = 0;
 
@@ -75,6 +113,15 @@ class MapScreenState extends State<DriverSatus> {
                                             _generateDataForDriver(
                                                 "assignedDistricts"))
                                       ],
+                                    ),
+                                    IconButton(
+                                      onPressed: () async {
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        await prefs.setBool("stats", true);
+                                      },
+                                      icon: Icon(Icons.add_alert_rounded),
                                     ),
                                     new Column(
                                       mainAxisAlignment: MainAxisAlignment.end,

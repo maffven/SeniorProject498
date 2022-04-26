@@ -12,16 +12,10 @@ import 'package:flutter_application_1/model/Driver.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-<<<<<<< Updated upstream
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_database/firebase_database.dart';
-=======
-import 'package:shared_preferences/shared_preferences.dart';
-
-void main() => runApp(MaterialApp(home: ViewNotification()));
->>>>>>> Stashed changes
 
 class ViewNotification extends StatefulWidget {
   @override
@@ -115,7 +109,7 @@ class _ViewNotification extends State<ViewNotification>
           binDist.add(bin[i]);
         }
       }
-     
+
       //-------------------------------------------
       /*if (binLevel[i].binID == 144) {
         distName = "Aljamea";
@@ -131,19 +125,18 @@ class _ViewNotification extends State<ViewNotification>
 
       //----------------------------------------------
       print("complaints length ${compDB.length}");
-     
     }
     for (int i = 0; i < districts.length; i++) {
       for (int b = 0; b < binDist.length; b++) {
         if (districts[i].districtID == binDist[i].districtId) {
           binDist.add(binDist[i]);
         }
-  }
- 
+      }
     }
-      return binDist;
+    return binDist;
   }
-  Future<List<District>> getDistricts(List<Bin>binDist) async {
+
+  Future<List<District>> getDistricts(List<Bin> binDist) async {
     List<District> districts = [];
     List<dynamic> distDB = await readAll(tableDistrict);
     districts = distDB.cast();
@@ -158,120 +151,119 @@ class _ViewNotification extends State<ViewNotification>
 
   //get box widgets
   Future<List<Widget>> getWidgets() async {
-<<<<<<< Updated upstream
-   List<Bin> theBins = await getBinLevels();
-  
+    List<Bin> theBins = await getBinLevels();
+
     for (int i = 0; i < theBins.length; i++) {
       if (level == "Half-Full") {
-=======
-    binLevels = await getBinLevels();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool stat = prefs.getBool('stat');
-    if (prefs.getBool('stat') == true) {
-      boxWidgets.add(SizedBox(
-        width: 370.0,
-        height: 100.0,
-        child: Card(
-          borderOnForeground: true,
-          color: Colors.white,
-          elevation: 2.0,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Color(0xff28CC9E), width: 1),
-              borderRadius: BorderRadius.circular(8.0)),
-          child: Center(
-              child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(
-                  "\t" + distName,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0),
-                ),
-                Text("\t \t"),
-                Icon(
-                  Icons.add_alert_rounded,
-                  color: Colors.red,
-                ),
-                Text(
-                  "Performance alerts",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0),
-                ),
-                SizedBox(
-                  height: 2.0,
-                ),
-              ],
-            ),
-          )),
-        ),
-      ));
-    }
-    for (int i = 0; i < binLevels.length; i++) {
-      if (level == "Full") {
->>>>>>> Stashed changes
-        //don't show the empty and half-full ones
-        boxWidgets.add(SizedBox(
+        // binLevels = await getBinLevels();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        bool stat = prefs.getBool('stat');
+        if (prefs.getBool('stat') == true) {
+          boxWidgets.add(SizedBox(
             width: 370.0,
             height: 100.0,
-            child: InkWell(
-              //move to the specific complaint's detail screen
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (BuildContext context) {
-                return EditComplaints(complaint: complaints[i]);
-              })),
-              child: Card(
-                borderOnForeground: true,
-                color: Colors.white,
-                elevation: 2.0,
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Color(0xff28CC9E), width: 1),
-                    borderRadius: BorderRadius.circular(8.0)),
-                child: Center(
-                    child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 5.0,
+            child: Card(
+              borderOnForeground: true,
+              color: Colors.white,
+              elevation: 2.0,
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Color(0xff28CC9E), width: 1),
+                  borderRadius: BorderRadius.circular(8.0)),
+              child: Center(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    Text(
+                      "\t" + distName,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0),
+                    ),
+                    Text("\t \t"),
+                    Icon(
+                      Icons.add_alert_rounded,
+                      color: Colors.red,
+                    ),
+                    Text(
+                      "Performance alerts",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0),
+                    ),
+                    SizedBox(
+                      height: 2.0,
+                    ),
+                  ],
+                ),
+              )),
+            ),
+          ));
+        }
+        for (int i = 0; i < binLevels.length; i++) {
+          if (level == "Full") {
+            //don't show the empty and half-full ones
+            boxWidgets.add(SizedBox(
+                width: 370.0,
+                height: 100.0,
+                child: InkWell(
+                  //move to the specific complaint's detail screen
+                  onTap: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return EditComplaints(complaint: complaints[i]);
+                  })),
+                  child: Card(
+                    borderOnForeground: true,
+                    color: Colors.white,
+                    elevation: 2.0,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Color(0xff28CC9E), width: 1),
+                        borderRadius: BorderRadius.circular(8.0)),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 5.0,
+                          ),
+                          Text(
+                            "\t",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0),
+                          ),
+                          Text("\t \t"),
+                          Icon(
+                            Icons.circle_sharp,
+                            color: color,
+                          ),
+                          Text(
+                            "\t" + level + " in bin " + '${theBins[i].binID}',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0),
+                          ),
+                          SizedBox(
+                            height: 2.0,
+                          ),
+                        ],
                       ),
-                      Text(
-                        "\t" ,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0),
-                      ),
-                      Text("\t \t"),
-                      Icon(
-                        Icons.circle_sharp,
-                        color: color,
-                      ),
-                      Text(
-                        "\t" + level + " in bin " + '${theBins[i].binID}',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0),
-                      ),
-                      SizedBox(
-                        height: 2.0,
-                      ),
-                    ],
+                    )),
                   ),
-                )),
-              ),
-            )));
+                )));
+          }
+        }
+        return boxWidgets;
       }
     }
-    return boxWidgets;
   }
 
   //read objects

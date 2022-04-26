@@ -1,44 +1,4 @@
-import 'package:flutter/material.dart'
-    show
-        Align,
-        AppBar,
-        Border,
-        BorderRadius,
-        BoxDecoration,
-        BuildContext,
-        CircleAvatar,
-        Color,
-        Colors,
-        Column,
-        Container,
-        CrossAxisAlignment,
-        DefaultTabController,
-        EdgeInsets,
-        Expanded,
-        FocusNode,
-        FocusScope,
-        FontWeight,
-        GestureDetector,
-        Icon,
-        IconButton,
-        Icons,
-        Key,
-        MainAxisAlignment,
-        MainAxisSize,
-        MaterialApp,
-        Padding,
-        Radius,
-        RaisedButton,
-        RoundedRectangleBorder,
-        Row,
-        Scaffold,
-        SizedBox,
-        State,
-        StatefulWidget,
-        TabBarView,
-        Text,
-        TextStyle,
-        Widget;
+import 'package:flutter/material.dart';
 import 'package:flutter_application_1/db/DatabaseHelper.dart';
 import 'package:flutter_application_1/model/Bin.dart';
 import 'package:flutter_application_1/model/BinLevel.dart';
@@ -110,8 +70,9 @@ class MapScreenState extends State<DriverSatus> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         new Text("Districts:" +
-                                            _generateDataForDriver(
-                                                "assignedDistricts"))
+                                            (_generateDataForDriver(
+                                                    "assignedDistricts"))
+                                                .toString())
                                       ],
                                     ),
                                     IconButton(
@@ -186,8 +147,9 @@ class MapScreenState extends State<DriverSatus> {
                                         ),
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10.0, horizontal: 35.0),
-                                        child: Text(_generateDataForDriver(
-                                            "totalBins")),
+                                        child: Text((_generateDataForDriver(
+                                                "totalBins"))
+                                            .toString()),
                                         // _generateDataForDistrict(totalBin);
                                         //district=await readObj(DriverFields.id, district)
                                       ),
@@ -208,8 +170,9 @@ class MapScreenState extends State<DriverSatus> {
                                       ),
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10.0, horizontal: 35.0),
-                                      child: Text(_generateDataForDriver(
-                                              "performancePercent") +
+                                      child: Text((_generateDataForDriver(
+                                                  "performancePercent"))
+                                              .toString() +
                                           "%"),
                                     ),
                                   ],
@@ -268,8 +231,9 @@ class MapScreenState extends State<DriverSatus> {
                                         ),
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10.0, horizontal: 35.0),
-                                        child: Text(_generateDataForDriver(
-                                            "emptyBins")),
+                                        child: Text((_generateDataForDriver(
+                                                "emptyBins"))
+                                            .toString()),
                                         //status = await readObj(DriverFields.id, DriverStatus)
                                       ),
                                     ),
@@ -289,8 +253,9 @@ class MapScreenState extends State<DriverSatus> {
                                       ),
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10.0, horizontal: 35.0),
-                                      child: Text(_generateDataForDriver(
-                                          "notCollected")),
+                                      child: Text((_generateDataForDriver(
+                                              "notCollected"))
+                                          .toString()),
                                       //status = await readObj(DriverFields.id, DriverStatus)
                                     ),
                                   ],
@@ -356,7 +321,7 @@ class MapScreenState extends State<DriverSatus> {
     print(bins);
   }
 
-  _generateDataForDriver(String val) {
+  int _generateDataForDriver(String val) {
     //All bins inside assigned districts for driver
     List<Bin> binsInsideDistricts = [];
     for (int j = 0; j < bins.length; j++) {
@@ -393,7 +358,7 @@ class MapScreenState extends State<DriverSatus> {
     }
 
     print("numberOfEmpty: $numberOfEmpty");
-    int totalBin = (numberOfEmpty + numberOfHalfFull + numberOfFull) as int;
+    int totalBin = (binsInsideDistricts.length);
     int notCollected = (numberOfHalfFull + numberOfFull) as int;
     int performance = ((totalBin - notCollected) / totalBin) as int;
     int performancePercernt = performance * 100;
@@ -417,17 +382,17 @@ class MapScreenState extends State<DriverSatus> {
         break;
       case ("emptyBins"):
         {
-          return numberOfEmpty;
+          return numberOfEmpty as int;
         }
         break;
       case ("assignedDistricts"):
         {
-          return Assigneddistricts;
+          return Assigneddistricts.length;
         }
         break;
       default:
         {
-          return ("vv");
+          return (99);
         }
         break;
     }

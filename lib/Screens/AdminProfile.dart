@@ -351,7 +351,7 @@ class MapScreenState extends State<AdminProfile> {
                   var phonenumber = int.parse(phone);
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  int municipalityId = prefs.getInt('municpalityID');
+                  int municipalityId = prefs.getInt('id');
                   String firstName;
                   String lastName;
                   String password;
